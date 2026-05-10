@@ -52,7 +52,8 @@
 | Owner 用户列表 | 已定义 | 已生成 | V0.2 页面壳初稿完成 | 待工具链 | mock 页面已进入 Android 工程 |
 | Owner 邀请码 | 已定义 | 已生成 | V0.2 页面壳初稿完成 | 待工具链 | mock 页面已进入 Android 工程 |
 | 设计规范 | 已记录 | 已在原型核对 | 未开始 | 未开始 | Agent 核对通过，待用户最终确认 |
-| Android 工具链 | 已规划 | 不适用 | 环境待补齐 | 未开始 | 当前本机缺 Java / Gradle / Android SDK，构建前需安装 |
+| Android 工具链 | 已规划 | 不适用 | 环境待补齐 | 未开始 | 当前本机缺 Java / Gradle / Android SDK；已改用 GitHub Actions 先跑云端构建门禁 |
+| Android CI | 已规划 | 不适用 | 已配置 | 待运行 | GitHub Actions 已配置 Android build/test/lint |
 
 ## 4. 页面清单与原型入口
 
@@ -165,7 +166,7 @@
 
 | 阶段 | 状态 | 说明 | 下一步 |
 |------|------|------|--------|
-| V0.2 Android 工程壳 | 条件通过 | Android 页面壳、导航、主题、mock 数据已提交；构建验证因本机缺 Java / Gradle / Android SDK 未完成 | 先补齐 Android 工具链，再执行构建、单测和 lint |
+| V0.2 Android 工程壳 | 条件通过 | Android 页面壳、导航、主题、mock 数据已提交；本机缺 Java / Gradle / Android SDK | 先用 GitHub Actions 跑构建、单测和 lint，同时继续补齐本地工具链 |
 
 ## 8. 决策记录
 

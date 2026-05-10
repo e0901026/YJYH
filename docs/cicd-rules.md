@@ -148,7 +148,7 @@ V0.3 测试包目标：
 
 ## 9. 最小 GitHub Actions 草案
 
-如果后续使用 GitHub Actions，优先建立：
+当前已建立 GitHub Actions：
 
 ```yaml
 name: Android CI
@@ -168,11 +168,14 @@ jobs:
           distribution: temurin
           java-version: '17'
       - name: Build debug
-        run: cd android-app && ./gradlew assembleDebug
+        run: gradle assembleDebug
+        working-directory: android-app
       - name: Unit tests
-        run: cd android-app && ./gradlew testDebugUnitTest
+        run: gradle testDebugUnitTest
+        working-directory: android-app
       - name: Lint
-        run: cd android-app && ./gradlew lintDebug
+        run: gradle lintDebug
+        working-directory: android-app
 ```
 
 后端代码出现后再增加后端 job。
@@ -182,8 +185,8 @@ jobs:
 现在需要做：
 
 - 把 CI/CD 规则纳入项目管理。
-- Android 工程创建后立即配置本地可执行的构建和测试命令。
-- 等项目进入 Git 仓库后，再添加实际 CI 配置文件。
+- Android 工程创建后立即配置云端 CI 构建、测试和 lint。
+- 本地 Android 工具链仍需补齐，用于生成本地测试包和真机联调。
 
 现在不急着做：
 
