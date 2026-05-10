@@ -180,6 +180,14 @@ jobs:
 
 后端代码出现后再增加后端 job。
 
+当前门禁状态：
+
+- Android CI workflow 已推送。
+- 最小 smoke workflow 已推送。
+- 两个 workflow 均在 GitHub 侧返回 `startup_failure`，且没有 job 日志。
+- 这说明失败发生在 Actions 启动层，不是 Android 构建脚本或 Kotlin 代码编译阶段。
+- 需要检查 GitHub 账号/仓库 Actions 运行权限、私有仓库 Actions 可用性或账单/额度设置。
+
 ## 10. 当前阶段执行口径
 
 现在需要做：
