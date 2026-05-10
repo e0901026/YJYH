@@ -184,9 +184,10 @@ jobs:
 
 - Android CI workflow 已推送。
 - 最小 smoke workflow 已推送。
-- 两个 workflow 均在 GitHub 侧返回 `startup_failure`，且没有 job 日志。
-- 这说明失败发生在 Actions 启动层，不是 Android 构建脚本或 Kotlin 代码编译阶段。
-- 需要检查 GitHub 账号/仓库 Actions 运行权限、私有仓库 Actions 可用性或账单/额度设置。
+- 仓库从 Private 改为 Public 后，workflow 不再是 `startup_failure`，可以创建 job。
+- 但最小 smoke workflow 和 Android CI 都在 step 执行前失败，且没有日志。
+- 这说明失败仍发生在 GitHub runner 启动层，不是 Android 构建脚本或 Kotlin 代码编译阶段。
+- 需要检查 GitHub 账号/仓库 runner 可用性、Actions 额度、账单或平台限制；或者改用本地 Android 工具链完成门禁。
 
 ## 10. 当前阶段执行口径
 
