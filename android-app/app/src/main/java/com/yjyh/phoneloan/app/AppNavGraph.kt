@@ -3,8 +3,10 @@ package com.yjyh.phoneloan.app
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.yjyh.phoneloan.feature.auth.LoginScreen
 import com.yjyh.phoneloan.feature.auth.RegisterScreen
 import com.yjyh.phoneloan.feature.devices.DeviceDetailScreen
@@ -45,11 +47,20 @@ fun AppNavGraph(navController: NavHostController, contentPadding: PaddingValues)
             ScanBorrowScreen(
                 contentPadding = contentPadding,
                 onBack = { navController.popBackStack() },
-                onUnknownDevice = { navController.navigate(AppRoute.RegisterDevice.value) }
+                onRegisterDevice = { imei ->
+                    navController.navigate(AppRoute.RegisterDevice.create(imei))
+                }
             )
         }
-        composable(AppRoute.RegisterDevice.value) {
-            RegisterDeviceScreen(contentPadding = contentPadding, onBack = { navController.popBackStack() })
+        composable(
+            route = AppRoute.RegisterDevice.value,
+            arguments = listOf(navArgument("imei") { type = NavType.StringType })
+        ) { entry ->
+            RegisterDeviceScreen(
+                contentPadding = contentPadding,
+                imei = entry.arguments?.getString("imei").orEmpty(),
+                onBack = { navController.popBackStack() }
+            )
         }
         composable(AppRoute.ReturnLoan.value) {
             ReturnLoanScreen(contentPadding = contentPadding, onBack = { navController.popBackStack() })

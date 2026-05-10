@@ -5,7 +5,9 @@ sealed class AppRoute(val value: String) {
     data object Register : AppRoute("register")
     data object Home : AppRoute("home")
     data object ScanBorrow : AppRoute("scanBorrow")
-    data object RegisterDevice : AppRoute("registerDevice")
+    data object RegisterDevice : AppRoute("registerDevice/{imei}") {
+        fun create(imei: String) = "registerDevice/$imei"
+    }
     data object ReturnLoan : AppRoute("returnLoan")
     data object Devices : AppRoute("devices")
     data object DeviceDetail : AppRoute("deviceDetail/{id}") {

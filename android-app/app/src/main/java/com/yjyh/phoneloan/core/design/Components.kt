@@ -141,6 +141,26 @@ fun Field(label: String, value: String = "", placeholder: String = "") {
 }
 
 @Composable
+fun InteractiveField(
+    label: String,
+    value: String,
+    onValueChange: (String) -> Unit,
+    placeholder: String = "",
+    keyboardType: androidx.compose.ui.text.input.KeyboardType = androidx.compose.ui.text.input.KeyboardType.Text
+) {
+    Text(label, style = AppTypography.bodySmall.copy(fontWeight = FontWeight.Bold), color = AppColors.Text)
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        placeholder = { Text(placeholder, color = AppColors.Muted) },
+        modifier = Modifier.fillMaxWidth(),
+        singleLine = true,
+        shape = RoundedCornerShape(8.dp),
+        keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(keyboardType = keyboardType)
+    )
+}
+
+@Composable
 fun StatusPill(text: String, color: Color = AppColors.Primary) {
     Text(
         text = text,

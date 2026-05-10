@@ -1,10 +1,12 @@
 package com.yjyh.phoneloan.core.data
 
 import com.yjyh.phoneloan.core.model.Device
+import com.yjyh.phoneloan.core.model.DeviceStatus
 import com.yjyh.phoneloan.core.model.InviteCode
 import com.yjyh.phoneloan.core.model.LoanRecord
 import com.yjyh.phoneloan.core.model.OwnerUserRow
 import com.yjyh.phoneloan.core.model.User
+import com.yjyh.phoneloan.core.model.UserSummary
 
 interface PhoneLoanRepository {
     fun currentUser(): User
@@ -12,4 +14,13 @@ interface PhoneLoanRepository {
     fun activeLoans(): List<LoanRecord>
     fun ownerUsers(): List<OwnerUserRow>
     fun inviteCodes(): List<InviteCode>
+
+    /** 根据 IMEI1 查找设备，找不到返回 null */
+    fun findDeviceByImei(imei: String): Device?
+
+    /** 注册新设备 */
+    fun addDevice(name: String, imei: String): Device
+
+    /** 更新设备持有人 */
+    fun updateDeviceHolder(deviceId: String, newHolder: UserSummary, newStatus: DeviceStatus)
 }
