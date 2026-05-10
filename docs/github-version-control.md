@@ -159,6 +159,10 @@ PR 合并前必须：
 
 - `https://github.com/e0901026/YJYH`
 
+仓库可见性：
+
+- Public。仓库曾为 Private；为排查并启用 GitHub Actions，已按用户要求调整为 Public。
+
 当前执行规则：
 
 1. 本地 Git 仓库和 GitHub 私有仓库已建立。

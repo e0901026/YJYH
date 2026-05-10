@@ -6,7 +6,7 @@
 
 - 项目类型：企业内部移动端工具。
 - 平台优先级：Android App 优先开发。
-- GitHub 仓库：`https://github.com/e0901026/YJYH`
+- GitHub 仓库：`https://github.com/e0901026/YJYH`（Public）
 - 当前阶段：PRD 与 Pencil 原型确认阶段，尚未进入正式前端开发。
 - 工作方式：单 Agent 负责维护 PRD、原型、开发与测试闭环。
 - 最高约束：需求先行，原型确认后再开发，开发必须还原原型。
