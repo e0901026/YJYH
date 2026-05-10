@@ -26,6 +26,23 @@ Android 版本采用四层测试：
 - 测试清单。
 - 已知问题。
 
+当前本地验证命令：
+
+```sh
+cd android-app
+export JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"
+export ANDROID_HOME="$HOME/Library/Android/sdk"
+./gradlew :app:assembleDebug
+./gradlew :app:testDebugUnitTest
+./gradlew :app:lintDebug
+```
+
+当前 Debug APK：
+
+```txt
+android-app/app/build/outputs/apk/debug/app-debug.apk
+```
+
 用户测试步骤：
 
 1. 安装或运行当前 Android 测试版本。

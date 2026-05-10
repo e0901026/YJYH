@@ -7,7 +7,7 @@
 - 项目类型：企业内部移动端工具。
 - 平台优先级：Android App 优先开发。
 - GitHub 仓库：`https://github.com/e0901026/YJYH`（Public）
-- 当前阶段：PRD 与 Pencil 原型确认阶段，尚未进入正式前端开发。
+- 当前阶段：V0.2 Android 工程壳已可本地构建，准备进入真机 / 模拟器人工验收。
 - 工作方式：单 Agent 负责维护 PRD、原型、开发与测试闭环。
 - 最高约束：需求先行，原型确认后再开发，开发必须还原原型。
 
@@ -41,18 +41,18 @@
 
 | 模块 | PRD | 原型 | 开发 | 测试 | 状态 |
 |------|-----|------|------|------|------|
-| 账号登录注册 | 已定义 | 已生成 | V0.2 页面壳初稿完成 | 待工具链 | mock 页面已进入 Android 工程 |
-| 首页 | 已定义 | 已生成 | V0.2 页面壳初稿完成 | 待工具链 | mock 页面已进入 Android 工程 |
-| 扫码借 | 已定义 | 已生成 | V0.2 页面壳初稿完成 | 待工具链 | mock 识别分支已进入 Android 工程 |
-| 未建档手机注册 | 已定义 | 已生成 | V0.2 页面壳初稿完成 | 待工具链 | mock 页面已进入 Android 工程 |
-| 一键还 | 已定义 | 已生成 | V0.2 页面壳初稿完成 | 待工具链 | mock 页面已进入 Android 工程 |
-| 设备列表 | 已定义 | 已生成 | V0.2 页面壳初稿完成 | 待工具链 | mock 页面已进入 Android 工程 |
-| 设备详情 | 已定义 | 已生成 | V0.2 页面壳初稿完成 | 待工具链 | mock 页面已进入 Android 工程 |
-| 我的 | 已定义 | 已生成 | V0.2 页面壳初稿完成 | 待工具链 | mock 页面已进入 Android 工程 |
-| Owner 用户列表 | 已定义 | 已生成 | V0.2 页面壳初稿完成 | 待工具链 | mock 页面已进入 Android 工程 |
-| Owner 邀请码 | 已定义 | 已生成 | V0.2 页面壳初稿完成 | 待工具链 | mock 页面已进入 Android 工程 |
+| 账号登录注册 | 已定义 | 已生成 | V0.2 页面壳初稿完成 | 本地构建通过 | mock 页面已进入 Android 工程 |
+| 首页 | 已定义 | 已生成 | V0.2 页面壳初稿完成 | 本地构建通过 | mock 页面已进入 Android 工程 |
+| 扫码借 | 已定义 | 已生成 | V0.2 页面壳初稿完成 | 本地构建通过 | mock 识别分支已进入 Android 工程 |
+| 未建档手机注册 | 已定义 | 已生成 | V0.2 页面壳初稿完成 | 本地构建通过 | mock 页面已进入 Android 工程 |
+| 一键还 | 已定义 | 已生成 | V0.2 页面壳初稿完成 | 本地构建通过 | mock 页面已进入 Android 工程 |
+| 设备列表 | 已定义 | 已生成 | V0.2 页面壳初稿完成 | 本地构建通过 | mock 页面已进入 Android 工程 |
+| 设备详情 | 已定义 | 已生成 | V0.2 页面壳初稿完成 | 本地构建通过 | mock 页面已进入 Android 工程 |
+| 我的 | 已定义 | 已生成 | V0.2 页面壳初稿完成 | 本地构建通过 | mock 页面已进入 Android 工程 |
+| Owner 用户列表 | 已定义 | 已生成 | V0.2 页面壳初稿完成 | 本地构建通过 | mock 页面已进入 Android 工程 |
+| Owner 邀请码 | 已定义 | 已生成 | V0.2 页面壳初稿完成 | 本地构建通过 | mock 页面已进入 Android 工程 |
 | 设计规范 | 已记录 | 已在原型核对 | 未开始 | 未开始 | Agent 核对通过，待用户最终确认 |
-| Android 工具链 | 已规划 | 不适用 | 环境待补齐 | 未开始 | 当前本机缺 Java / Gradle / Android SDK；已改用 GitHub Actions 先跑云端构建门禁 |
+| Android 工具链 | 已规划 | 不适用 | 已补齐本地构建入口 | 本地通过 | 使用 Android Studio JBR + 项目 Gradle Wrapper，可执行 assemble / unit test / lint |
 | Android CI | 已规划 | 不适用 | 已配置 | Runner 启动失败 | 仓库改为 Public 后 workflow 可创建 job，但最小 smoke 和 Android CI 都在 step 前失败且无日志 |
 
 ## 4. 页面清单与原型入口
@@ -166,7 +166,7 @@
 
 | 阶段 | 状态 | 说明 | 下一步 |
 |------|------|------|--------|
-| V0.2 Android 工程壳 | 条件通过 | Android 页面壳、导航、主题、mock 数据已提交；本机缺 Java / Gradle / Android SDK；GitHub Actions runner 启动失败 | 先解决 GitHub runner/账号问题或本地 Android 工具链，再执行构建、单测和 lint |
+| V0.2 Android 工程壳 | 通过 | Android 页面壳、导航、主题、mock 数据已提交；本地 `assembleDebug`、`testDebugUnitTest`、`lintDebug` 已通过 | 安装 Debug APK 到模拟器或真机，执行 V0.2 人工验收 |
 
 ## 8. 决策记录
 
@@ -184,6 +184,7 @@
 | 2026-05-10 | GitHub 版本管理 | 需求、原型、架构、代码、测试和 CI/CD 变更必须一起纳入版本控制 |
 | 2026-05-10 | 开发前完成建仓 | GitHub 私有仓库已建立，后续开发必须先提交完整变更再进入下一轮 |
 | 2026-05-10 | 增加阶段门禁 | 每阶段完成后必须确认完成项、验证、通过状态、阻塞项和下一步动作 |
+| 2026-05-10 | 本地 Android 构建入口 | 增加 Gradle Wrapper，使用 Android Studio 自带 JBR，命令行构建不依赖全局 Gradle |
 
 ## 9. 待确认事项
 
@@ -199,12 +200,12 @@
 2. 用户确认 Android 技术架构。
 3. 用户确认后端与数据库架构方向。
 4. 用户确认 CI/CD 规则。
-5. 补齐 Android 本地工具链：Java / Gradle / Android SDK。
-6. 解决 GitHub Actions `startup_failure`，或改用本地工具链完成构建门禁。
-7. 执行 `assembleDebug`、`testDebugUnitTest`、`lintDebug`。
-8. 修复构建或 lint 问题。
-9. 生成 V0.2 可测试包或运行方式。
-10. 按 V0.2 Android 测试清单验收。
+5. 安装 Debug APK 到 Android Studio 模拟器或真机。
+6. 按 V0.2 Android 测试清单验收启动、导航和原型还原。
+7. 记录用户验收反馈。
+8. 若发现偏差，先判断 PRD / 原型 / 代码 / 测试归因，再修复。
+9. V0.2 人工验收通过后，进入 V0.3 核心流程开发。
+10. GitHub Actions runner 问题后续继续观察，不阻塞本地开发门禁。
 
 ## 11. V0.1 Agent 核对结果
 

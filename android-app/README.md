@@ -30,9 +30,18 @@ Android V0.2 工程壳。
 
 ```sh
 cd android-app
-gradle assembleDebug
-gradle testDebugUnitTest
-gradle lintDebug
+export JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"
+export ANDROID_HOME="$HOME/Library/Android/sdk"
+
+./gradlew :app:assembleDebug
+./gradlew :app:testDebugUnitTest
+./gradlew :app:lintDebug
 ```
 
-如果本机没有 Android SDK，需要先安装 Android Studio 或 Android command line tools，并配置 `ANDROID_HOME`。
+Debug APK 输出位置：
+
+```txt
+android-app/app/build/outputs/apk/debug/app-debug.apk
+```
+
+如果本机没有 Android SDK，需要先安装 Android Studio 或 Android command line tools，并配置 `ANDROID_HOME`。首次执行构建时，Gradle 可能会自动安装缺失的 SDK Platform / Build Tools。

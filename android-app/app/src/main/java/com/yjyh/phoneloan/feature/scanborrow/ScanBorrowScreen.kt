@@ -94,7 +94,7 @@ fun ScanBorrowScreen(
             Text(errorMessage, color = AppColors.Error, fontWeight = FontWeight.Bold)
         }
 
-        PrimaryButton("识别 IMEI") {
+        PrimaryButton("识别 IMEI", onClick = {
             val trimmed = imeiInput.trim()
             if (!IMEI_PATTERN.matches(trimmed)) {
                 errorMessage = "请输入 15 位纯数字 IMEI 编码"
@@ -117,7 +117,7 @@ fun ScanBorrowScreen(
             } else {
                 scanState = ScanState.NOT_FOUND
             }
-        }
+        })
 
         Spacer(Modifier.height(12.dp))
 
@@ -137,14 +137,14 @@ fun ScanBorrowScreen(
                 }
 
                 if (!borrowSuccess) {
-                    PrimaryButton("确认借走") {
+                    PrimaryButton("确认借走", onClick = {
                         MockPhoneLoanRepository.updateDeviceHolder(
                             deviceId = foundDeviceId,
                             newHolder = meSummary,
                             newStatus = DeviceStatus.HELD_BY_ME
                         )
                         borrowSuccess = true
-                    }
+                    })
                 }
 
                 if (borrowSuccess) {
@@ -156,7 +156,7 @@ fun ScanBorrowScreen(
                     }
                 }
 
-                SecondaryButton("重新扫描") { resetScan() }
+                SecondaryButton("重新扫描", onClick = { resetScan() })
             }
 
             ScanState.NOT_FOUND -> {
@@ -165,10 +165,10 @@ fun ScanBorrowScreen(
                     Text(scannedImei, fontWeight = FontWeight.Bold)
                     MutedText("该 IMEI 尚未建档，请先注册设备。")
                 }
-                PrimaryButton("注册新设备") {
+                PrimaryButton("注册新设备", onClick = {
                     onRegisterDevice(scannedImei)
-                }
-                SecondaryButton("重新输入") { resetScan() }
+                })
+                SecondaryButton("重新输入", onClick = { resetScan() })
             }
 
             ScanState.IDLE -> { /* initial state, no result shown */ }

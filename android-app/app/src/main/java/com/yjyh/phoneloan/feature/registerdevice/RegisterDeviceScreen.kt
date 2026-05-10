@@ -39,17 +39,17 @@ fun RegisterDeviceScreen(contentPadding: PaddingValues, imei: String, onBack: ()
             MutedText("建档后：当前登录用户成为设备绑定 owner，并记录为当前持有人。")
         }
         if (!saved) {
-            PrimaryButton("确认建档并借走") {
+            PrimaryButton("确认建档并借走", onClick = {
                 val name = deviceName.ifBlank { "未命名手机" }
                 MockPhoneLoanRepository.addDevice(name = name, imei = displayImei)
                 saved = true
-            }
+            })
         }
         if (saved) {
             AppCard {
                 Text("成功反馈：手机已建档，已记录你为当前持有人。", color = AppColors.Success)
             }
-            PrimaryButton("完成", onBack)
+            PrimaryButton("完成", onClick = onBack)
         }
     }
 }
