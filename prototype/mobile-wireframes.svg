@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+  <defs>
+    <style>
+      .bg { fill: #f6f8fa; }
+      .card { fill: #fff; stroke: #d9e1e8; stroke-width: 2; }
+      .primary { fill: #1677ff; }
+      .soft { fill: #eaf3ff; stroke: #b9d7ff; stroke-width: 2; }
+      .text { fill: #17212b; font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; }
+      .muted { fill: #697586; font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; }
+      .title { font-size: 28px; font-weight: 700; }
+      .body { font-size: 18px; }
+      .small { font-size: 15px; }
+      .label { font-size: 20px; font-weight: 700; }
+      .arrow { stroke: #697586; stroke-width: 3; marker-end: url(#arrow); }
+    </style>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#697586"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1200" height="720"/>
+  <text x="48" y="58" class="text title">手机借机管理 App - 当前原型流程摘要</text>
+  <text x="48" y="92" class="muted body">完整可视化页面请打开 prototype/pencil-prototype.html。所有界面变更以 docs/PRD-手机借机管理.md 为准。</text>
+  <rect x="60" y="150" width="220" height="160" rx="12" class="card"/>
+  <text x="86" y="190" class="text label">首页</text>
+  <text x="86" y="228" class="muted small">手上持有：12 台</text>
+  <rect x="86" y="250" width="78" height="34" rx="8" class="primary"/>
+  <text x="101" y="272" fill="#fff" font-size="14" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei">扫码借</text>
+  <rect x="174" y="250" width="78" height="34" rx="8" fill="#fff" stroke="#1677ff"/>
+  <text x="189" y="272" fill="#1677ff" font-size="14" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, Microsoft YaHei">一键还</text>
+  <line x1="280" y1="230" x2="360" y2="230" class="arrow"/>
+  <rect x="370" y="150" width="230" height="160" rx="12" class="soft"/>
+  <text x="396" y="190" class="text label">调起相机扫码</text>
+  <text x="396" y="228" class="muted small">借机人扫描要借走</text>
+  <text x="396" y="252" class="muted small">手机的 IMEI 条码</text>
+  <line x1="600" y1="230" x2="680" y2="230" class="arrow"/>
+  <rect x="690" y="90" width="250" height="170" rx="12" class="card"/>
+  <text x="716" y="130" class="text label">已建档手机</text>
+  <text x="716" y="168" class="muted small">展示设备名、完整 IMEI</text>
+  <text x="716" y="192" class="muted small">上一位持有人、绑定 owner</text>
+  <text x="716" y="226" class="text small">按钮：确认借走</text>
+  <rect x="690" y="320" width="250" height="170" rx="12" class="card"/>
+  <text x="716" y="360" class="text label">未建档手机</text>
+  <text x="716" y="398" class="muted small">进入手机注册页</text>
+  <text x="716" y="422" class="muted small">填写手机名称</text>
+  <text x="716" y="456" class="text small">确认建档并借走</text>
+  <line x1="940" y1="175" x2="1020" y2="250" class="arrow"/>
+  <line x1="940" y1="405" x2="1020" y2="330" class="arrow"/>
+  <rect x="1030" y="220" width="120" height="140" rx="12" class="soft"/>
+  <text x="1056" y="260" class="text label">记录</text>
+  <text x="1056" y="296" class="muted small">借机人为</text>
+  <text x="1056" y="320" class="muted small">最新持有人</text>
+  <rect x="300" y="470" width="600" height="120" rx="12" class="card"/>
+  <text x="330" y="512" class="text label">通知规则</text>
+  <text x="330" y="552" class="muted body">确认借走后，系统自动通知上一位持有人和设备绑定 owner：</text>
+  <text x="330" y="582" class="text body">“手机已被某某借走”。无需选择对方。</text>
+</svg>
