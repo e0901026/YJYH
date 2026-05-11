@@ -54,3 +54,12 @@
 - 验证：`assembleDebug`、`lintDebug`、`testDebugUnitTest` 通过；模拟器截图验证按钮单行完整显示；一键还和催还机功能回归通过。
 - 用户确认：开发后待人工验收。
 - 是否进入开发：是。
+
+### V0.3 扫码借 / 手机注册闭环自测
+
+- 类型：测试。
+- 内容：完成扫码借已建档路径、未建档注册路径和设备列表回归自测。已建档 IMEI 可展示设备详情并确认借走，首页手上持有台数、待处理和最近动态同步更新；未建档 IMEI 可进入注册手机页，建档后设备列表展示新设备。
+- 影响范围：`docs/v0.3-android-test-checklist.md`、`docs/project-management.md`、`docs/test-artifacts/v0.3/*.png`。
+- 验证：`clean assembleDebug lintDebug testDebugUnitTest` 通过；模拟器功能路径和截图视觉检查通过。
+- 用户确认：待 V0.3 整体人工确认。
+- 是否进入开发：否，本轮为现有实现自测收口。
