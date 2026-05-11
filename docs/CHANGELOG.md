@@ -34,6 +34,14 @@
 - 类型：代码 / 测试。
 - 内容：Android 一键还页面按确认后的原型实现：借出 Tab 列表项展示设备名、当前持有人、工号、IMEI、持有天数，右侧为「催还机」；借入 Tab 右侧为「一键还」。
 - 影响范围：`android-app/app/src/main/java/com/yjyh/phoneloan/feature/returnloan/ReturnLoanScreen.kt`、`docs/v0.3-android-test-checklist.md`。
-- 验证：`assembleDebug`、`lintDebug`、`testDebugUnitTest` 通过；模拟器验证催还机和一键还路径通过。
+- 验证：`assembleDebug`、`lintDebug`、`testDebugUnitTest` 通过；模拟器功能路径通过，但视觉验收未通过，按钮出现双行/显示不全。
 - 用户确认：开发后待人工验收。
 - 是否进入开发：是。
+
+### 测试纠偏：界面自测必须截图对照原型
+
+- 类型：流程 / 测试。
+- 内容：补充 Android 界面自测规则，要求所有界面改动在提交用户确认前必须截图对照 Pencil 导出图；按钮、Tab、列表项必须检查文字是否单行、完整、未裁剪。
+- 影响范围：`Agent.md`、`docs/android-test-plan.md`、`docs/v0.3-android-test-checklist.md`、`docs/project-management.md`。
+- 用户确认：用户已指出问题，流程规则立即生效。
+- 是否进入开发：否。下一步先按已确认原型修复按钮视觉问题，再重新截图自测。
