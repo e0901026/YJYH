@@ -1,9 +1,15 @@
 package com.yjyh.phoneloan.feature.returnloan
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -11,20 +17,25 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import com.yjyh.phoneloan.core.data.MockPhoneLoanRepository
 import com.yjyh.phoneloan.core.design.AppCard
 import com.yjyh.phoneloan.core.design.AppColors
+import com.yjyh.phoneloan.core.design.AppTypography
 import com.yjyh.phoneloan.core.design.MutedText
 import com.yjyh.phoneloan.core.design.Page
-import com.yjyh.phoneloan.core.design.PrimaryButton
 import com.yjyh.phoneloan.core.design.SegmentedTabs
+import com.yjyh.phoneloan.core.model.LoanRecord
 
 @Composable
 fun ReturnLoanScreen(contentPadding: PaddingValues, onBack: () -> Unit) {
     var selectedTab by remember { mutableIntStateOf(0) }
     var returnedDeviceName by remember { mutableStateOf("") }
+    var urgedDeviceName by remember { mutableStateOf("") }
     val loans = MockPhoneLoanRepository.activeLoans()
     val borrowedOutCount = loans.count { it.statusText == "我借出去的" }
     val borrowedInCount = loans.count { it.statusText == "我借入的" }
@@ -44,23 +55,38 @@ fun ReturnLoanScreen(contentPadding: PaddingValues, onBack: () -> Unit) {
                 MutedText("设备状态和首页手上持有台数已同步更新。")
             }
         }
+        if (urgedDeviceName.isNotEmpty()) {
+            AppCard {
+                Text("已催还：$urgedDeviceName", color = AppColors.Primary, fontWeight = FontWeight.Bold)
+                MutedText("已向当前持有人发送催还消息，设备状态不变。")
+            }
+        }
         visibleLoans.forEach { loan ->
             AppCard {
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    Text(loan.device.name, fontWeight = FontWeight.Bold)
-                    Text(loan.statusText, color = AppColors.Primary, fontWeight = FontWeight.Bold)
-                }
-                MutedText("对方：${loan.counterpart.name} · ${loan.counterpart.employeeNo}")
-                if (loan.statusText == "我借入的") {
-                    PrimaryButton(
-                        text = "一键还",
-                        onClick = {
-                            returnedDeviceName = loan.device.name
-                            MockPhoneLoanRepository.returnLoan(loan.device.id)
-                        }
-                    )
-                } else {
-                    MutedText("等待当前借机人归还；你会收到归还记录通知。")
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    LoanSummary(loan = loan, modifier = Modifier.weight(1f))
+                    if (loan.statusText == "我借入的") {
+                        ReturnActionButton(
+                            text = "一键还",
+                            onClick = {
+                                urgedDeviceName = ""
+                                returnedDeviceName = loan.device.name
+                                MockPhoneLoanRepository.returnLoan(loan.device.id)
+                            }
+                        )
+                    } else {
+                        ReturnActionButton(
+                            text = "催还机",
+                            onClick = {
+                                returnedDeviceName = ""
+                                urgedDeviceName = loan.device.name
+                            }
+                        )
+                    }
                 }
             }
         }
@@ -70,8 +96,49 @@ fun ReturnLoanScreen(contentPadding: PaddingValues, onBack: () -> Unit) {
             }
         }
         AppCard {
-            Text("二次确认示例", fontWeight = FontWeight.Bold)
-            MutedText("确认后将结束当前借用记录，并更新手上持有台数。")
+            Text("操作说明", fontWeight = FontWeight.Bold)
+            MutedText("我借出去的设备可催还机，只发送提醒消息；归还必须由当前持有人在「我借入的」中点击「一键还」。")
         }
+    }
+}
+
+@Composable
+private fun LoanSummary(loan: LoanRecord, modifier: Modifier = Modifier) {
+    Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(4.dp)) {
+        Text(loan.device.name, fontWeight = FontWeight.Bold)
+        if (loan.statusText == "我借入的") {
+            MutedText("对方：${loan.counterpart.name} · 工号 ${loan.counterpart.employeeNo}")
+        } else {
+            MutedText("当前持有人：${loan.counterpart.name} · 工号 ${loan.counterpart.employeeNo}")
+        }
+        MutedText("IMEI：${loan.device.imei1}")
+        if (loan.statusText == "我借出去的") {
+            MutedText("持有天数：${holdDaysText(loan)}")
+        }
+    }
+}
+
+@Composable
+private fun ReturnActionButton(text: String, onClick: () -> Unit) {
+    Button(
+        onClick = onClick,
+        modifier = Modifier
+            .width(82.dp)
+            .height(40.dp),
+        shape = RoundedCornerShape(8.dp),
+        colors = ButtonDefaults.buttonColors(containerColor = AppColors.Primary)
+    ) {
+        Text(
+            text = text,
+            color = Color.White,
+            style = AppTypography.bodySmall.copy(fontWeight = FontWeight.Bold)
+        )
+    }
+}
+
+private fun holdDaysText(loan: LoanRecord): String {
+    return when (loan.device.id) {
+        "d1" -> "6 天"
+        else -> loan.startedAt
     }
 }

@@ -18,13 +18,22 @@
 - 类型：需求 / 原型。
 - 内容：借出 Tab 的列表项不展示「我借出去的」「我借入的」身份标签，也不提供「一键还」动作；应展示设备名、当前持有人、持有人工号、IMEI、持有天数，并在右侧提供「催还机」。借入 Tab 才提供「一键还」动作。
 - 影响范围：`docs/PRD-手机借机管理.md`、`prototype/手机借机管理.pen`、`prototype/exports/CjA4k.png`。
-- 用户确认：待确认。
-- 是否进入开发：否。Android 代码需等待用户确认原型后再按原型修正。
+- 用户确认：已确认。
+- 是否进入开发：是。Android 代码已开始按确认后的原型修正。
 
 ### 一键还页面：催还机动作新增
 
 - 类型：需求 / 原型。
 - 内容：在「我借出去的」列表项右侧新增「催还机」按钮，点击后给当前持有人发送催还消息，不改变设备归还状态；「我借入的」列表项右侧按钮文案保持「一键还」。
 - 影响范围：`docs/PRD-手机借机管理.md`、`prototype/手机借机管理.pen`、`prototype/exports/CjA4k.png`。
-- 用户确认：待确认。
-- 是否进入开发：否。等待用户确认原型后再进入 Android 实现。
+- 用户确认：已确认。
+- 是否进入开发：是。Android 代码已开始按确认后的原型修正。
+
+### 一键还页面：Android 按确认原型实现
+
+- 类型：代码 / 测试。
+- 内容：Android 一键还页面按确认后的原型实现：借出 Tab 列表项展示设备名、当前持有人、工号、IMEI、持有天数，右侧为「催还机」；借入 Tab 右侧为「一键还」。
+- 影响范围：`android-app/app/src/main/java/com/yjyh/phoneloan/feature/returnloan/ReturnLoanScreen.kt`、`docs/v0.3-android-test-checklist.md`。
+- 验证：`assembleDebug`、`lintDebug`、`testDebugUnitTest` 通过；模拟器验证催还机和一键还路径通过。
+- 用户确认：开发后待人工验收。
+- 是否进入开发：是。
