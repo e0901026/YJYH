@@ -23,7 +23,7 @@ import com.yjyh.phoneloan.core.model.DeviceStatus
 
 @Composable
 fun DevicesScreen(contentPadding: PaddingValues, onAddDevice: () -> Unit, onOpenDevice: (String) -> Unit) {
-    Page(title = "设备列表", contentPadding = contentPadding, topLink = "添加设备", onTopLink = onAddDevice) {
+    Page(title = "设备列表", contentPadding = contentPadding, topLink = "+", onTopLink = onAddDevice) {
         SegmentedTabs(listOf("全部", "在我手上", "已借出", "借入待还"), selected = 0)
         Field(label = "", placeholder = "搜索设备名或 IMEI")
         MockPhoneLoanRepository.devices().forEach { device ->

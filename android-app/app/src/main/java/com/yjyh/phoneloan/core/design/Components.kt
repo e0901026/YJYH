@@ -18,8 +18,16 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.ArrowBack
+import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Smartphone
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.OutlinedButton
@@ -54,6 +62,8 @@ fun Page(
     onTopLink: (() -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit
 ) {
+    val isBackAction = topLink?.startsWith("‹") == true
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -67,14 +77,38 @@ fun Page(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(title, style = AppTypography.headlineLarge, color = AppColors.Text)
-            if (topLink != null && onTopLink != null) {
-                Text(
-                    text = topLink,
-                    color = AppColors.Primary,
-                    style = AppTypography.bodySmall.copy(fontWeight = FontWeight.Bold),
-                    modifier = Modifier.clickable(onClick = onTopLink)
-                )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(if (isBackAction) 4.dp else 0.dp),
+                modifier = Modifier.weight(1f)
+            ) {
+                if (isBackAction && onTopLink != null) {
+                    IconButton(onClick = onTopLink, modifier = Modifier.size(36.dp)) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
+                            contentDescription = "返回",
+                            tint = AppColors.Primary
+                        )
+                    }
+                }
+                Text(title, style = AppTypography.headlineLarge, color = AppColors.Text)
+            }
+            if (!isBackAction && topLink != null && onTopLink != null) {
+                IconButton(onClick = onTopLink, modifier = Modifier.size(40.dp)) {
+                    if (topLink == "+") {
+                        Icon(
+                            imageVector = Icons.Outlined.Add,
+                            contentDescription = "添加",
+                            tint = AppColors.Primary
+                        )
+                    } else {
+                        Text(
+                            text = topLink,
+                            color = AppColors.Primary,
+                            style = AppTypography.bodySmall.copy(fontWeight = FontWeight.Bold)
+                        )
+                    }
+                }
             }
         }
         content()
@@ -208,16 +242,22 @@ fun SegmentedTabs(items: List<String>, selected: Int, modifier: Modifier = Modif
 @Composable
 fun PhoneLoanBottomBar(currentRoute: String?, onNavigate: (AppRoute) -> Unit) {
     val items = listOf(
-        Triple(AppRoute.Home, "⌂", "首页"),
-        Triple(AppRoute.Devices, "▯", "设备"),
-        Triple(AppRoute.Profile, "♙", "我的")
+        Triple(AppRoute.Home, Icons.Outlined.Home, "首页"),
+        Triple(AppRoute.Devices, Icons.Outlined.Smartphone, "设备"),
+        Triple(AppRoute.Profile, Icons.Outlined.Person, "我的")
     )
     NavigationBar(containerColor = AppColors.Card, tonalElevation = 0.dp) {
         items.forEach { (route, icon, label) ->
             NavigationBarItem(
                 selected = currentRoute == route.value,
                 onClick = { onNavigate(route) },
-                icon = { Text(icon, color = if (currentRoute == route.value) AppColors.Primary else AppColors.Muted) },
+                icon = {
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = label,
+                        tint = if (currentRoute == route.value) AppColors.Primary else AppColors.Muted
+                    )
+                },
                 label = { Text(label) }
             )
         }
