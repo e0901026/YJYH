@@ -45,3 +45,12 @@
 - 影响范围：`Agent.md`、`docs/android-test-plan.md`、`docs/v0.3-android-test-checklist.md`、`docs/project-management.md`。
 - 用户确认：用户已指出问题，流程规则立即生效。
 - 是否进入开发：否。下一步先按已确认原型修复按钮视觉问题，再重新截图自测。
+
+### 一键还页面：按钮视觉修复
+
+- 类型：代码 / 测试。
+- 内容：修复「催还机」「一键还」列表内快捷按钮因 Material 默认内边距导致的双行/显示不全问题；按钮按 Pencil 原型保持蓝底、8dp 圆角、单行完整显示。
+- 影响范围：`android-app/app/src/main/java/com/yjyh/phoneloan/feature/returnloan/ReturnLoanScreen.kt`、`docs/v0.3-android-test-checklist.md`、`docs/test-artifacts/v0.3/*.png`。
+- 验证：`assembleDebug`、`lintDebug`、`testDebugUnitTest` 通过；模拟器截图验证按钮单行完整显示；一键还和催还机功能回归通过。
+- 用户确认：开发后待人工验收。
+- 是否进入开发：是。
