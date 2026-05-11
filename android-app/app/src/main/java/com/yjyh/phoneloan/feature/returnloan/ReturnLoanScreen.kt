@@ -51,13 +51,17 @@ fun ReturnLoanScreen(contentPadding: PaddingValues, onBack: () -> Unit) {
                     Text(loan.statusText, color = AppColors.Primary, fontWeight = FontWeight.Bold)
                 }
                 MutedText("对方：${loan.counterpart.name} · ${loan.counterpart.employeeNo}")
-                PrimaryButton(
-                    text = "一键还",
-                    onClick = {
-                        returnedDeviceName = loan.device.name
-                        MockPhoneLoanRepository.returnLoan(loan.device.id)
-                    }
-                )
+                if (loan.statusText == "我借入的") {
+                    PrimaryButton(
+                        text = "一键还",
+                        onClick = {
+                            returnedDeviceName = loan.device.name
+                            MockPhoneLoanRepository.returnLoan(loan.device.id)
+                        }
+                    )
+                } else {
+                    MutedText("等待当前借机人归还；你会收到归还记录通知。")
+                }
             }
         }
         if (visibleLoans.isEmpty()) {
