@@ -73,7 +73,11 @@ fun AppNavGraph(navController: NavHostController, contentPadding: PaddingValues)
             )
         }
         composable(AppRoute.DeviceDetail.value) {
-            DeviceDetailScreen(contentPadding = contentPadding, onBack = { navController.popBackStack() })
+            DeviceDetailScreen(
+                contentPadding = contentPadding,
+                deviceId = it.arguments?.getString("id").orEmpty(),
+                onBack = { navController.popBackStack() }
+            )
         }
         composable(AppRoute.Profile.value) {
             ProfileScreen(

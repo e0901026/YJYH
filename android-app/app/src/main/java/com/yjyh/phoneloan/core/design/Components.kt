@@ -209,7 +209,12 @@ fun StatusPill(text: String, color: Color = AppColors.Primary) {
 }
 
 @Composable
-fun SegmentedTabs(items: List<String>, selected: Int, modifier: Modifier = Modifier) {
+fun SegmentedTabs(
+    items: List<String>,
+    selected: Int,
+    modifier: Modifier = Modifier,
+    onSelected: ((Int) -> Unit)? = null
+) {
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -226,6 +231,7 @@ fun SegmentedTabs(items: List<String>, selected: Int, modifier: Modifier = Modif
                     .weight(1f)
                     .clip(RoundedCornerShape(6.dp))
                     .background(if (active) AppColors.PrimarySoft else AppColors.Card)
+                    .clickable(enabled = onSelected != null) { onSelected?.invoke(index) }
                     .padding(vertical = 8.dp),
                 contentAlignment = Alignment.Center
             ) {

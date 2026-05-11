@@ -7,6 +7,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import com.yjyh.phoneloan.core.data.MockPhoneLoanRepository
@@ -23,10 +27,25 @@ import com.yjyh.phoneloan.core.model.DeviceStatus
 
 @Composable
 fun DevicesScreen(contentPadding: PaddingValues, onAddDevice: () -> Unit, onOpenDevice: (String) -> Unit) {
+    var selectedTab by remember { mutableIntStateOf(0) }
+    val devices = MockPhoneLoanRepository.devices()
+    val visibleDevices = devices.filter { device ->
+        when (selectedTab) {
+            1 -> device.status == DeviceStatus.HELD_BY_ME
+            2 -> device.status == DeviceStatus.BORROWED_OUT
+            3 -> device.status == DeviceStatus.PENDING_RETURN
+            else -> true
+        }
+    }
+
     Page(title = "设备列表", contentPadding = contentPadding, topLink = "+", onTopLink = onAddDevice) {
-        SegmentedTabs(listOf("全部", "在我手上", "已借出", "借入待还"), selected = 0)
+        SegmentedTabs(
+            items = listOf("全部", "在我手上", "已借出", "借入待还"),
+            selected = selectedTab,
+            onSelected = { selectedTab = it }
+        )
         Field(label = "", placeholder = "搜索设备名或 IMEI")
-        MockPhoneLoanRepository.devices().forEach { device ->
+        visibleDevices.forEach { device ->
             AppCard(modifier = Modifier.clickable { onOpenDevice(device.id) }) {
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                     Text(device.name, fontWeight = FontWeight.Bold)
@@ -48,14 +67,26 @@ fun DevicesScreen(contentPadding: PaddingValues, onAddDevice: () -> Unit, onOpen
                 MutedText("IMEI ${device.imei1} · ${device.currentHolder?.name ?: "暂无持有人"}")
             }
         }
+        if (visibleDevices.isEmpty()) {
+            AppCard {
+                MutedText("当前筛选下暂无设备。")
+            }
+        }
         PrimaryButton("添加设备（扫 IMEI）", onAddDevice)
     }
 }
 
 @Composable
-fun DeviceDetailScreen(contentPadding: PaddingValues, onBack: () -> Unit) {
-    val device = MockPhoneLoanRepository.devices()[1]
+fun DeviceDetailScreen(contentPadding: PaddingValues, deviceId: String, onBack: () -> Unit) {
+    val device = MockPhoneLoanRepository.devices().find { it.id == deviceId }
     Page(title = "设备详情", contentPadding = contentPadding, topLink = "‹ 设备", onTopLink = onBack) {
+        if (device == null) {
+            AppCard {
+                Text("设备不存在", color = AppColors.Error, fontWeight = FontWeight.Bold)
+                MutedText("该设备可能已被删除或 mock 数据已重置。")
+            }
+            return@Page
+        }
         AppCard {
             Text(device.name, fontWeight = FontWeight.Bold)
             MutedText("绑定 owner：${device.owner.name} · ${device.owner.employeeNo}")

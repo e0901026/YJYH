@@ -23,4 +23,7 @@ interface PhoneLoanRepository {
 
     /** 更新设备持有人 */
     fun updateDeviceHolder(deviceId: String, newHolder: UserSummary, newStatus: DeviceStatus)
+
+    /** 结束一条 mock 借还记录 */
+    fun returnLoan(deviceId: String)
 }

@@ -6,6 +6,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import com.yjyh.phoneloan.core.data.MockPhoneLoanRepository
@@ -18,16 +23,46 @@ import com.yjyh.phoneloan.core.design.SegmentedTabs
 
 @Composable
 fun ReturnLoanScreen(contentPadding: PaddingValues, onBack: () -> Unit) {
+    var selectedTab by remember { mutableIntStateOf(0) }
+    var returnedDeviceName by remember { mutableStateOf("") }
+    val loans = MockPhoneLoanRepository.activeLoans()
+    val borrowedOutCount = loans.count { it.statusText == "我借出去的" }
+    val borrowedInCount = loans.count { it.statusText == "我借入的" }
+    val visibleLoans = loans.filter {
+        if (selectedTab == 0) it.statusText == "我借出去的" else it.statusText == "我借入的"
+    }
+
     Page(title = "一键还", contentPadding = contentPadding, topLink = "‹ 首页", onTopLink = onBack) {
-        SegmentedTabs(listOf("我借出去的 4", "我借入的 3"), selected = 0)
-        MockPhoneLoanRepository.activeLoans().forEach { loan ->
+        SegmentedTabs(
+            items = listOf("我借出去的 $borrowedOutCount", "我借入的 $borrowedInCount"),
+            selected = selectedTab,
+            onSelected = { selectedTab = it }
+        )
+        if (returnedDeviceName.isNotEmpty()) {
+            AppCard {
+                Text("已归还：$returnedDeviceName", color = AppColors.Success, fontWeight = FontWeight.Bold)
+                MutedText("设备状态和首页手上持有台数已同步更新。")
+            }
+        }
+        visibleLoans.forEach { loan ->
             AppCard {
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                     Text(loan.device.name, fontWeight = FontWeight.Bold)
                     Text(loan.statusText, color = AppColors.Primary, fontWeight = FontWeight.Bold)
                 }
                 MutedText("对方：${loan.counterpart.name} · ${loan.counterpart.employeeNo}")
-                PrimaryButton("一键还", onBack)
+                PrimaryButton(
+                    text = "一键还",
+                    onClick = {
+                        returnedDeviceName = loan.device.name
+                        MockPhoneLoanRepository.returnLoan(loan.device.id)
+                    }
+                )
+            }
+        }
+        if (visibleLoans.isEmpty()) {
+            AppCard {
+                MutedText("当前没有需要处理的借还记录。")
             }
         }
         AppCard {

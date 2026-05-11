@@ -26,13 +26,17 @@ fun HomeScreen(
     onDevices: () -> Unit
 ) {
     val user = MockPhoneLoanRepository.currentUser()
+    val heldCount = MockPhoneLoanRepository.heldCount()
+    val borrowedInCount = MockPhoneLoanRepository.borrowedInCount()
+    val borrowedOutCount = MockPhoneLoanRepository.borrowedOutCount()
+    val pendingCount = borrowedInCount + borrowedOutCount
     Page(title = "首页", contentPadding = contentPadding, topLink = "邀请码 ${user.inviteUsed}/10") {
         AppCard {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Text("手上持有", color = AppColors.Muted)
                 Text("查看列表", color = AppColors.Primary, fontWeight = FontWeight.Bold)
             }
-            Text("12 台", fontSize = 36.sp, fontWeight = FontWeight.Bold, color = AppColors.Text)
+            Text("${heldCount} 台", fontSize = 36.sp, fontWeight = FontWeight.Bold, color = AppColors.Text)
             MutedText("含自有在手设备与借入待还设备，系统自动计算。")
         }
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -42,8 +46,8 @@ fun HomeScreen(
         AppCard {
             Text("待处理", fontWeight = FontWeight.Bold)
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                MutedText("我借入 3 台待还 · 我借出 4 台未归还")
-                Text("7 条", color = AppColors.Primary, fontWeight = FontWeight.Bold)
+                MutedText("我借入 ${borrowedInCount} 台待还 · 我借出 ${borrowedOutCount} 台未归还")
+                Text("${pendingCount} 条", color = AppColors.Primary, fontWeight = FontWeight.Bold)
             }
         }
         AppCard {
@@ -54,7 +58,7 @@ fun HomeScreen(
         }
         AppCard {
             Text("最近动态", fontWeight = FontWeight.Bold)
-            MutedText("小米14 白刚被你借走，已通知上一位持有人和绑定 owner。")
+            MutedText(MockPhoneLoanRepository.latestActivity)
         }
     }
 }
