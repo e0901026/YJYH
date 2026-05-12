@@ -4218,6 +4218,835 @@
           ]
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "HKnZj",
+      "x": 0,
+      "y": 1824,
+      "name": "04A 扫码借-相机权限",
+      "width": 390,
+      "height": 844,
+      "fill": "$bg",
+      "layout": "vertical",
+      "gap": 14,
+      "padding": 18,
+      "children": [
+        {
+          "type": "frame",
+          "id": "Exec1",
+          "name": "标题栏",
+          "width": "fill_container",
+          "height": 44,
+          "gap": 12,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "VQhyG",
+              "name": "permBack",
+              "width": 32,
+              "height": 32,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "IHEvt",
+                  "name": "permBackIcon",
+                  "width": 22,
+                  "height": 22,
+                  "iconFontName": "arrow-left",
+                  "iconFontFamily": "lucide",
+                  "fill": "$ink"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "hyBcA",
+              "name": "permTitleText",
+              "fill": "$ink",
+              "content": "扫码识别手机",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "700"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "PgLgt",
+          "name": "相机取景说明",
+          "width": "fill_container",
+          "height": 256,
+          "fill": "#17212B",
+          "cornerRadius": 8,
+          "layout": "vertical",
+          "gap": 12,
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon_font",
+              "id": "E1qQfn",
+              "name": "permCamera",
+              "width": 42,
+              "height": 42,
+              "iconFontName": "camera",
+              "iconFontFamily": "lucide",
+              "fill": "#FFFFFF"
+            },
+            {
+              "type": "text",
+              "id": "ZH30y",
+              "name": "permViewText",
+              "fill": "#FFFFFF",
+              "content": "等待相机权限",
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "s0DLy",
+              "name": "permHint",
+              "fill": "#C9D4DF",
+              "content": "授权后用于扫描手机 IMEI 条码",
+              "fontFamily": "Inter",
+              "fontSize": 12,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "YjY8n",
+          "name": "权限说明卡片",
+          "width": "fill_container",
+          "fill": "$surface",
+          "cornerRadius": 8,
+          "stroke": {
+            "thickness": 1,
+            "fill": "$line"
+          },
+          "layout": "vertical",
+          "gap": 8,
+          "padding": 14,
+          "children": [
+            {
+              "type": "text",
+              "id": "gaYjD",
+              "name": "permCardTitle",
+              "fill": "$ink",
+              "content": "需要相机权限",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "fgqLj",
+              "name": "permCardDesc",
+              "fill": "$muted",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "扫码借由借机人发起。权限仅用于识别要借走手机的 IMEI，不会保存相机画面。",
+              "lineHeight": 1.5,
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "nV3eC",
+              "name": "permRule",
+              "fill": "$muted",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "识别成功后按已建档 / 未建档进入确认借走或手机注册。",
+              "lineHeight": 1.5,
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "k7N8N4",
+          "name": "允许相机权限按钮",
+          "width": "fill_container",
+          "height": 46,
+          "fill": "$primary",
+          "cornerRadius": 8,
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "lpqZc",
+              "name": "permPrimaryText",
+              "fill": "#FFFFFF",
+              "content": "允许相机权限",
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "700"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "BP1In",
+          "name": "手动输入按钮",
+          "width": "fill_container",
+          "height": 44,
+          "fill": "$surface",
+          "cornerRadius": 8,
+          "stroke": {
+            "thickness": 1,
+            "fill": "$primary"
+          },
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "TxM2P",
+              "name": "permSecondaryText",
+              "fill": "$primary",
+              "content": "手动输入 IMEI",
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "700"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "u2ZLbB",
+      "x": 420,
+      "y": 1824,
+      "name": "04B 扫码借-权限拒绝",
+      "width": 390,
+      "height": 844,
+      "fill": "$bg",
+      "layout": "vertical",
+      "gap": 14,
+      "padding": 18,
+      "children": [
+        {
+          "type": "frame",
+          "id": "GGJus",
+          "name": "标题栏",
+          "width": "fill_container",
+          "height": 44,
+          "gap": 12,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "EgOAw",
+              "name": "deniedBack",
+              "width": 32,
+              "height": 32,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "wL3JE",
+                  "name": "deniedBackIcon",
+                  "width": 22,
+                  "height": 22,
+                  "iconFontName": "arrow-left",
+                  "iconFontFamily": "lucide",
+                  "fill": "$ink"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "loFH6",
+              "name": "deniedTitleText",
+              "fill": "$ink",
+              "content": "扫码识别手机",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "700"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "A8hFI0",
+          "name": "权限拒绝卡片",
+          "width": "fill_container",
+          "fill": "$surface",
+          "cornerRadius": 8,
+          "stroke": {
+            "thickness": 1,
+            "fill": "$line"
+          },
+          "layout": "vertical",
+          "gap": 10,
+          "padding": 16,
+          "children": [
+            {
+              "type": "frame",
+              "id": "h7avP",
+              "name": "deniedIconWrap",
+              "width": 44,
+              "height": 44,
+              "fill": "#FFF7E6",
+              "cornerRadius": 8,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "gPqv4",
+                  "name": "deniedIcon",
+                  "width": 24,
+                  "height": 24,
+                  "iconFontName": "triangle-alert",
+                  "iconFontFamily": "lucide",
+                  "fill": "$warning"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "hCup5",
+              "name": "deniedCardTitle",
+              "fill": "$ink",
+              "content": "相机权限未开启",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "mO7na",
+              "name": "deniedDesc",
+              "fill": "$muted",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "无法打开相机扫码。可以去系统设置开启权限，或先手动输入 15 位 IMEI 继续借机。",
+              "lineHeight": 1.5,
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "ruim2",
+          "name": "去开启权限按钮",
+          "width": "fill_container",
+          "height": 46,
+          "fill": "$primary",
+          "cornerRadius": 8,
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "m59gJe",
+              "name": "deniedPrimaryText",
+              "fill": "#FFFFFF",
+              "content": "去开启权限",
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "700"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "X3Obo",
+          "name": "手动输入按钮",
+          "width": "fill_container",
+          "height": 44,
+          "fill": "$surface",
+          "cornerRadius": 8,
+          "stroke": {
+            "thickness": 1,
+            "fill": "$primary"
+          },
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "OBCmI",
+              "name": "deniedSecondaryText",
+              "fill": "$primary",
+              "content": "手动输入 IMEI",
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "700"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "ErQjB",
+          "name": "提示",
+          "width": "fill_container",
+          "fill": "$primary-soft",
+          "cornerRadius": 8,
+          "layout": "vertical",
+          "gap": 6,
+          "padding": 14,
+          "children": [
+            {
+              "type": "text",
+              "id": "jLhI4",
+              "name": "deniedNoteTitle",
+              "fill": "$primary",
+              "content": "业务规则",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "IOQAp",
+              "name": "deniedNoteDesc",
+              "fill": "$muted",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "权限拒绝不阻断借机流程，手动输入兜底仍需进入同一套已建档 / 未建档分支。",
+              "lineHeight": 1.5,
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "WB25D",
+      "x": 840,
+      "y": 1824,
+      "name": "04C 扫码借-扫码失败",
+      "width": 390,
+      "height": 844,
+      "fill": "$bg",
+      "layout": "vertical",
+      "gap": 14,
+      "padding": 18,
+      "children": [
+        {
+          "type": "frame",
+          "id": "D0uLEC",
+          "name": "标题栏",
+          "width": "fill_container",
+          "height": 44,
+          "gap": 12,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "mSXbi",
+              "name": "failBack",
+              "width": 32,
+              "height": 32,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "frXSE",
+                  "name": "failBackIcon",
+                  "width": 22,
+                  "height": 22,
+                  "iconFontName": "arrow-left",
+                  "iconFontFamily": "lucide",
+                  "fill": "$ink"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "TGQxD",
+              "name": "failTitleText",
+              "fill": "$ink",
+              "content": "扫码识别手机",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "700"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "p2Zzb",
+          "name": "扫码失败取景框",
+          "width": "fill_container",
+          "height": 256,
+          "fill": "#17212B",
+          "cornerRadius": 8,
+          "layout": "vertical",
+          "gap": 12,
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon_font",
+              "id": "P92D0",
+              "name": "failScan",
+              "width": 46,
+              "height": 46,
+              "iconFontName": "scan-line",
+              "iconFontFamily": "lucide",
+              "fill": "#FFFFFF"
+            },
+            {
+              "type": "text",
+              "id": "gVdwk",
+              "name": "failViewText",
+              "fill": "#FFFFFF",
+              "content": "未识别到有效 IMEI",
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "ek3bw",
+              "name": "failViewHint",
+              "fill": "#C9D4DF",
+              "content": "请对准手机条码或工程信息页",
+              "fontFamily": "Inter",
+              "fontSize": 12,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "E2lbFU",
+          "name": "失败说明卡片",
+          "width": "fill_container",
+          "fill": "$surface",
+          "cornerRadius": 8,
+          "stroke": {
+            "thickness": 1,
+            "fill": "$line"
+          },
+          "layout": "vertical",
+          "gap": 8,
+          "padding": 14,
+          "children": [
+            {
+              "type": "text",
+              "id": "cxQKQ",
+              "name": "failCardTitle",
+              "fill": "$danger",
+              "content": "扫码失败",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "pjbt1",
+              "name": "failDesc",
+              "fill": "$muted",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "未从条码 / 二维码中解析到 15 位 IMEI。可以重新扫描，或手动输入 IMEI 继续流程。",
+              "lineHeight": 1.5,
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "B2JPd",
+          "name": "重新扫描按钮",
+          "width": "fill_container",
+          "height": 46,
+          "fill": "$primary",
+          "cornerRadius": 8,
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "NBdDY",
+              "name": "failPrimaryText",
+              "fill": "#FFFFFF",
+              "content": "重新扫描",
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "700"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "xW30V",
+          "name": "手动输入按钮",
+          "width": "fill_container",
+          "height": 44,
+          "fill": "$surface",
+          "cornerRadius": 8,
+          "stroke": {
+            "thickness": 1,
+            "fill": "$primary"
+          },
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "hzRgU",
+              "name": "failSecondaryText",
+              "fill": "$primary",
+              "content": "手动输入 IMEI",
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "700"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "d7YuFR",
+      "x": 1260,
+      "y": 1824,
+      "name": "04D 扫码借-手动输入IMEI",
+      "width": 390,
+      "height": 844,
+      "fill": "$bg",
+      "layout": "vertical",
+      "gap": 14,
+      "padding": 18,
+      "children": [
+        {
+          "type": "frame",
+          "id": "D1Vdi",
+          "name": "标题栏",
+          "width": "fill_container",
+          "height": 44,
+          "gap": 12,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "KP9yl",
+              "name": "manualBack",
+              "width": 32,
+              "height": 32,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "DFohR",
+                  "name": "manualBackIcon",
+                  "width": 22,
+                  "height": 22,
+                  "iconFontName": "arrow-left",
+                  "iconFontFamily": "lucide",
+                  "fill": "$ink"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "Dh0dC",
+              "name": "manualTitleText",
+              "fill": "$ink",
+              "content": "手动输入 IMEI",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "700"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "JpKME",
+          "name": "输入卡片",
+          "width": "fill_container",
+          "fill": "$surface",
+          "cornerRadius": 8,
+          "stroke": {
+            "thickness": 1,
+            "fill": "$line"
+          },
+          "layout": "vertical",
+          "gap": 10,
+          "padding": 14,
+          "children": [
+            {
+              "type": "text",
+              "id": "U6Q1n",
+              "name": "manualLabel",
+              "fill": "$ink",
+              "content": "IMEI",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "700"
+            },
+            {
+              "type": "frame",
+              "id": "SuHd2",
+              "name": "输入框",
+              "width": "fill_container",
+              "height": 46,
+              "fill": "$bg",
+              "cornerRadius": 8,
+              "stroke": {
+                "thickness": 1,
+                "fill": "$line"
+              },
+              "padding": [
+                0,
+                12
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "xFsMd",
+                  "name": "manualInputText",
+                  "fill": "$muted",
+                  "content": "请输入 15 位 IMEI",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "gmTBG",
+              "name": "manualDesc",
+              "fill": "$muted",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "手动输入只作为扫码失败或权限不可用时的兜底入口，提交后仍按仓库是否已有该 IMEI 分流。",
+              "lineHeight": 1.5,
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "JExAT",
+          "name": "分支说明",
+          "width": "fill_container",
+          "fill": "$primary-soft",
+          "cornerRadius": 8,
+          "layout": "vertical",
+          "gap": 8,
+          "padding": 14,
+          "children": [
+            {
+              "type": "text",
+              "id": "sb5QJ",
+              "name": "manualBranchTitle",
+              "fill": "$primary",
+              "content": "提交后的系统判断",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "I9l5k",
+              "name": "manualBranch1",
+              "fill": "$muted",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "已建档：展示被借手机详情，点击确认借走。",
+              "lineHeight": 1.5,
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "HHiLK",
+              "name": "manualBranch2",
+              "fill": "$muted",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "未建档：进入手机注册页，填写手机名后建档。",
+              "lineHeight": 1.5,
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "bsY1I",
+          "name": "继续按钮",
+          "width": "fill_container",
+          "height": 46,
+          "fill": "$primary",
+          "cornerRadius": 8,
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "ESEuA",
+              "name": "manualPrimaryText",
+              "fill": "#FFFFFF",
+              "content": "继续",
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "700"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "ql75m",
+          "name": "返回扫码按钮",
+          "width": "fill_container",
+          "height": 44,
+          "fill": "$surface",
+          "cornerRadius": 8,
+          "stroke": {
+            "thickness": 1,
+            "fill": "$primary"
+          },
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "QEVJM",
+              "name": "manualSecondaryText",
+              "fill": "$primary",
+              "content": "返回扫码",
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "700"
+            }
+          ]
+        }
+      ]
     }
   ],
   "variables": {

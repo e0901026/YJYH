@@ -79,5 +79,21 @@
 - 类型：需求 / 架构 / 项目管理。
 - 内容：新增 V0.4 范围文档，建议 V0.4 以真实 Android 扫码能力为主，补齐相机权限、扫码失败、手动输入兜底、通知契约；后端本阶段只做 API 和数据库契约准备，不实现真实服务端。
 - 影响范围：`docs/v0.4-scope.md`、`docs/project-management.md`、`docs/PRD-手机借机管理.md`、`docs/android-technical-architecture.md`、`docs/backend-database-architecture.md`。
+- 用户确认：已确认。
+- 是否进入开发：否。先补 Pencil 原型，再由用户确认是否进入 Android 开发。
+
+### V0.4 范围确认通过
+
+- 类型：需求 / 项目管理。
+- 内容：确认 V0.4 以真实 Android 扫码能力优先；后端暂不实现真实服务，只做 API / 数据库 / 通知契约准备；暂不新增通知中心页面。
+- 影响范围：`docs/v0.4-scope.md`、`docs/project-management.md`、`docs/PRD-手机借机管理.md`。
+- 用户确认：已确认。
+- 是否进入开发：否。下一步补充 Pencil 原型的相机权限、权限拒绝、扫码失败和手动输入兜底状态。
+
+### V0.4 扫码原型状态补充
+
+- 类型：原型 / 测试计划。
+- 内容：在 Pencil 原型中新增扫码借 V0.4 状态：相机权限说明、权限拒绝、扫码失败、手动输入 IMEI 兜底；同步导出预览图并补充 V0.4 Android 测试清单。
+- 影响范围：`prototype/手机借机管理.pen`、`prototype/exports/HKnZj.png`、`prototype/exports/u2ZLbB.png`、`prototype/exports/WB25D.png`、`prototype/exports/d7YuFR.png`、`prototype/pencil-prototype.html`、`docs/v0.4-android-test-checklist.md`。
 - 用户确认：待确认。
-- 是否进入开发：否。待用户确认 V0.4 范围后，先补 Pencil 原型，再进入 Android 开发。
+- 是否进入开发：否。必须等用户确认 V0.4 原型后再进入 Android CameraX / ML Kit 开发。
