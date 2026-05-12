@@ -39,8 +39,9 @@
 |------|----------|
 | V0.2 Android 壳 | 不实现后端，Android 使用 mock repository，但字段按本文设计 |
 | V0.3 核心流程 | 仍可 mock，补齐借机 / 还机 / 手机注册状态流 |
-| V0.4 后端 MVP | 建 Spring Boot + PostgreSQL，实现登录、设备、借还、邀请码核心 API |
-| V0.5 联调验收 | Android 从 mock 切换真实 API，做端到端测试 |
+| V0.4 API 契约准备 | 细化 REST API、错误码、通知类型和数据库字段，不实现真实服务端 |
+| V0.5 后端 MVP | 建 Spring Boot + PostgreSQL，实现登录、设备、借还、邀请码核心 API |
+| V0.6 联调验收 | Android 从 mock 切换真实 API，做端到端测试 |
 
 ## 4. 核心数据表
 

@@ -73,3 +73,11 @@
 - 影响范围：`docs/project-management.md`、`docs/v0.3-android-test-checklist.md`。
 - 用户确认：已确认。
 - 是否进入开发：否。下一步进入 V0.4 范围确认。
+
+### V0.4 范围草案
+
+- 类型：需求 / 架构 / 项目管理。
+- 内容：新增 V0.4 范围文档，建议 V0.4 以真实 Android 扫码能力为主，补齐相机权限、扫码失败、手动输入兜底、通知契约；后端本阶段只做 API 和数据库契约准备，不实现真实服务端。
+- 影响范围：`docs/v0.4-scope.md`、`docs/project-management.md`、`docs/PRD-手机借机管理.md`、`docs/android-technical-architecture.md`、`docs/backend-database-architecture.md`。
+- 用户确认：待确认。
+- 是否进入开发：否。待用户确认 V0.4 范围后，先补 Pencil 原型，再进入 Android 开发。
