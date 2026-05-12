@@ -61,5 +61,15 @@
 - 内容：完成扫码借已建档路径、未建档注册路径和设备列表回归自测。已建档 IMEI 可展示设备详情并确认借走，首页手上持有台数、待处理和最近动态同步更新；未建档 IMEI 可进入注册手机页，建档后设备列表展示新设备。
 - 影响范围：`docs/v0.3-android-test-checklist.md`、`docs/project-management.md`、`docs/test-artifacts/v0.3/*.png`。
 - 验证：`clean assembleDebug lintDebug testDebugUnitTest` 通过；模拟器功能路径和截图视觉检查通过。
-- 用户确认：待 V0.3 整体人工确认。
+- 用户确认：已于 2026-05-12 人工确认 V0.3 通过。
 - 是否进入开发：否，本轮为现有实现自测收口。
+
+## 2026-05-12
+
+### V0.3 人工验收通过
+
+- 类型：测试 / 阶段门禁。
+- 内容：用户人工确认 V0.3 通过。一键还、催还机、扫码借、未建档注册和设备列表闭环可进入下一阶段。
+- 影响范围：`docs/project-management.md`、`docs/v0.3-android-test-checklist.md`。
+- 用户确认：已确认。
+- 是否进入开发：否。下一步进入 V0.4 范围确认。
