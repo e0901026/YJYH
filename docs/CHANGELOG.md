@@ -95,5 +95,14 @@
 - 类型：原型 / 测试计划。
 - 内容：在 Pencil 原型中新增扫码借 V0.4 状态：相机权限说明、权限拒绝、扫码失败、手动输入 IMEI 兜底；同步导出预览图并补充 V0.4 Android 测试清单。
 - 影响范围：`prototype/手机借机管理.pen`、`prototype/exports/HKnZj.png`、`prototype/exports/u2ZLbB.png`、`prototype/exports/WB25D.png`、`prototype/exports/d7YuFR.png`、`prototype/pencil-prototype.html`、`docs/v0.4-android-test-checklist.md`。
-- 用户确认：待确认。
-- 是否进入开发：否。必须等用户确认 V0.4 原型后再进入 Android CameraX / ML Kit 开发。
+- 用户确认：已确认。
+- 是否进入开发：是。用户确认 V0.4 原型后，进入 Android CameraX / ML Kit 开发。
+
+### V0.4 Android 真实扫码开发
+
+- 类型：代码 / 测试 / 架构。
+- 内容：接入 CameraX 预览和 ML Kit 条码扫描，新增相机权限说明、权限拒绝、扫描中、扫码失败、手动输入 IMEI 兜底、已建档确认借走、未建档注册分支；新增 IMEI 解析器和单元测试。
+- 影响范围：`android-app/app/build.gradle.kts`、`android-app/app/src/main/AndroidManifest.xml`、`android-app/app/src/main/java/com/yjyh/phoneloan/feature/scanborrow/*`、`android-app/app/src/test/java/com/yjyh/phoneloan/feature/scanborrow/ImeiParserTest.kt`、`docs/v0.4-android-test-checklist.md`、`docs/android-technical-architecture.md`、`docs/project-management.md`、`docs/test-artifacts/v0.4/*.png`。
+- 验证：`:app:testDebugUnitTest`、`:app:assembleDebug`、`:app:lintDebug` 通过；模拟器验证权限说明、权限拒绝、相机扫描态、手动输入已建档、确认借走成功、手动输入未建档分支通过。
+- 用户确认：待人工验收。
+- 是否进入开发：是，本轮开发已完成，下一步进入 V0.4 人工验收。

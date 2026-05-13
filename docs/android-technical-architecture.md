@@ -155,6 +155,8 @@ V0.3：
 V0.4：
 
 - 接入 CameraX 和 ML Kit Barcode Scanning。
+- 当前 Android 工程保持 `compileSdk 35` / Android Gradle Plugin `8.7.3`，CameraX 使用 `1.5.3` 稳定线；CameraX `1.6.x` 需要更高 compileSdk / AGP，后续单独做工具链升级时再评估。
+- ML Kit 使用 Google Play Services 动态模型依赖 `com.google.android.gms:play-services-mlkit-barcode-scanning:18.3.1`，并在 manifest 中声明 `com.google.mlkit.vision.DEPENDENCIES=barcode`。
 - 支持相机权限申请、拒绝提示、重新授权引导。
 - 解析二维码 / 条码内容后提取 IMEI。
 - 无法解析时提供手动输入 IMEI 兜底。
