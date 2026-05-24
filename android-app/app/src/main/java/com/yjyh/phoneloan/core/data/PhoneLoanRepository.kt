@@ -9,6 +9,8 @@ import com.yjyh.phoneloan.core.model.User
 import com.yjyh.phoneloan.core.model.UserSummary
 
 interface PhoneLoanRepository {
+    fun login(employeeNo: String, password: String): Result<Unit>
+    fun register(employeeNo: String, name: String, password: String, inviteCode: String): Result<Unit>
     fun currentUser(): User
     fun devices(): List<Device>
     fun activeLoans(): List<LoanRecord>

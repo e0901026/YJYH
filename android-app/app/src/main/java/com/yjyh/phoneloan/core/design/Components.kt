@@ -40,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.yjyh.phoneloan.app.AppRoute
 
@@ -181,7 +182,8 @@ fun InteractiveField(
     value: String,
     onValueChange: (String) -> Unit,
     placeholder: String = "",
-    keyboardType: androidx.compose.ui.text.input.KeyboardType = androidx.compose.ui.text.input.KeyboardType.Text
+    keyboardType: androidx.compose.ui.text.input.KeyboardType = androidx.compose.ui.text.input.KeyboardType.Text,
+    visualTransformation: VisualTransformation = VisualTransformation.None
 ) {
     Text(label, style = AppTypography.bodySmall.copy(fontWeight = FontWeight.Bold), color = AppColors.Text)
     OutlinedTextField(
@@ -191,7 +193,8 @@ fun InteractiveField(
         modifier = Modifier.fillMaxWidth(),
         singleLine = true,
         shape = RoundedCornerShape(8.dp),
-        keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(keyboardType = keyboardType)
+        keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(keyboardType = keyboardType),
+        visualTransformation = visualTransformation
     )
 }
 

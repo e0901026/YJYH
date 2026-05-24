@@ -173,3 +173,11 @@
 - 影响范围：`android-app/app/src/main/java/com/yjyh/phoneloan/core/data/**`、各功能页面的数据入口、`backend/src/main/java/com/yjyh/phoneloan/backend/common/DataInitializer.java`、`backend/src/main/java/com/yjyh/phoneloan/backend/loan/**`、`backend/src/test/java/com/yjyh/phoneloan/backend/BackendIntegrationTest.java`。
 - 验证：后端 `./gradlew test` 通过；Android `:app:assembleDebug` 通过；本地后端 `/api/devices` 返回 3 台设备，`/api/loans/active` 返回 2 条活跃借还；模拟器安装启动成功，Logcat 未见崩溃、明文 HTTP 阻断或主线程网络错误。
 - 是否进入开发：是。下一步补齐登录/注册输入和 API 错误在页面上的用户可见反馈。
+
+### V0.6 登录注册真实表单
+
+- 类型：代码 / 用户体验 / 数据分析 / 测试。
+- 内容：登录页和注册页由静态字段改为可输入字段；登录调用后端 `/api/auth/login`，注册调用 `/api/auth/register`；表单校验、密码遮罩、错误提示、登录/注册成功失败埋点已补齐；默认登录账号保留为 `10086 / password123` 方便本地验收。
+- 影响范围：`android-app/app/build.gradle.kts`、`android-app/app/src/main/java/com/yjyh/phoneloan/feature/auth/AuthScreens.kt`、`android-app/app/src/main/java/com/yjyh/phoneloan/core/data/**`、`android-app/app/src/main/java/com/yjyh/phoneloan/core/design/Components.kt`。
+- 验证：Android `:app:assembleDebug :app:testDebugUnitTest :app:lintDebug` 通过；后端 `./gradlew test` 通过；本地后端启动后，模拟器点击登录成功进入首页并显示“已连接本地后端，数据来自真实 API”；Logcat 无崩溃、网络阻断或登录失败；埋点队列为 0。
+- 是否进入开发：是。下一步继续补完整人工验收包和真实流程边界错误。

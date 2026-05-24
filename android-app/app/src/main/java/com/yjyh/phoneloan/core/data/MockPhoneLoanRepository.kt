@@ -37,6 +37,23 @@ object MockPhoneLoanRepository : PhoneLoanRepository {
         AnalyticsLogger.identifyUser(me.id, me.employeeNo)
     }
 
+    override fun login(employeeNo: String, password: String): Result<Unit> {
+        return if (employeeNo.isBlank() || password.isBlank()) {
+            Result.failure(IllegalArgumentException("请输入工号和密码"))
+        } else {
+            AnalyticsLogger.identifyUser(me.id, me.employeeNo)
+            Result.success(Unit)
+        }
+    }
+
+    override fun register(employeeNo: String, name: String, password: String, inviteCode: String): Result<Unit> {
+        return if (employeeNo.isBlank() || name.isBlank() || password.isBlank() || inviteCode.isBlank()) {
+            Result.failure(IllegalArgumentException("请完整填写注册信息"))
+        } else {
+            Result.success(Unit)
+        }
+    }
+
     override fun devices() = _devices.toList()
 
     override fun activeLoans(): List<LoanRecord> {

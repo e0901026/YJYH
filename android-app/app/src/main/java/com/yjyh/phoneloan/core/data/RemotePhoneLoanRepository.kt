@@ -42,6 +42,28 @@ class RemotePhoneLoanRepository(
         refreshFromBackend(reason = "app_start")
     }
 
+    override fun login(employeeNo: String, password: String): Result<Unit> {
+        return runCatching {
+            val auth = api.login(employeeNo, password)
+            applyAuth(auth)
+            refreshFromBackend(reason = "login")
+            AnalyticsLogger.trackAction("login_success", screen = "login", payload = mapOf("employeeNo" to employeeNo))
+        }.onFailure {
+            AnalyticsLogger.trackError("login_failed", screen = "login", throwable = it, payload = mapOf("employeeNo" to employeeNo))
+        }.map { Unit }
+    }
+
+    override fun register(employeeNo: String, name: String, password: String, inviteCode: String): Result<Unit> {
+        return runCatching {
+            val auth = api.register(employeeNo, name, password, inviteCode)
+            applyAuth(auth)
+            refreshFromBackend(reason = "register")
+            AnalyticsLogger.trackAction("register_success", screen = "register", payload = mapOf("employeeNo" to employeeNo))
+        }.onFailure {
+            AnalyticsLogger.trackError("register_failed", screen = "register", throwable = it, payload = mapOf("employeeNo" to employeeNo))
+        }.map { Unit }
+    }
+
     override fun currentUser(): User = me
 
     override fun devices(): List<Device> = if (remoteDevices.isNotEmpty()) remoteDevices.toList() else fallback.devices()
@@ -170,7 +192,10 @@ class RemotePhoneLoanRepository(
 
     private fun ensureLogin() {
         if (accessToken != null) return
-        val auth = api.login("10086", "password123")
+        applyAuth(api.login("10086", "password123"))
+    }
+
+    private fun applyAuth(auth: JSONObject) {
         accessToken = auth.getString("accessToken")
         me = auth.getJSONObject("user").toUser()
         AnalyticsLogger.identifyUser(me.id, me.employeeNo)
@@ -200,6 +225,18 @@ private class PhoneLoanApi(baseUrl: String) {
             body = JSONObject()
                 .put("employeeNo", employeeNo)
                 .put("password", password)
+        )
+    }
+
+    fun register(employeeNo: String, name: String, password: String, inviteCode: String): JSONObject {
+        return post(
+            token = null,
+            path = "/api/auth/register",
+            body = JSONObject()
+                .put("employeeNo", employeeNo)
+                .put("name", name)
+                .put("password", password)
+                .put("inviteCode", inviteCode)
         )
     }
 
@@ -250,13 +287,22 @@ private class PhoneLoanApi(baseUrl: String) {
             val status = connection.responseCode
             val stream = if (status in 200..299) connection.inputStream else connection.errorStream
             val text = stream?.bufferedReader()?.use { it.readText() }.orEmpty()
-            if (status !in 200..299) error("HTTP $status $text")
+            if (status !in 200..299) throw ApiClientException(status, extractErrorMessage(text))
             text
         } finally {
             connection.disconnect()
         }
     }
+
+    private fun extractErrorMessage(text: String): String {
+        return runCatching { JSONObject(text).optString("message") }
+            .getOrNull()
+            ?.takeIf { it.isNotBlank() }
+            ?: "服务请求失败"
+    }
 }
+
+private class ApiClientException(status: Int, message: String) : RuntimeException("$message（$status）")
 
 private fun <T> JSONArray.mapJson(mapper: (JSONObject) -> T): List<T> {
     return (0 until length()).map { mapper(getJSONObject(it)) }
