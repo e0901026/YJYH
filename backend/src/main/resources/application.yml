@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: phone-loan-backend
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/phone_loan}
+    username: ${DB_USERNAME:phone_loan}
+    password: ${DB_PASSWORD:phone_loan}
+  flyway:
+    enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: ${PORT:8080}

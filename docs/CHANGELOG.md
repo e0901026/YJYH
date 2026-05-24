@@ -114,3 +114,38 @@
 - 影响范围：`Agent.md`。
 - 用户确认：用户要求补充。
 - 是否进入开发：否，本轮为流程规范补充。
+
+## 2026-05-24
+
+### V0.4 人工验收通过
+
+- 类型：测试 / 阶段门禁。
+- 内容：用户确认 V0.4 可进入下一步。真实扫码页的权限说明、权限拒绝、相机扫描态、手动输入兜底、已建档确认借走和未建档注册分支完成阶段验收。
+- 影响范围：`docs/project-management.md`、`docs/v0.4-android-test-checklist.md`。
+- 用户确认：已确认。
+- 是否进入开发：否。下一步进入 V0.5 后端 MVP 范围确认。
+
+### V0.5 后端 MVP 范围草案
+
+- 类型：需求 / 架构 / 项目管理。
+- 内容：新增 V0.5 范围文档，建议下一阶段先建设 Spring Boot + PostgreSQL 后端 MVP，覆盖认证、设备、借还、邀请码和通知记录核心 API；Android 暂不在 V0.5 全量切换真实 API。
+- 影响范围：`docs/v0.5-scope.md`、`docs/project-management.md`。
+- 用户确认：待确认。
+- 是否进入开发：否。待用户确认 V0.5 范围后，再创建后端工程脚手架。
+
+### 完整 APK 与埋点日志目标
+
+- 类型：需求 / 架构 / 数据分析。
+- 内容：项目最终交付目标调整为完整可安装 Android APK；App 必须具备行为埋点、错误日志和问题诊断能力，支持用户人工使用后持续收集问题并优化。
+- 影响范围：`docs/PRD-手机借机管理.md`、`docs/android-technical-architecture.md`、`docs/backend-database-architecture.md`、`docs/telemetry-logging-plan.md`、`docs/project-management.md`。
+- 用户确认：用户明确要求。
+- 是否进入开发：是。后续后端和 Android 联调必须同步建设埋点与日志闭环。
+
+### V0.5 后端 MVP 初稿
+
+- 类型：代码 / 架构 / 测试 / CI。
+- 内容：新增 Spring Boot 后端工程，包含 Flyway 数据库迁移、认证、设备、借还、邀请码、Owner 用户、通知、App 事件上报核心 API；新增后端集成测试和 Backend CI。
+- 影响范围：`backend/**`、`.github/workflows/backend-ci.yml`、`docs/cicd-rules.md`、`docs/v0.5-scope.md`、`docs/project-management.md`。
+- 验证：本地 `backend ./gradlew test` 通过，覆盖注册/登录、设备建档、IMEI 查询、借机、归还、事件上报。
+- 用户确认：待人工审查。
+- 是否进入开发：是。下一步进入 V0.6 Android 真实 API 联调与 APK 验收包。

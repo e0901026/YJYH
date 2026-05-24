@@ -15,6 +15,7 @@
 - 密码：BCrypt 或 Argon2 哈希存储。
 - 部署：先单体服务，后续按需要再拆分。
 - 通知：V0.1 / V0.2 先做站内通知记录表；真实推送后置。
+- 可观测性：后端提供事件/日志接收接口，支持 Android 上报用户行为、错误和诊断信息。
 
 ## 2. 为什么现在要想
 
@@ -169,6 +170,32 @@
 - 扫码借成功后，通知上一位持有人和设备绑定 owner。
 - V0.1 / V0.2 原型先用成功提示和记录说明，后端 MVP 可先记录站内通知，不做真实推送。
 
+### 4.7 app_events
+
+App 行为与错误事件表。
+
+| 字段 | 说明 |
+|------|------|
+| id | 主键 |
+| user_id | 用户，可为空 |
+| session_id | App 会话 ID |
+| event_name | 事件名 |
+| screen | 页面 |
+| action | 用户动作或系统动作 |
+| result | `SUCCESS` / `FAILURE` / `CANCELLED` |
+| severity | `INFO` / `WARN` / `ERROR` |
+| context_json | 脱敏上下文 |
+| app_version | App 版本 |
+| device_model | 设备型号 |
+| os_version | 系统版本 |
+| created_at | 创建时间 |
+
+规则：
+
+- 密码、token 不得上报。
+- IMEI 必须脱敏。
+- bug 相关事件必须能关联页面、动作和错误码。
+
 ## 5. 关键业务事务
 
 ### 5.1 注册
@@ -254,6 +281,10 @@ Owner：
 
 - `GET /api/notifications`
 - `POST /api/notifications/{id}/read`
+
+事件：
+
+- `POST /api/events`
 
 ## 7. Android 对接策略
 
