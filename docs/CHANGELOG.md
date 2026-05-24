@@ -149,3 +149,19 @@
 - 验证：本地 `backend ./gradlew test` 通过，覆盖注册/登录、设备建档、IMEI 查询、借机、归还、事件上报。
 - 用户确认：待人工审查。
 - 是否进入开发：是。下一步进入 V0.6 Android 真实 API 联调与 APK 验收包。
+
+### 暂停 GitHub Actions，改为本地门禁
+
+- 类型：流程 / CI/CD。
+- 内容：因当前 GitHub 没有 CI 权限，暂停云端 GitHub Actions；workflow 文件移入 `.github/workflows-disabled/`，后续阶段先以本地构建、测试、lint、模拟器验收作为质量门禁。
+- 影响范围：`.github/workflows-disabled/**`、`docs/cicd-rules.md`、`docs/project-management.md`。
+- 用户确认：用户明确要求。
+- 是否进入开发：是。继续本地 Android 构建和模拟器测试。
+
+### 本地后端联调配置
+
+- 类型：架构 / 测试。
+- 内容：新增后端 `local` profile，使用 H2 文件数据库，支持无 PostgreSQL 环境下启动本地后端；Android 事件上报字段对齐后端 `/api/events` 契约；Android 本地网络安全配置允许模拟器访问 `10.0.2.2` 明文 HTTP。
+- 影响范围：`backend/build.gradle.kts`、`backend/src/main/resources/application-local.yml`、`android-app/app/src/main/AndroidManifest.xml`、`android-app/app/src/main/res/xml/network_security_config.xml`、`android-app/app/src/main/java/com/yjyh/phoneloan/core/analytics/AnalyticsLogger.kt`。
+- 验证：本地后端 `SPRING_PROFILES_ACTIVE=local ./gradlew bootRun` 启动成功；`/api/events` curl 冒烟返回事件 id；Android `assembleDebug`、`testDebugUnitTest`、`lintDebug` 通过；模拟器安装启动成功；Logcat 无崩溃和明文 HTTP 阻断；App 本地事件队列清空。
+- 是否进入开发：是。本地验收继续。

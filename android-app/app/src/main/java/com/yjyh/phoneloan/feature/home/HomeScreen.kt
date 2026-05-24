@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.yjyh.phoneloan.core.analytics.AnalyticsLogger
 import com.yjyh.phoneloan.core.data.MockPhoneLoanRepository
 import com.yjyh.phoneloan.core.design.AppCard
 import com.yjyh.phoneloan.core.design.AppColors
@@ -40,8 +41,14 @@ fun HomeScreen(
             MutedText("含自有在手设备与借入待还设备，系统自动计算。")
         }
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            PrimaryButton("扫码借", onScanBorrow, Modifier.weight(1f))
-            SecondaryButton("一键还", onReturnLoan, Modifier.weight(1f))
+            PrimaryButton("扫码借", {
+                AnalyticsLogger.trackAction("scan_borrow_entry_click", screen = "home")
+                onScanBorrow()
+            }, Modifier.weight(1f))
+            SecondaryButton("一键还", {
+                AnalyticsLogger.trackAction("return_loan_entry_click", screen = "home")
+                onReturnLoan()
+            }, Modifier.weight(1f))
         }
         AppCard {
             Text("待处理", fontWeight = FontWeight.Bold)

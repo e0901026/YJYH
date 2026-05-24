@@ -8,6 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.font.FontWeight
+import com.yjyh.phoneloan.core.analytics.AnalyticsLogger
 import com.yjyh.phoneloan.core.data.MockPhoneLoanRepository
 import com.yjyh.phoneloan.core.design.AppCard
 import com.yjyh.phoneloan.core.design.AppColors
@@ -41,6 +42,11 @@ fun RegisterDeviceScreen(contentPadding: PaddingValues, imei: String, onBack: ()
         if (!saved) {
             PrimaryButton("确认建档并借走", onClick = {
                 val name = deviceName.ifBlank { "未命名手机" }
+                AnalyticsLogger.trackAction(
+                    name = "register_device_submit",
+                    screen = "register_device",
+                    payload = mapOf("hasCustomName" to deviceName.isNotBlank(), "imei" to displayImei)
+                )
                 MockPhoneLoanRepository.addDevice(name = name, imei = displayImei)
                 saved = true
             })

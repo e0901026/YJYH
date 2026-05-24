@@ -2,6 +2,7 @@ package com.yjyh.phoneloan.feature.auth
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
+import com.yjyh.phoneloan.core.analytics.AnalyticsLogger
 import com.yjyh.phoneloan.core.design.AppCard
 import com.yjyh.phoneloan.core.design.Field
 import com.yjyh.phoneloan.core.design.MutedText
@@ -16,8 +17,14 @@ fun LoginScreen(contentPadding: PaddingValues, onLogin: () -> Unit, onRegister: 
         AppCard {
             Field(label = "工号", placeholder = "请输入工号")
             Field(label = "密码", placeholder = "请输入密码")
-            PrimaryButton("登录", onLogin)
-            SecondaryButton("使用邀请码注册", onRegister)
+            PrimaryButton("登录", onClick = {
+                AnalyticsLogger.trackAction("login_submit", screen = "login")
+                onLogin()
+            })
+            SecondaryButton("使用邀请码注册", onClick = {
+                AnalyticsLogger.trackAction("register_entry_click", screen = "login")
+                onRegister()
+            })
         }
     }
 }
@@ -32,7 +39,10 @@ fun RegisterScreen(contentPadding: PaddingValues, onBack: () -> Unit) {
             Field(label = "名称", placeholder = "展示名")
             Field(label = "密码", placeholder = "请输入密码")
             Field(label = "确认密码", placeholder = "再次输入密码")
-            PrimaryButton("注册", onBack)
+            PrimaryButton("注册", onClick = {
+                AnalyticsLogger.trackAction("register_submit", screen = "register")
+                onBack()
+            })
         }
     }
 }

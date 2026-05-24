@@ -4,6 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.yjyh.phoneloan.core.analytics.AnalyticsLogger
 import com.yjyh.phoneloan.core.model.Device
 import com.yjyh.phoneloan.core.model.DeviceStatus
 import com.yjyh.phoneloan.core.model.InviteCode
@@ -31,6 +32,10 @@ object MockPhoneLoanRepository : PhoneLoanRepository {
         private set
 
     override fun currentUser() = me
+
+    init {
+        AnalyticsLogger.identifyUser(me.id, me.employeeNo)
+    }
 
     override fun devices() = _devices.toList()
 
@@ -76,6 +81,11 @@ object MockPhoneLoanRepository : PhoneLoanRepository {
         )
         _devices.add(device)
         latestActivity = "${device.name} 已建档，并记录你为当前持有人。"
+        AnalyticsLogger.trackAction(
+            name = "device_registered",
+            screen = "register_device",
+            payload = mapOf("deviceId" to device.id, "imei" to device.imei1)
+        )
         return device
     }
 
@@ -95,6 +105,16 @@ object MockPhoneLoanRepository : PhoneLoanRepository {
                 }
                 append("和绑定 owner ${oldDevice.owner.name}。")
             }
+            AnalyticsLogger.trackAction(
+                name = "device_borrowed",
+                screen = "scan_borrow",
+                payload = mapOf(
+                    "deviceId" to oldDevice.id,
+                    "previousHolderId" to oldHolder?.id,
+                    "newHolderId" to newHolder.id,
+                    "ownerId" to oldDevice.owner.id
+                )
+            )
         }
     }
 
@@ -114,6 +134,11 @@ object MockPhoneLoanRepository : PhoneLoanRepository {
             status = nextStatus
         )
         latestActivity = "${device.name} 已归还，当前持有人更新为 ${nextHolder.name}。"
+        AnalyticsLogger.trackAction(
+            name = "device_returned",
+            screen = "return_loan",
+            payload = mapOf("deviceId" to device.id, "ownerId" to device.owner.id)
+        )
     }
 
     fun heldCount(): Int {

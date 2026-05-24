@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.yjyh.phoneloan.core.analytics.AnalyticsLogger
 import com.yjyh.phoneloan.core.data.MockPhoneLoanRepository
 import com.yjyh.phoneloan.core.design.AppCard
 import com.yjyh.phoneloan.core.design.AppColors
@@ -50,7 +51,14 @@ fun ReturnLoanScreen(contentPadding: PaddingValues, onBack: () -> Unit) {
         SegmentedTabs(
             items = listOf("我借出去的 $borrowedOutCount", "我借入的 $borrowedInCount"),
             selected = selectedTab,
-            onSelected = { selectedTab = it }
+            onSelected = {
+                selectedTab = it
+                AnalyticsLogger.trackAction(
+                    name = "return_tab_switch",
+                    screen = "return_loan",
+                    payload = mapOf("tab" to if (it == 0) "borrowed_out" else "borrowed_in")
+                )
+            }
         )
         if (returnedDeviceName.isNotEmpty()) {
             AppCard {
@@ -78,6 +86,11 @@ fun ReturnLoanScreen(contentPadding: PaddingValues, onBack: () -> Unit) {
                             onClick = {
                                 urgedDeviceName = ""
                                 returnedDeviceName = loan.device.name
+                                AnalyticsLogger.trackAction(
+                                    name = "return_click",
+                                    screen = "return_loan",
+                                    payload = mapOf("deviceId" to loan.device.id)
+                                )
                                 MockPhoneLoanRepository.returnLoan(loan.device.id)
                             }
                         )
@@ -87,6 +100,11 @@ fun ReturnLoanScreen(contentPadding: PaddingValues, onBack: () -> Unit) {
                             onClick = {
                                 returnedDeviceName = ""
                                 urgedDeviceName = loan.device.name
+                                AnalyticsLogger.trackAction(
+                                    name = "urge_return_click",
+                                    screen = "return_loan",
+                                    payload = mapOf("deviceId" to loan.device.id, "holderId" to loan.counterpart.id)
+                                )
                             }
                         )
                     }

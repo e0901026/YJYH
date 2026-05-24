@@ -45,6 +45,7 @@ import androidx.core.content.ContextCompat
 import com.google.mlkit.vision.barcode.BarcodeScanner
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.common.InputImage
+import com.yjyh.phoneloan.core.analytics.AnalyticsLogger
 import com.yjyh.phoneloan.core.data.MockPhoneLoanRepository
 import com.yjyh.phoneloan.core.design.AppCard
 import com.yjyh.phoneloan.core.design.AppColors
@@ -89,6 +90,11 @@ fun ScanBorrowScreen(
     ) { granted ->
         permissionGranted = granted
         permissionDenied = !granted
+        AnalyticsLogger.trackAction(
+            name = "camera_permission_result",
+            screen = "scan_borrow",
+            payload = mapOf("granted" to granted)
+        )
         if (granted) {
             scanState = ScanState.SCANNING
             scanSession += 1
@@ -112,6 +118,11 @@ fun ScanBorrowScreen(
         scannedImei = imei
         val device = MockPhoneLoanRepository.findDeviceByImei(imei)
         if (device != null) {
+            AnalyticsLogger.trackAction(
+                name = "imei_resolved_existing_device",
+                screen = "scan_borrow",
+                payload = mapOf("imei" to imei, "deviceId" to device.id)
+            )
             scanState = ScanState.FOUND
             foundDeviceName = device.name
             foundDeviceId = device.id
@@ -120,6 +131,11 @@ fun ScanBorrowScreen(
             foundHolderName = device.currentHolder?.name ?: "暂无"
             foundHolderNo = device.currentHolder?.employeeNo ?: ""
         } else {
+            AnalyticsLogger.trackAction(
+                name = "imei_resolved_unregistered_device",
+                screen = "scan_borrow",
+                payload = mapOf("imei" to imei)
+            )
             scanState = ScanState.NOT_FOUND
         }
     }
@@ -135,8 +151,14 @@ fun ScanBorrowScreen(
         val trimmed = manualImeiInput.trim()
         if (!ImeiParser.isValid(trimmed)) {
             errorMessage = "请输入 15 位纯数字 IMEI 编码"
+            AnalyticsLogger.trackError(
+                name = "manual_imei_invalid",
+                screen = "scan_borrow",
+                payload = mapOf("length" to trimmed.length)
+            )
             return
         }
+        AnalyticsLogger.trackAction("manual_imei_submit", screen = "scan_borrow")
         resolveImei(trimmed)
     }
 
@@ -161,6 +183,7 @@ fun ScanBorrowScreen(
                         PermissionDeniedState(
                             onOpenPermission = { permissionLauncher.launch(Manifest.permission.CAMERA) },
                             onManualInput = {
+                                AnalyticsLogger.trackAction("manual_imei_entry_click", screen = "scan_borrow")
                                 resetResultState()
                                 scanState = ScanState.MANUAL_INPUT
                             }
@@ -171,6 +194,7 @@ fun ScanBorrowScreen(
                         PermissionIntroState(
                             onRequestPermission = { permissionLauncher.launch(Manifest.permission.CAMERA) },
                             onManualInput = {
+                                AnalyticsLogger.trackAction("manual_imei_entry_click", screen = "scan_borrow")
                                 resetResultState()
                                 scanState = ScanState.MANUAL_INPUT
                             }
@@ -183,10 +207,12 @@ fun ScanBorrowScreen(
                             onImeiDetected = { resolveImei(it) },
                             onInvalidBarcode = {
                                 errorMessage = "未从条码 / 二维码中解析到 15 位 IMEI"
+                                AnalyticsLogger.trackError("barcode_parse_failed", screen = "scan_borrow")
                                 scanState = ScanState.SCAN_FAILED
                             }
                         )
                         SecondaryButton("手动输入 IMEI", onClick = {
+                            AnalyticsLogger.trackAction("manual_imei_entry_click", screen = "scan_borrow")
                             resetResultState()
                             scanState = ScanState.MANUAL_INPUT
                         })
@@ -199,6 +225,7 @@ fun ScanBorrowScreen(
                     message = errorMessage.ifBlank { "未从条码 / 二维码中解析到 15 位 IMEI" },
                     onRetry = { retryScan() },
                     onManualInput = {
+                        AnalyticsLogger.trackAction("manual_imei_entry_click", screen = "scan_borrow")
                         resetResultState()
                         scanState = ScanState.MANUAL_INPUT
                     }
@@ -215,6 +242,11 @@ fun ScanBorrowScreen(
                     ownerNo = foundOwnerNo,
                     borrowSuccess = borrowSuccess,
                     onConfirmBorrow = {
+                        AnalyticsLogger.trackAction(
+                            name = "confirm_borrow_click",
+                            screen = "scan_borrow",
+                            payload = mapOf("deviceId" to foundDeviceId)
+                        )
                         MockPhoneLoanRepository.updateDeviceHolder(
                             deviceId = foundDeviceId,
                             newHolder = meSummary,

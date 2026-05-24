@@ -13,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import com.yjyh.phoneloan.core.analytics.AnalyticsLogger
 import com.yjyh.phoneloan.core.data.MockPhoneLoanRepository
 import com.yjyh.phoneloan.core.design.AppCard
 import com.yjyh.phoneloan.core.design.AppColors
@@ -38,15 +39,37 @@ fun DevicesScreen(contentPadding: PaddingValues, onAddDevice: () -> Unit, onOpen
         }
     }
 
-    Page(title = "设备列表", contentPadding = contentPadding, topLink = "+", onTopLink = onAddDevice) {
+    Page(
+        title = "设备列表",
+        contentPadding = contentPadding,
+        topLink = "+",
+        onTopLink = {
+            AnalyticsLogger.trackAction("add_device_click", screen = "devices")
+            onAddDevice()
+        }
+    ) {
         SegmentedTabs(
             items = listOf("全部", "在我手上", "已借出", "借入待还"),
             selected = selectedTab,
-            onSelected = { selectedTab = it }
+            onSelected = {
+                selectedTab = it
+                AnalyticsLogger.trackAction(
+                    name = "device_tab_switch",
+                    screen = "devices",
+                    payload = mapOf("tabIndex" to it)
+                )
+            }
         )
         Field(label = "", placeholder = "搜索设备名或 IMEI")
         visibleDevices.forEach { device ->
-            AppCard(modifier = Modifier.clickable { onOpenDevice(device.id) }) {
+            AppCard(modifier = Modifier.clickable {
+                AnalyticsLogger.trackAction(
+                    name = "device_detail_open",
+                    screen = "devices",
+                    payload = mapOf("deviceId" to device.id)
+                )
+                onOpenDevice(device.id)
+            }) {
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                     Text(device.name, fontWeight = FontWeight.Bold)
                     StatusPill(

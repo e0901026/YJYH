@@ -4,20 +4,20 @@
 
 ## 1. 结论
 
-需要 CI/CD，但分阶段建设。
+需要 CI/CD，但当前 GitHub 暂无可用 Actions 权限，本阶段先暂停云端 CI，改为本地验证作为质量门禁。
 
 当前项目不应一开始做复杂发布流水线，先做最小可用质量门禁：
 
 - V0.2：Android 构建、单元测试、静态检查、文档存在性检查。
 - V0.3：增加 Compose UI 测试、核心业务单元测试、测试包产物。
 - V0.4：增加后端构建、后端单元测试、数据库迁移校验。
-- V0.5：已增加后端 CI，执行后端构建、Flyway 迁移和接口集成测试。
-- V0.6：增加 Android + 后端联调环境和端到端冒烟测试。
+- V0.5：后端本地执行构建、Flyway 迁移和接口集成测试。
+- V0.6：Android + 后端联调先在本地和模拟器执行端到端冒烟测试。
 
 ## 2. 基本原则
 
-- CI 是质量门禁，不替代人工原型验收。
-- CI 通过不代表产品通过；产品仍需按 PRD、原型和测试清单确认。
+- 本地验证是当前质量门禁，不替代人工原型验收。
+- 本地验证通过不代表产品通过；产品仍需按 PRD、原型和测试清单确认。
 - 原型变更必须先确认 `.pen` 源文件和导出预览，再进入开发。
 - Android V0.2 / V0.3 可以不依赖真实后端，使用 mock repository。
 - 后端实现前，CI 只检查后端文档和接口边界；后端代码出现后再启用后端构建。
@@ -42,14 +42,14 @@
 
 合并到 `main` 前必须：
 
-- CI 全部通过。
+- 当前阶段本地构建、测试、lint 或替代检查全部通过。
 - 本轮测试清单完成。
 - 阻塞问题为 0。
 - 用户确认该版本可以作为阶段基线。
 
 ## 4. Android CI
 
-V0.2 起启用。
+V0.2 起定义检查项；当前云端 workflow 暂停，本地执行。
 
 检查项：
 
@@ -74,7 +74,7 @@ V0.3 增加：
 
 ## 5. 后端 CI
 
-V0.4 起启用。
+V0.4 起定义检查项；当前云端 workflow 暂停，本地执行。
 
 检查项：
 
@@ -91,11 +91,10 @@ V0.4 起启用。
 - 数据库迁移可从空库执行成功。
 - 登录、设备查询、扫码借、一键还、邀请码接口冒烟通过。
 
-当前 workflow：
+当前本地命令：
 
-- `.github/workflows/backend-ci.yml`
-- JDK：21
-- 命令：`gradle test`
+- JDK：Android Studio 自带 JBR 21
+- 命令：`./gradlew test`
 - 工作目录：`backend`
 
 ## 6. 文档与原型检查
@@ -163,7 +162,13 @@ V0.3 测试包目标：
 
 ## 9. 最小 GitHub Actions 草案
 
-当前已建立 GitHub Actions：
+GitHub Actions 暂停说明：
+
+- 由于当前 GitHub 仓库没有 CI 权限，所有 workflow 已从 `.github/workflows/` 移到 `.github/workflows-disabled/`，不会自动触发。
+- 重新获得权限后，可把 `.disabled` 文件移回 `.github/workflows/` 并恢复 `.yml` 后缀。
+- 恢复前，每次提交必须记录本地验证命令和结果。
+
+曾建立的 GitHub Actions 草案：
 
 ```yaml
 name: Android CI
@@ -195,10 +200,10 @@ jobs:
 
 后端代码出现后再增加后端 job。
 
-当前门禁状态：
+历史门禁状态：
 
-- Android CI workflow 已推送。
-- 最小 smoke workflow 已推送。
+- Android CI workflow 曾推送，现已暂停。
+- 最小 smoke workflow 曾推送，现已暂停。
 - 仓库从 Private 改为 Public 后，workflow 不再是 `startup_failure`，可以创建 job。
 - 但最小 smoke workflow 和 Android CI 都在 step 执行前失败，且没有日志。
 - 这说明失败仍发生在 GitHub runner 启动层，不是 Android 构建脚本或 Kotlin 代码编译阶段。
@@ -209,8 +214,8 @@ jobs:
 现在需要做：
 
 - 把 CI/CD 规则纳入项目管理。
-- Android 工程创建后立即配置云端 CI 构建、测试和 lint。
-- 本地 Android 工具链仍需补齐，用于生成本地测试包和真机联调。
+- 使用本地 Android 工具链生成测试包和模拟器联调。
+- 每次提交前记录 Android、后端、本地冒烟测试命令。
 
 现在不急着做：
 
