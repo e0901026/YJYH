@@ -61,6 +61,18 @@ class BackendIntegrationTest {
             .andReturn();
 
         String loanId = objectMapper.readTree(borrowResult.getResponse().getContentAsString()).get("id").asText();
+        mvc.perform(get("/api/loans/active")
+                .header("Authorization", bearer(user.accessToken())))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$[0].id").value(loanId))
+            .andExpect(jsonPath("$[0].device.currentHolder.employeeNo").value("20002"));
+
+        mvc.perform(get("/api/loans/active")
+                .header("Authorization", bearer(borrower.accessToken())))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$[0].id").value(loanId))
+            .andExpect(jsonPath("$[0].device.owner.employeeNo").value("20001"));
+
         mvc.perform(post("/api/loans/" + loanId + "/return")
                 .header("Authorization", bearer(borrower.accessToken())))
             .andExpect(status().isOk())

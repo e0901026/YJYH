@@ -26,7 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.yjyh.phoneloan.core.analytics.AnalyticsLogger
-import com.yjyh.phoneloan.core.data.MockPhoneLoanRepository
+import com.yjyh.phoneloan.core.data.PhoneLoanData
 import com.yjyh.phoneloan.core.design.AppCard
 import com.yjyh.phoneloan.core.design.AppColors
 import com.yjyh.phoneloan.core.design.AppTypography
@@ -40,7 +40,8 @@ fun ReturnLoanScreen(contentPadding: PaddingValues, onBack: () -> Unit) {
     var selectedTab by remember { mutableIntStateOf(0) }
     var returnedDeviceName by remember { mutableStateOf("") }
     var urgedDeviceName by remember { mutableStateOf("") }
-    val loans = MockPhoneLoanRepository.activeLoans()
+    val repository = PhoneLoanData.repository
+    val loans = repository.activeLoans()
     val borrowedOutCount = loans.count { it.statusText == "我借出去的" }
     val borrowedInCount = loans.count { it.statusText == "我借入的" }
     val visibleLoans = loans.filter {
@@ -91,7 +92,7 @@ fun ReturnLoanScreen(contentPadding: PaddingValues, onBack: () -> Unit) {
                                     screen = "return_loan",
                                     payload = mapOf("deviceId" to loan.device.id)
                                 )
-                                MockPhoneLoanRepository.returnLoan(loan.device.id)
+                                repository.returnLoan(loan.device.id)
                             }
                         )
                     } else {
@@ -105,6 +106,7 @@ fun ReturnLoanScreen(contentPadding: PaddingValues, onBack: () -> Unit) {
                                     screen = "return_loan",
                                     payload = mapOf("deviceId" to loan.device.id, "holderId" to loan.counterpart.id)
                                 )
+                                repository.urgeReturn(loan.device.id)
                             }
                         )
                     }

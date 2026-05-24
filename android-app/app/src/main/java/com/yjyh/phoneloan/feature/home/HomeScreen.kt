@@ -11,7 +11,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.yjyh.phoneloan.core.analytics.AnalyticsLogger
-import com.yjyh.phoneloan.core.data.MockPhoneLoanRepository
+import com.yjyh.phoneloan.core.data.PhoneLoanData
 import com.yjyh.phoneloan.core.design.AppCard
 import com.yjyh.phoneloan.core.design.AppColors
 import com.yjyh.phoneloan.core.design.MutedText
@@ -26,10 +26,11 @@ fun HomeScreen(
     onReturnLoan: () -> Unit,
     onDevices: () -> Unit
 ) {
-    val user = MockPhoneLoanRepository.currentUser()
-    val heldCount = MockPhoneLoanRepository.heldCount()
-    val borrowedInCount = MockPhoneLoanRepository.borrowedInCount()
-    val borrowedOutCount = MockPhoneLoanRepository.borrowedOutCount()
+    val repository = PhoneLoanData.repository
+    val user = repository.currentUser()
+    val heldCount = repository.heldCount()
+    val borrowedInCount = repository.borrowedInCount()
+    val borrowedOutCount = repository.borrowedOutCount()
     val pendingCount = borrowedInCount + borrowedOutCount
     Page(title = "首页", contentPadding = contentPadding, topLink = "邀请码 ${user.inviteUsed}/10") {
         AppCard {
@@ -65,7 +66,7 @@ fun HomeScreen(
         }
         AppCard {
             Text("最近动态", fontWeight = FontWeight.Bold)
-            MutedText(MockPhoneLoanRepository.latestActivity)
+            MutedText(repository.latestActivity())
         }
     }
 }

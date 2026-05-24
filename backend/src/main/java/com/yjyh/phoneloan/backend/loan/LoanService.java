@@ -53,7 +53,7 @@ public class LoanService {
     }
 
     public List<LoanResponse> active(User user) {
-        return loanRecordRepository.findByBorrowerUserIdAndStatus(user.getId(), LoanStatus.ACTIVE)
+        return loanRecordRepository.findRelevantActiveLoans(user.getId(), LoanStatus.ACTIVE)
             .stream()
             .map(this::toResponse)
             .toList();

@@ -14,6 +14,7 @@ interface PhoneLoanRepository {
     fun activeLoans(): List<LoanRecord>
     fun ownerUsers(): List<OwnerUserRow>
     fun inviteCodes(): List<InviteCode>
+    fun latestActivity(): String
 
     /** 根据 IMEI1 查找设备，找不到返回 null */
     fun findDeviceByImei(imei: String): Device?
@@ -26,4 +27,20 @@ interface PhoneLoanRepository {
 
     /** 结束一条 mock 借还记录 */
     fun returnLoan(deviceId: String)
+
+    fun urgeReturn(deviceId: String)
+
+    fun heldCount(): Int {
+        return devices().count { it.currentHolder?.id == currentUser().id }
+    }
+
+    fun borrowedOutCount(): Int {
+        val me = currentUser()
+        return devices().count { it.owner.id == me.id && it.currentHolder?.id != me.id }
+    }
+
+    fun borrowedInCount(): Int {
+        val me = currentUser()
+        return devices().count { it.owner.id != me.id && it.currentHolder?.id == me.id }
+    }
 }

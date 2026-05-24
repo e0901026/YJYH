@@ -14,7 +14,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import com.yjyh.phoneloan.core.analytics.AnalyticsLogger
-import com.yjyh.phoneloan.core.data.MockPhoneLoanRepository
+import com.yjyh.phoneloan.core.data.PhoneLoanData
 import com.yjyh.phoneloan.core.design.AppCard
 import com.yjyh.phoneloan.core.design.AppColors
 import com.yjyh.phoneloan.core.design.Field
@@ -29,7 +29,7 @@ import com.yjyh.phoneloan.core.model.DeviceStatus
 @Composable
 fun DevicesScreen(contentPadding: PaddingValues, onAddDevice: () -> Unit, onOpenDevice: (String) -> Unit) {
     var selectedTab by remember { mutableIntStateOf(0) }
-    val devices = MockPhoneLoanRepository.devices()
+    val devices = PhoneLoanData.repository.devices()
     val visibleDevices = devices.filter { device ->
         when (selectedTab) {
             1 -> device.status == DeviceStatus.HELD_BY_ME
@@ -101,7 +101,7 @@ fun DevicesScreen(contentPadding: PaddingValues, onAddDevice: () -> Unit, onOpen
 
 @Composable
 fun DeviceDetailScreen(contentPadding: PaddingValues, deviceId: String, onBack: () -> Unit) {
-    val device = MockPhoneLoanRepository.devices().find { it.id == deviceId }
+    val device = PhoneLoanData.repository.devices().find { it.id == deviceId }
     Page(title = "设备详情", contentPadding = contentPadding, topLink = "‹ 设备", onTopLink = onBack) {
         if (device == null) {
             AppCard {

@@ -9,7 +9,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.font.FontWeight
 import com.yjyh.phoneloan.core.analytics.AnalyticsLogger
-import com.yjyh.phoneloan.core.data.MockPhoneLoanRepository
+import com.yjyh.phoneloan.core.data.PhoneLoanData
 import com.yjyh.phoneloan.core.design.AppCard
 import com.yjyh.phoneloan.core.design.AppColors
 import com.yjyh.phoneloan.core.design.InteractiveField
@@ -47,7 +47,7 @@ fun RegisterDeviceScreen(contentPadding: PaddingValues, imei: String, onBack: ()
                     screen = "register_device",
                     payload = mapOf("hasCustomName" to deviceName.isNotBlank(), "imei" to displayImei)
                 )
-                MockPhoneLoanRepository.addDevice(name = name, imei = displayImei)
+                PhoneLoanData.repository.addDevice(name = name, imei = displayImei)
                 saved = true
             })
         }

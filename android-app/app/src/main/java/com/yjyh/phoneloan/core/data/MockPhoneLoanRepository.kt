@@ -65,6 +65,8 @@ object MockPhoneLoanRepository : PhoneLoanRepository {
         InviteCode("i3", "YJYH-OP6M", InviteStatus.EXPIRED, "过期：2026-06-10")
     )
 
+    override fun latestActivity() = latestActivity
+
     override fun findDeviceByImei(imei: String): Device? {
         return _devices.find { it.imei1 == imei || it.imei2 == imei }
     }
@@ -141,15 +143,25 @@ object MockPhoneLoanRepository : PhoneLoanRepository {
         )
     }
 
-    fun heldCount(): Int {
+    override fun urgeReturn(deviceId: String) {
+        val device = _devices.find { it.id == deviceId } ?: return
+        latestActivity = "${device.name} 已发送催还消息给 ${device.currentHolder?.name ?: "当前持有人"}。"
+        AnalyticsLogger.trackAction(
+            name = "device_urge_returned",
+            screen = "return_loan",
+            payload = mapOf("deviceId" to device.id, "holderId" to device.currentHolder?.id)
+        )
+    }
+
+    override fun heldCount(): Int {
         return _devices.count { it.currentHolder?.id == me.id }
     }
 
-    fun borrowedOutCount(): Int {
+    override fun borrowedOutCount(): Int {
         return _devices.count { it.owner.id == me.id && it.currentHolder?.id != me.id }
     }
 
-    fun borrowedInCount(): Int {
+    override fun borrowedInCount(): Int {
         return _devices.count { it.owner.id != me.id && it.currentHolder?.id == me.id }
     }
 }

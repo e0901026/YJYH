@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.FontWeight
-import com.yjyh.phoneloan.core.data.MockPhoneLoanRepository
+import com.yjyh.phoneloan.core.data.PhoneLoanData
 import com.yjyh.phoneloan.core.design.AppCard
 import com.yjyh.phoneloan.core.design.AppColors
 import com.yjyh.phoneloan.core.design.MutedText
@@ -14,7 +14,7 @@ import com.yjyh.phoneloan.core.design.SecondaryButton
 
 @Composable
 fun ProfileScreen(contentPadding: PaddingValues, onOwnerUsers: () -> Unit) {
-    val user = MockPhoneLoanRepository.currentUser()
+    val user = PhoneLoanData.repository.currentUser()
     Page(title = "我的", contentPadding = contentPadding, topLink = "Owner") {
         AppCard {
             Text(user.name, fontWeight = FontWeight.Bold)

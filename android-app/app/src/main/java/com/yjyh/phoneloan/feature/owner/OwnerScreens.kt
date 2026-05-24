@@ -8,7 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import com.yjyh.phoneloan.core.data.MockPhoneLoanRepository
+import com.yjyh.phoneloan.core.data.PhoneLoanData
 import com.yjyh.phoneloan.core.design.AppCard
 import com.yjyh.phoneloan.core.design.AppColors
 import com.yjyh.phoneloan.core.design.Field
@@ -30,7 +30,7 @@ fun OwnerUsersScreen(contentPadding: PaddingValues, onBack: () -> Unit, onInvite
                 Text("注册时间", color = AppColors.Primary, fontWeight = FontWeight.Bold)
                 Text("邀请人", color = AppColors.Primary, fontWeight = FontWeight.Bold)
             }
-            MockPhoneLoanRepository.ownerUsers().forEach { row ->
+            PhoneLoanData.repository.ownerUsers().forEach { row ->
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                     MutedText("${row.employeeNo}\n${row.name}")
                     MutedText(row.registeredAt)
@@ -51,7 +51,7 @@ fun OwnerInvitesScreen(contentPadding: PaddingValues, onBack: () -> Unit, onUser
             MutedText("生成后可复制给同事注册；注册时会记录邀请关系。")
             PrimaryButton("＋ 生成邀请码", onUsers)
         }
-        MockPhoneLoanRepository.inviteCodes().forEach { code ->
+        PhoneLoanData.repository.inviteCodes().forEach { code ->
             AppCard {
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                     Text(code.code, fontWeight = FontWeight.Bold)

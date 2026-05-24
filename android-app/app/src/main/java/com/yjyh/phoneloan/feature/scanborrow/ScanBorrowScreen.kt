@@ -46,7 +46,7 @@ import com.google.mlkit.vision.barcode.BarcodeScanner
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.common.InputImage
 import com.yjyh.phoneloan.core.analytics.AnalyticsLogger
-import com.yjyh.phoneloan.core.data.MockPhoneLoanRepository
+import com.yjyh.phoneloan.core.data.PhoneLoanData
 import com.yjyh.phoneloan.core.design.AppCard
 import com.yjyh.phoneloan.core.design.AppColors
 import com.yjyh.phoneloan.core.design.InteractiveField
@@ -67,7 +67,8 @@ fun ScanBorrowScreen(
     onRegisterDevice: (imei: String) -> Unit
 ) {
     val context = LocalContext.current
-    val user = MockPhoneLoanRepository.currentUser()
+    val repository = PhoneLoanData.repository
+    val user = repository.currentUser()
     val meSummary = remember { UserSummary(user.id, user.employeeNo, user.name) }
 
     var permissionGranted by remember { mutableStateOf(hasCameraPermission(context)) }
@@ -116,7 +117,7 @@ fun ScanBorrowScreen(
     fun resolveImei(imei: String) {
         resetResultState()
         scannedImei = imei
-        val device = MockPhoneLoanRepository.findDeviceByImei(imei)
+        val device = repository.findDeviceByImei(imei)
         if (device != null) {
             AnalyticsLogger.trackAction(
                 name = "imei_resolved_existing_device",
@@ -247,7 +248,7 @@ fun ScanBorrowScreen(
                             screen = "scan_borrow",
                             payload = mapOf("deviceId" to foundDeviceId)
                         )
-                        MockPhoneLoanRepository.updateDeviceHolder(
+                        repository.updateDeviceHolder(
                             deviceId = foundDeviceId,
                             newHolder = meSummary,
                             newStatus = DeviceStatus.HELD_BY_ME

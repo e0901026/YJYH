@@ -134,13 +134,26 @@ object AnalyticsLogger {
 
         val remaining = mutableListOf<String>()
         lines.forEach { line ->
-            val posted = runCatching { postEvent(line) }.getOrElse {
+            val posted = runCatching { postEvent(normalizeEvent(line)) }.getOrElse {
                 Log.w(TAG, "event upload failed", it)
                 false
             }
             if (!posted) remaining += line
         }
         file.writeText(remaining.takeLast(MAX_QUEUE_LINES).joinToString(separator = "\n", postfix = if (remaining.isEmpty()) "" else "\n"))
+    }
+
+    private fun normalizeEvent(line: String): String {
+        val event = JSONObject(line)
+        if (!event.has("context") && event.has("payload")) {
+            event.put("context", event.getJSONObject("payload"))
+            event.remove("payload")
+        }
+        if (!event.has("result")) {
+            event.put("result", if (event.optString("eventType") == "error") "FAILURE" else "SUCCESS")
+        }
+        event.put("severity", event.optString("severity", "INFO").uppercase())
+        return event.toString()
     }
 
     private fun postEvent(json: String): Boolean {

@@ -165,3 +165,11 @@
 - 影响范围：`backend/build.gradle.kts`、`backend/src/main/resources/application-local.yml`、`android-app/app/src/main/AndroidManifest.xml`、`android-app/app/src/main/res/xml/network_security_config.xml`、`android-app/app/src/main/java/com/yjyh/phoneloan/core/analytics/AnalyticsLogger.kt`。
 - 验证：本地后端 `SPRING_PROFILES_ACTIVE=local ./gradlew bootRun` 启动成功；`/api/events` curl 冒烟返回事件 id；Android `assembleDebug`、`testDebugUnitTest`、`lintDebug` 通过；模拟器安装启动成功；Logcat 无崩溃和明文 HTTP 阻断；App 本地事件队列清空。
 - 是否进入开发：是。本地验收继续。
+
+### V0.6 Android 真实 API 第一批联调
+
+- 类型：代码 / 后端 / 数据分析 / 测试。
+- 内容：Android 新增统一数据入口和远端仓库，优先连接本地后端，后端不可用时回落演示数据；首页、设备、扫码借、注册设备、一键还、催还机、Owner 管理页改为通过统一 repository 读取；后端活跃借还接口补齐“我借出去的”记录；本地后端种子数据补齐 3 台设备和 2 条活跃借还；埋点队列兼容旧版 `payload` 字段并迁移为 `context` 上报。
+- 影响范围：`android-app/app/src/main/java/com/yjyh/phoneloan/core/data/**`、各功能页面的数据入口、`backend/src/main/java/com/yjyh/phoneloan/backend/common/DataInitializer.java`、`backend/src/main/java/com/yjyh/phoneloan/backend/loan/**`、`backend/src/test/java/com/yjyh/phoneloan/backend/BackendIntegrationTest.java`。
+- 验证：后端 `./gradlew test` 通过；Android `:app:assembleDebug` 通过；本地后端 `/api/devices` 返回 3 台设备，`/api/loans/active` 返回 2 条活跃借还；模拟器安装启动成功，Logcat 未见崩溃、明文 HTTP 阻断或主线程网络错误。
+- 是否进入开发：是。下一步补齐登录/注册输入和 API 错误在页面上的用户可见反馈。
