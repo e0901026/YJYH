@@ -43,6 +43,12 @@ export ANDROID_HOME="$HOME/Library/Android/sdk"
 android-app/app/build/outputs/apk/debug/app-debug.apk
 ```
 
+当前 V0.6 人工验收包：
+
+```txt
+docs/releases/v0.6/android-acceptance-package.md
+```
+
 用户测试步骤：
 
 1. 安装或运行当前 Android 测试版本。

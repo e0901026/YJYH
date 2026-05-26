@@ -181,3 +181,11 @@
 - 影响范围：`android-app/app/build.gradle.kts`、`android-app/app/src/main/java/com/yjyh/phoneloan/feature/auth/AuthScreens.kt`、`android-app/app/src/main/java/com/yjyh/phoneloan/core/data/**`、`android-app/app/src/main/java/com/yjyh/phoneloan/core/design/Components.kt`。
 - 验证：Android `:app:assembleDebug :app:testDebugUnitTest :app:lintDebug` 通过；后端 `./gradlew test` 通过；本地后端启动后，模拟器点击登录成功进入首页并显示“已连接本地后端，数据来自真实 API”；Logcat 无崩溃、网络阻断或登录失败；埋点队列为 0。
 - 是否进入开发：是。下一步继续补完整人工验收包和真实流程边界错误。
+
+### V0.6 Android 人工验收包
+
+- 类型：交付 / 测试 / 文档。
+- 内容：新增 V0.6 Android 人工验收包，明确 APK 路径、本地后端启动方式、测试账号、验收路径、日志和埋点检查方式；新增本地启动后端和构建安装 APK 脚本。
+- 影响范围：`docs/releases/v0.6/android-acceptance-package.md`、`scripts/run-local-backend.sh`、`scripts/build-install-debug-apk.sh`、`backend/README.md`、`android-app/README.md`、`docs/android-test-plan.md`。
+- 验证：`./scripts/run-local-backend.sh` 启动成功；`./scripts/build-install-debug-apk.sh` 构建、安装、启动成功；Android `:app:assembleDebug :app:testDebugUnitTest :app:lintDebug` 通过；后端 `./gradlew test` 通过；模拟器登录进入真实 API 首页；Logcat 无崩溃、网络阻断和主线程网络错误；埋点队列为 `0`。
+- 是否进入开发：是。下一步继续补真实流程边界错误提示。
