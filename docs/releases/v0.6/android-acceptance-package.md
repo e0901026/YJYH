@@ -96,7 +96,7 @@ export JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"
 
 - 当前是 Debug APK，未做正式签名和生产发布配置。
 - 当前后端 `local` profile 使用 H2 文件数据库，适合本地验收；正式环境仍应使用 PostgreSQL。
-- 扫码借已具备 CameraX / ML Kit 能力，但真实业务边界错误提示还需要继续补齐。
+- 扫码借已具备 CameraX / ML Kit 能力；注册手机、确认借走、一键还、催还机已有真实 API 失败提示。
 
 ## 8. 本次 Agent 验证
 
@@ -112,3 +112,4 @@ export JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"
 - 首页显示“已连接本地后端，数据来自真实 API”。
 - Logcat 未发现 `FATAL EXCEPTION`、明文 HTTP 阻断或主线程网络错误。
 - 本地埋点队列为 `0`。
+- 一键还页面点击“催还机”后成功反馈可见。

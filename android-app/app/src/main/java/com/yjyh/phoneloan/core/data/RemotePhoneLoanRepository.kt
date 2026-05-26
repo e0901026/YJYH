@@ -97,6 +97,23 @@ class RemotePhoneLoanRepository(
         return optimistic
     }
 
+    override fun addDeviceResult(name: String, imei: String): Result<Device> {
+        return runCatching {
+            ensureLogin()
+            val device = api.createDevice(requireToken(), name, imei).toDevice(me)
+            activity = "${device.name} 已通过后端建档。"
+            refreshFromBackend(reason = "device_created")
+            AnalyticsLogger.trackAction(
+                name = "device_register_success",
+                screen = "register_device",
+                payload = mapOf("deviceId" to device.id, "imei" to imei)
+            )
+            device
+        }.onFailure {
+            handleFailure("remote_device_create_failed", "register_device", it)
+        }
+    }
+
     override fun updateDeviceHolder(deviceId: String, newHolder: UserSummary, newStatus: DeviceStatus) {
         val device = devices().find { it.id == deviceId }
         fallback.updateDeviceHolder(deviceId, newHolder, newStatus)
@@ -114,6 +131,24 @@ class RemotePhoneLoanRepository(
             }.onFailure {
                 handleFailure("remote_borrow_failed", "scan_borrow", it)
             }
+        }
+    }
+
+    override fun borrowDeviceResult(deviceId: String, newHolder: UserSummary, newStatus: DeviceStatus): Result<Unit> {
+        val device = devices().find { it.id == deviceId }
+            ?: return Result.failure(IllegalArgumentException("设备不存在或数据未同步"))
+        return runCatching {
+            ensureLogin()
+            val loan = api.borrowByImei(requireToken(), device.imei1).toLoan(me)
+            activity = "${loan.device.name} 已通过后端记录借走。"
+            refreshFromBackend(reason = "device_borrowed")
+            AnalyticsLogger.trackAction(
+                name = "borrow_success",
+                screen = "scan_borrow",
+                payload = mapOf("deviceId" to deviceId, "imei" to device.imei1)
+            )
+        }.onFailure {
+            handleFailure("remote_borrow_failed", "scan_borrow", it)
         }
     }
 
@@ -137,6 +172,24 @@ class RemotePhoneLoanRepository(
         }
     }
 
+    override fun returnLoanResult(deviceId: String): Result<Unit> {
+        val loan = activeLoans().find { it.device.id == deviceId && it.statusText == "我借入的" }
+            ?: return Result.failure(IllegalArgumentException("没有找到可归还的借入记录"))
+        return runCatching {
+            ensureLogin()
+            api.post(requireToken(), "/api/loans/${loan.id}/return", null)
+            activity = "${loan.device.name} 已通过后端归还。"
+            refreshFromBackend(reason = "device_returned")
+            AnalyticsLogger.trackAction(
+                name = "return_success",
+                screen = "return_loan",
+                payload = mapOf("deviceId" to deviceId, "loanId" to loan.id)
+            )
+        }.onFailure {
+            handleFailure("remote_return_failed", "return_loan", it)
+        }
+    }
+
     override fun urgeReturn(deviceId: String) {
         val loan = activeLoans().find { it.device.id == deviceId && it.statusText == "我借出去的" }
         fallback.urgeReturn(deviceId)
@@ -154,6 +207,24 @@ class RemotePhoneLoanRepository(
             }.onFailure {
                 handleFailure("remote_urge_failed", "return_loan", it)
             }
+        }
+    }
+
+    override fun urgeReturnResult(deviceId: String): Result<Unit> {
+        val loan = activeLoans().find { it.device.id == deviceId && it.statusText == "我借出去的" }
+            ?: return Result.failure(IllegalArgumentException("没有找到可催还的借出记录"))
+        return runCatching {
+            ensureLogin()
+            api.post(requireToken(), "/api/loans/${loan.id}/urge-return", null)
+            activity = "${loan.device.name} 已通过后端发送催还消息。"
+            refreshFromBackend(reason = "device_urged")
+            AnalyticsLogger.trackAction(
+                name = "urge_return_success",
+                screen = "return_loan",
+                payload = mapOf("deviceId" to deviceId, "loanId" to loan.id)
+            )
+        }.onFailure {
+            handleFailure("remote_urge_failed", "return_loan", it)
         }
     }
 

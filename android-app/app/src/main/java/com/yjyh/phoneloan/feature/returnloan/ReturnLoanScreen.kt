@@ -17,6 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,12 +35,18 @@ import com.yjyh.phoneloan.core.design.MutedText
 import com.yjyh.phoneloan.core.design.Page
 import com.yjyh.phoneloan.core.design.SegmentedTabs
 import com.yjyh.phoneloan.core.model.LoanRecord
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Composable
 fun ReturnLoanScreen(contentPadding: PaddingValues, onBack: () -> Unit) {
+    val scope = rememberCoroutineScope()
     var selectedTab by remember { mutableIntStateOf(0) }
     var returnedDeviceName by remember { mutableStateOf("") }
     var urgedDeviceName by remember { mutableStateOf("") }
+    var errorMessage by remember { mutableStateOf("") }
+    var operatingDeviceId by remember { mutableStateOf("") }
     val repository = PhoneLoanData.repository
     val loans = repository.activeLoans()
     val borrowedOutCount = loans.count { it.statusText == "我借出去的" }
@@ -73,6 +80,12 @@ fun ReturnLoanScreen(contentPadding: PaddingValues, onBack: () -> Unit) {
                 MutedText("已向当前持有人发送催还消息，设备状态不变。")
             }
         }
+        if (errorMessage.isNotEmpty()) {
+            AppCard {
+                Text(errorMessage, color = AppColors.Error, fontWeight = FontWeight.Bold)
+                MutedText("设备状态可能已变化，请返回首页或稍后重试。")
+            }
+        }
         visibleLoans.forEach { loan ->
             AppCard {
                 Row(
@@ -85,28 +98,56 @@ fun ReturnLoanScreen(contentPadding: PaddingValues, onBack: () -> Unit) {
                         ReturnActionButton(
                             text = "一键还",
                             onClick = {
+                                if (operatingDeviceId.isNotEmpty()) return@ReturnActionButton
                                 urgedDeviceName = ""
-                                returnedDeviceName = loan.device.name
+                                returnedDeviceName = ""
+                                errorMessage = ""
                                 AnalyticsLogger.trackAction(
                                     name = "return_click",
                                     screen = "return_loan",
                                     payload = mapOf("deviceId" to loan.device.id)
                                 )
-                                repository.returnLoan(loan.device.id)
+                                operatingDeviceId = loan.device.id
+                                scope.launch {
+                                    val result = withContext(Dispatchers.IO) {
+                                        repository.returnLoanResult(loan.device.id)
+                                    }
+                                    operatingDeviceId = ""
+                                    result
+                                        .onSuccess { returnedDeviceName = loan.device.name }
+                                        .onFailure {
+                                            errorMessage = it.message ?: "归还失败，请稍后再试"
+                                            AnalyticsLogger.trackError("return_visible_error", screen = "return_loan", throwable = it)
+                                        }
+                                }
                             }
                         )
                     } else {
                         ReturnActionButton(
                             text = "催还机",
                             onClick = {
+                                if (operatingDeviceId.isNotEmpty()) return@ReturnActionButton
                                 returnedDeviceName = ""
-                                urgedDeviceName = loan.device.name
+                                urgedDeviceName = ""
+                                errorMessage = ""
                                 AnalyticsLogger.trackAction(
                                     name = "urge_return_click",
                                     screen = "return_loan",
                                     payload = mapOf("deviceId" to loan.device.id, "holderId" to loan.counterpart.id)
                                 )
-                                repository.urgeReturn(loan.device.id)
+                                operatingDeviceId = loan.device.id
+                                scope.launch {
+                                    val result = withContext(Dispatchers.IO) {
+                                        repository.urgeReturnResult(loan.device.id)
+                                    }
+                                    operatingDeviceId = ""
+                                    result
+                                        .onSuccess { urgedDeviceName = loan.device.name }
+                                        .onFailure {
+                                            errorMessage = it.message ?: "催还失败，请稍后再试"
+                                            AnalyticsLogger.trackError("urge_return_visible_error", screen = "return_loan", throwable = it)
+                                        }
+                                }
                             }
                         )
                     }

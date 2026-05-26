@@ -23,14 +23,20 @@ interface PhoneLoanRepository {
 
     /** 注册新设备 */
     fun addDevice(name: String, imei: String): Device
+    fun addDeviceResult(name: String, imei: String): Result<Device> = runCatching { addDevice(name, imei) }
 
     /** 更新设备持有人 */
     fun updateDeviceHolder(deviceId: String, newHolder: UserSummary, newStatus: DeviceStatus)
+    fun borrowDeviceResult(deviceId: String, newHolder: UserSummary, newStatus: DeviceStatus): Result<Unit> = runCatching {
+        updateDeviceHolder(deviceId, newHolder, newStatus)
+    }
 
     /** 结束一条 mock 借还记录 */
     fun returnLoan(deviceId: String)
+    fun returnLoanResult(deviceId: String): Result<Unit> = runCatching { returnLoan(deviceId) }
 
     fun urgeReturn(deviceId: String)
+    fun urgeReturnResult(deviceId: String): Result<Unit> = runCatching { urgeReturn(deviceId) }
 
     fun heldCount(): Int {
         return devices().count { it.currentHolder?.id == currentUser().id }

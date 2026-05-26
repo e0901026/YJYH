@@ -189,3 +189,11 @@
 - 影响范围：`docs/releases/v0.6/android-acceptance-package.md`、`scripts/run-local-backend.sh`、`scripts/build-install-debug-apk.sh`、`backend/README.md`、`android-app/README.md`、`docs/android-test-plan.md`。
 - 验证：`./scripts/run-local-backend.sh` 启动成功；`./scripts/build-install-debug-apk.sh` 构建、安装、启动成功；Android `:app:assembleDebug :app:testDebugUnitTest :app:lintDebug` 通过；后端 `./gradlew test` 通过；模拟器登录进入真实 API 首页；Logcat 无崩溃、网络阻断和主线程网络错误；埋点队列为 `0`。
 - 是否进入开发：是。下一步继续补真实流程边界错误提示。
+
+### V0.6 真实流程边界错误提示
+
+- 类型：代码 / 用户体验 / 数据分析 / 测试。
+- 内容：新增真实操作结果接口，注册手机、确认借走、一键还、催还机不再只乐观展示成功；后端失败会在页面显示错误提示，同时记录可回溯埋点。注册手机显示建档失败提示；扫码借确认借走显示借走失败提示；一键还和催还机显示对应失败提示并避免重复点击。
+- 影响范围：`android-app/app/src/main/java/com/yjyh/phoneloan/core/data/**`、`android-app/app/src/main/java/com/yjyh/phoneloan/feature/registerdevice/RegisterDeviceScreen.kt`、`android-app/app/src/main/java/com/yjyh/phoneloan/feature/scanborrow/ScanBorrowScreen.kt`、`android-app/app/src/main/java/com/yjyh/phoneloan/feature/returnloan/ReturnLoanScreen.kt`。
+- 验证：Android `:app:assembleDebug :app:testDebugUnitTest :app:lintDebug` 通过；后端 `./gradlew test` 通过；本地后端启动后模拟器登录、进入一键还、点击催还机成功反馈可见；Logcat 无崩溃、网络阻断、主线程网络错误或可见错误埋点；埋点队列为 `0`。
+- 是否进入开发：是。下一步继续补扫码借/注册手机的人工边界路径和最终 APK 验收包。

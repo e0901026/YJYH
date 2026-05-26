@@ -32,6 +32,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -59,6 +60,9 @@ import com.yjyh.phoneloan.core.model.UserSummary
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicBoolean
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Composable
 fun ScanBorrowScreen(
@@ -66,6 +70,7 @@ fun ScanBorrowScreen(
     onBack: () -> Unit,
     onRegisterDevice: (imei: String) -> Unit
 ) {
+    val scope = rememberCoroutineScope()
     val context = LocalContext.current
     val repository = PhoneLoanData.repository
     val user = repository.currentUser()
@@ -85,6 +90,7 @@ fun ScanBorrowScreen(
     var foundHolderNo by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf("") }
     var borrowSuccess by remember { mutableStateOf(false) }
+    var borrowLoading by remember { mutableStateOf(false) }
 
     val permissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -112,6 +118,7 @@ fun ScanBorrowScreen(
         foundHolderNo = ""
         errorMessage = ""
         borrowSuccess = false
+        borrowLoading = false
     }
 
     fun resolveImei(imei: String) {
@@ -242,18 +249,35 @@ fun ScanBorrowScreen(
                     ownerName = foundOwnerName,
                     ownerNo = foundOwnerNo,
                     borrowSuccess = borrowSuccess,
+                    borrowLoading = borrowLoading,
+                    errorMessage = errorMessage,
                     onConfirmBorrow = {
+                        if (borrowLoading) {
+                            return@FoundDeviceState
+                        }
                         AnalyticsLogger.trackAction(
                             name = "confirm_borrow_click",
                             screen = "scan_borrow",
                             payload = mapOf("deviceId" to foundDeviceId)
                         )
-                        repository.updateDeviceHolder(
-                            deviceId = foundDeviceId,
-                            newHolder = meSummary,
-                            newStatus = DeviceStatus.HELD_BY_ME
-                        )
-                        borrowSuccess = true
+                        borrowLoading = true
+                        errorMessage = ""
+                        scope.launch {
+                            val result = withContext(Dispatchers.IO) {
+                                repository.borrowDeviceResult(
+                                    deviceId = foundDeviceId,
+                                    newHolder = meSummary,
+                                    newStatus = DeviceStatus.HELD_BY_ME
+                                )
+                            }
+                            borrowLoading = false
+                            result
+                                .onSuccess { borrowSuccess = true }
+                                .onFailure {
+                                    errorMessage = it.message ?: "借走失败，请稍后再试"
+                                    AnalyticsLogger.trackError("borrow_visible_error", screen = "scan_borrow", throwable = it)
+                                }
+                        }
                     },
                     onRetry = { retryScan() }
                 )
@@ -404,6 +428,8 @@ private fun FoundDeviceState(
     ownerName: String,
     ownerNo: String,
     borrowSuccess: Boolean,
+    borrowLoading: Boolean,
+    errorMessage: String,
     onConfirmBorrow: () -> Unit,
     onRetry: () -> Unit
 ) {
@@ -420,7 +446,13 @@ private fun FoundDeviceState(
         MutedText("状态：可被借走，确认后系统自动更新持有人")
     }
     if (!borrowSuccess) {
-        PrimaryButton("确认借走", onClick = onConfirmBorrow)
+        if (errorMessage.isNotEmpty()) {
+            AppCard {
+                Text(errorMessage, color = AppColors.Error, fontWeight = FontWeight.Bold)
+                MutedText("设备状态可能已变化，请重新扫描或稍后重试。")
+            }
+        }
+        PrimaryButton(if (borrowLoading) "正在确认" else "确认借走", onClick = onConfirmBorrow)
     } else {
         AppCard {
             Text(
