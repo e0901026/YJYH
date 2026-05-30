@@ -197,3 +197,11 @@
 - 影响范围：`android-app/app/src/main/java/com/yjyh/phoneloan/core/data/**`、`android-app/app/src/main/java/com/yjyh/phoneloan/feature/registerdevice/RegisterDeviceScreen.kt`、`android-app/app/src/main/java/com/yjyh/phoneloan/feature/scanborrow/ScanBorrowScreen.kt`、`android-app/app/src/main/java/com/yjyh/phoneloan/feature/returnloan/ReturnLoanScreen.kt`。
 - 验证：Android `:app:assembleDebug :app:testDebugUnitTest :app:lintDebug` 通过；后端 `./gradlew test` 通过；本地后端启动后模拟器登录、进入一键还、点击催还机成功反馈可见；Logcat 无崩溃、网络阻断、主线程网络错误或可见错误埋点；埋点队列为 `0`。
 - 是否进入开发：是。下一步继续补扫码借/注册手机的人工边界路径和最终 APK 验收包。
+
+### V0.6 边界测试清单
+
+- 类型：测试 / 文档。
+- 内容：新增真实流程边界测试清单，覆盖已建档借机、已在自己手上再次借走、未建档注册、非法 IMEI、重复建档、一键还、催还机、后端不可用和埋点日志检查。
+- 影响范围：`docs/v0.6-boundary-test-checklist.md`、`docs/project-management.md`。
+- 验证：Android `:app:assembleDebug :app:testDebugUnitTest :app:lintDebug` 通过；后端 `./gradlew test` 通过；模拟器专项验证非法 IMEI、已建档且在自己手上再次借走、未建档进入注册页通过；后端重复建档接口返回 `409 DEVICE_EXISTS`；Logcat 未见崩溃、明文 HTTP 阻断或主线程网络错误；本地埋点队列为 `0`。
+- 是否进入开发：否。本轮为 V0.6 边界专项验收收口，下一步进入最终 APK 人工验收包整理。
