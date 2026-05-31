@@ -205,3 +205,11 @@
 - 影响范围：`docs/v0.6-boundary-test-checklist.md`、`docs/project-management.md`。
 - 验证：Android `:app:assembleDebug :app:testDebugUnitTest :app:lintDebug` 通过；后端 `./gradlew test` 通过；模拟器专项验证非法 IMEI、已建档且在自己手上再次借走、未建档进入注册页通过；后端重复建档接口返回 `409 DEVICE_EXISTS`；Logcat 未见崩溃、明文 HTTP 阻断或主线程网络错误；本地埋点队列为 `0`。
 - 是否进入开发：否。本轮为 V0.6 边界专项验收收口，下一步进入最终 APK 人工验收包整理。
+
+### V0.6 最终 APK 人工验收包
+
+- 类型：交付 / 测试 / 版本管理。
+- 内容：Android APK 版本号更新为 `0.6.0`，生成本地验收 APK `releases/v0.6/YJYH-phone-loan-v0.6.0-debug.apk`，并补充 APK 校验信息和 2026-05-31 验证记录。
+- 影响范围：`android-app/app/build.gradle.kts`、`docs/releases/v0.6/android-acceptance-package.md`、`docs/project-management.md`。
+- 验证：Android `:app:assembleDebug :app:testDebugUnitTest :app:lintDebug` 通过；后端 `./gradlew test` 通过；`./scripts/build-install-debug-apk.sh` 安装并启动成功；模拟器包信息为 `versionCode=6`、`versionName=0.6.0`；登录进入真实 API 首页；Logcat 未见崩溃、明文 HTTP 阻断或主线程网络错误；本地埋点队列为 `0`。
+- 是否进入开发：否。下一步交给用户进行 V0.6 APK 人工使用验收。

@@ -3,6 +3,9 @@
 ## 1. 产物
 
 - APK：`android-app/app/build/outputs/apk/debug/app-debug.apk`
+- 本轮验收 APK：`releases/v0.6/YJYH-phone-loan-v0.6.0-debug.apk`
+- APK 版本：`versionCode=6`，`versionName=0.6.0`
+- SHA-256：`74c4bb8c5afcba79ae81a05c00d7ae1a22a489676bdc97206caae75f6497d677`
 - 后端：本地 Spring Boot `local` profile，地址 `http://localhost:8080`
 - 模拟器访问后端地址：`http://10.0.2.2:8080`
 
@@ -113,3 +116,40 @@ export JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"
 - Logcat 未发现 `FATAL EXCEPTION`、明文 HTTP 阻断或主线程网络错误。
 - 本地埋点队列为 `0`。
 - 一键还页面点击“催还机”后成功反馈可见。
+
+## 9. 2026-05-31 最终 APK 包验证
+
+本轮输出：
+
+- APK：`releases/v0.6/YJYH-phone-loan-v0.6.0-debug.apk`
+- 大小：约 `19M`
+- SHA-256：`74c4bb8c5afcba79ae81a05c00d7ae1a22a489676bdc97206caae75f6497d677`
+
+验证命令：
+
+```sh
+cd android-app
+export JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"
+export ANDROID_HOME="$HOME/Library/Android/sdk"
+./gradlew :app:assembleDebug :app:testDebugUnitTest :app:lintDebug
+
+cd ../backend
+export JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"
+./gradlew test
+
+cd ..
+./scripts/run-local-backend.sh
+./scripts/build-install-debug-apk.sh
+```
+
+验证结果：
+
+- Android 构建、单测、lint 通过。
+- 后端测试通过。
+- APK 安装成功，并启动 `com.yjyh.phoneloan/.MainActivity`。
+- 模拟器包信息为 `versionCode=6`、`versionName=0.6.0`。
+- 登录页展示默认工号 `10086` 和密码占位。
+- 点击登录后进入首页。
+- 首页展示 `2 台`、`2 条` 和“已连接本地后端，数据来自真实 API。”。
+- Logcat 未见 `FATAL EXCEPTION`、明文 HTTP 阻断或主线程网络错误。
+- 本地埋点队列为 `0`。
