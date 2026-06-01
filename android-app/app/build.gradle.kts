@@ -4,6 +4,10 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose")
 }
 
+val apiBaseUrl = providers.gradleProperty("apiBaseUrl")
+    .orElse(providers.environmentVariable("API_BASE_URL"))
+    .orElse("http://10.0.2.2:8080")
+
 android {
     namespace = "com.yjyh.phoneloan"
     compileSdk = 35
@@ -20,10 +24,10 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String", "API_BASE_URL", "\"http://10.0.2.2:8080\"")
+            buildConfigField("String", "API_BASE_URL", "\"${apiBaseUrl.get()}\"")
         }
         release {
-            buildConfigField("String", "API_BASE_URL", "\"http://10.0.2.2:8080\"")
+            buildConfigField("String", "API_BASE_URL", "\"${apiBaseUrl.get()}\"")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),

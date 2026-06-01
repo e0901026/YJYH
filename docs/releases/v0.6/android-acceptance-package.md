@@ -4,10 +4,13 @@
 
 - APK：`android-app/app/build/outputs/apk/debug/app-debug.apk`
 - 本轮验收 APK：`releases/v0.6/YJYH-phone-loan-v0.6.0-debug.apk`
+- 真机验收 APK：`releases/v0.6/YJYH-phone-loan-v0.6.0-lan-debug.apk`
 - APK 版本：`versionCode=6`，`versionName=0.6.0`
 - SHA-256：`74c4bb8c5afcba79ae81a05c00d7ae1a22a489676bdc97206caae75f6497d677`
+- 真机验收 APK SHA-256：`f0426a75293df77f2b6d5cfc9dc08555d040539dc17ce1e48e3e59b662a227b5`
 - 后端：本地 Spring Boot `local` profile，地址 `http://localhost:8080`
 - 模拟器访问后端地址：`http://10.0.2.2:8080`
+- 真机访问后端地址：使用 Mac 的局域网 IP，例如 `http://192.168.0.110:8080`
 
 ## 2. 测试账号
 
@@ -33,6 +36,18 @@
 
 ```sh
 ./scripts/build-install-debug-apk.sh
+```
+
+构建真机验收 APK：
+
+```sh
+./scripts/build-lan-debug-apk.sh
+```
+
+如果 Mac 的局域网 IP 不是自动识别结果，可以手动指定：
+
+```sh
+LAN_IP=192.168.0.110 ./scripts/build-lan-debug-apk.sh
 ```
 
 也可以手动执行：
@@ -100,6 +115,8 @@ export JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"
 - 当前是 Debug APK，未做正式签名和生产发布配置。
 - 当前后端 `local` profile 使用 H2 文件数据库，适合本地验收；正式环境仍应使用 PostgreSQL。
 - 扫码借已具备 CameraX / ML Kit 能力；注册手机、确认借走、一键还、催还机已有真实 API 失败提示。
+- `10.0.2.2` 只适用于 Android 模拟器访问 Mac 本机；真机必须安装 LAN APK，并确保手机和 Mac 连接同一个 Wi-Fi。
+- 真机验收前必须启动本地后端，并允许 Mac 防火墙接受 Java / Spring Boot 的局域网访问。
 
 ## 8. 本次 Agent 验证
 
@@ -153,3 +170,26 @@ cd ..
 - 首页展示 `2 台`、`2 条` 和“已连接本地后端，数据来自真实 API。”。
 - Logcat 未见 `FATAL EXCEPTION`、明文 HTTP 阻断或主线程网络错误。
 - 本地埋点队列为 `0`。
+
+## 10. 2026-06-01 真机连接修正
+
+问题现象：
+
+- 真机安装原模拟器 APK 后，登录失败并提示 `failed to connect to /10.0.2.2 (port 8080)`。
+
+根因：
+
+- `10.0.2.2` 是 Android 模拟器访问宿主机的特殊地址；真机上该地址无效。
+
+修正：
+
+- Android 构建支持通过 `API_BASE_URL` 或 `-PapiBaseUrl` 注入后端地址，默认仍保留模拟器地址 `http://10.0.2.2:8080`。
+- 新增 `./scripts/build-lan-debug-apk.sh`，自动使用 Mac 局域网 IP 生成真机验收 APK。
+- 当前真机验收 APK 指向 `http://192.168.0.110:8080`。
+
+验证：
+
+- Android `:app:assembleDebug :app:testDebugUnitTest :app:lintDebug` 通过。
+- 后端 `./gradlew test` 通过。
+- LAN APK 构建成功，SHA-256 为 `f0426a75293df77f2b6d5cfc9dc08555d040539dc17ce1e48e3e59b662a227b5`。
+- 本地后端启动后，`http://localhost:8080/api/devices` 和 `http://192.168.0.110:8080/api/devices` 均返回 `200`。

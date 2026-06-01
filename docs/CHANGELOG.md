@@ -213,3 +213,13 @@
 - 影响范围：`android-app/app/build.gradle.kts`、`docs/releases/v0.6/android-acceptance-package.md`、`docs/project-management.md`。
 - 验证：Android `:app:assembleDebug :app:testDebugUnitTest :app:lintDebug` 通过；后端 `./gradlew test` 通过；`./scripts/build-install-debug-apk.sh` 安装并启动成功；模拟器包信息为 `versionCode=6`、`versionName=0.6.0`；登录进入真实 API 首页；Logcat 未见崩溃、明文 HTTP 阻断或主线程网络错误；本地埋点队列为 `0`。
 - 是否进入开发：否。下一步交给用户进行 V0.6 APK 人工使用验收。
+
+## 2026-06-01
+
+### V0.6 真机连接修正
+
+- 类型：代码 / 测试 / 交付。
+- 内容：修正真机验收 APK 仍指向模拟器专用地址 `10.0.2.2` 的问题；Android 构建支持通过 `API_BASE_URL` 或 `-PapiBaseUrl` 注入后端地址；新增 `scripts/build-lan-debug-apk.sh` 生成真机局域网 APK；网络安全配置允许本地验收阶段访问局域网明文 HTTP。
+- 影响范围：`android-app/app/build.gradle.kts`、`android-app/app/src/main/res/xml/network_security_config.xml`、`scripts/build-lan-debug-apk.sh`、`docs/releases/v0.6/android-acceptance-package.md`、`docs/project-management.md`。
+- 验证：Android `:app:assembleDebug :app:testDebugUnitTest :app:lintDebug` 通过；后端 `./gradlew test` 通过；LAN APK `releases/v0.6/YJYH-phone-loan-v0.6.0-lan-debug.apk` 生成成功并指向 `http://192.168.0.110:8080`；本地后端启动后，`localhost:8080/api/devices` 和 `192.168.0.110:8080/api/devices` 均返回 `200`。
+- 是否进入开发：是。该修正属于 V0.6 人工验收阻塞问题修复，不改变业务流程和界面原型。
