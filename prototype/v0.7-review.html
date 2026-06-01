@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>V0.7 原型审查 - 首页 / 设备 / Owner 管理</title>
+  <style>
+    body {
+      margin: 0;
+      background: #eef2f6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #17212b;
+    }
+    .board {
+      display: flex;
+      gap: 28px;
+      padding: 32px;
+      align-items: flex-start;
+    }
+    .phone {
+      width: 390px;
+      height: 844px;
+      background: #f6f8fa;
+      border: 1px solid #d9e1e8;
+      border-radius: 18px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(17, 24, 39, .08);
+    }
+    .content { padding: 18px; }
+    h1 {
+      font-size: 26px;
+      line-height: 1.2;
+      margin: 0 0 16px;
+    }
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .link {
+      color: #1677ff;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid #d9e1e8;
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+    .muted { color: #697586; font-size: 13px; line-height: 1.45; }
+    .big { font-size: 38px; font-weight: 800; margin: 6px 0; }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+    }
+    .btnrow { display: flex; gap: 8px; margin-bottom: 12px; }
+    .btn {
+      flex: 1;
+      border-radius: 8px;
+      border: 1px solid #1677ff;
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 15px;
+    }
+    .primary { background: #1677ff; color: #fff; }
+    .secondary { background: #fff; color: #1677ff; }
+    .tabs {
+      display: flex;
+      background: #fff;
+      border: 1px solid #d9e1e8;
+      border-radius: 8px;
+      padding: 4px;
+      gap: 4px;
+      margin-bottom: 12px;
+    }
+    .tab {
+      flex: 1;
+      text-align: center;
+      border-radius: 6px;
+      padding: 8px 0;
+      font-size: 13px;
+      font-weight: 700;
+      color: #697586;
+    }
+    .tab.active { background: #eaf3ff; color: #1677ff; }
+    .pill {
+      border-radius: 999px;
+      padding: 4px 8px;
+      font-size: 12px;
+      font-weight: 700;
+      background: #eaf3ff;
+      color: #1677ff;
+      white-space: nowrap;
+    }
+    .pill.ok { background: #e9f8f2; color: #0e9f6e; }
+    .pill.warn { background: #fff4df; color: #b7791f; }
+    .item + .item { border-top: 1px solid #edf1f5; padding-top: 12px; margin-top: 12px; }
+    .bottom {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 14px;
+      height: 58px;
+      background: #fff;
+      border: 1px solid #e5eaf0;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      font-size: 12px;
+      color: #697586;
+    }
+    .bottom b { color: #1677ff; }
+    .field {
+      background: #fff;
+      border: 1px solid #d9e1e8;
+      border-radius: 8px;
+      padding: 12px 14px;
+      color: #697586;
+      margin-bottom: 12px;
+      font-size: 14px;
+    }
+    .mini {
+      color: #697586;
+      font-size: 12px;
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+    .action {
+      color: #1677ff;
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+  <main class="board">
+    <section class="phone">
+      <div class="content">
+        <h1>首页</h1>
+        <div class="card">
+          <div class="row">
+            <span class="muted">手上持有</span>
+            <span class="link">查看列表</span>
+          </div>
+          <div class="big">2 台</div>
+          <div class="muted">包含自有在手设备和借入待还设备。</div>
+        </div>
+        <div class="btnrow">
+          <div class="btn primary">扫码借</div>
+          <div class="btn secondary">一键还</div>
+        </div>
+        <div class="card">
+          <div class="row"><strong>最新动态</strong><span class="muted">按最新时间</span></div>
+          <div class="item">
+            <div class="row"><strong>小米14 白</strong><span class="pill warn">已借出</span></div>
+            <div class="mini">当前持有人：李雷 · 10248</div>
+            <div class="mini">最新转手：今天 14:20</div>
+          </div>
+          <div class="item">
+            <div class="row"><strong>iPhone 15 Pro</strong><span class="pill">借入待还</span></div>
+            <div class="mini">当前持有人：王晓明 · 10086</div>
+            <div class="mini">最新转手：昨天 18:05</div>
+          </div>
+          <div class="item">
+            <div class="row"><strong>OPPO Find X7</strong><span class="pill ok">在我手上</span></div>
+            <div class="mini">当前持有人：王晓明 · 10086</div>
+            <div class="mini">录入时间：05-30 10:12</div>
+          </div>
+        </div>
+      </div>
+      <div class="bottom"><b>首页</b><span>设备</span><span>我的</span></div>
+    </section>
+
+    <section class="phone">
+      <div class="content">
+        <div class="top"><h1>设备列表</h1><span class="link">+</span></div>
+        <div class="tabs"><div class="tab">全部</div><div class="tab active">在我手上</div><div class="tab">已借出</div></div>
+        <div class="field">搜索设备名或 IMEI</div>
+        <div class="card">
+          <div class="row"><strong>OPPO Find X7</strong><span class="pill ok">在我手上</span></div>
+          <div class="mini">IMEI 866001123456789</div>
+          <div class="mini">owner：王晓明 · 当前持有人：王晓明</div>
+        </div>
+        <div class="card">
+          <div class="row"><strong>iPhone 15 Pro</strong><span class="pill">借入待还</span></div>
+          <div class="mini">IMEI 867450991234568</div>
+          <div class="mini">owner：韩梅梅 · 当前持有人：王晓明</div>
+          <div class="mini">点击进入详情；非 owner 不展示编辑 / 转让 owner。</div>
+        </div>
+      </div>
+      <div class="bottom"><span>首页</span><b>设备</b><span>我的</span></div>
+    </section>
+
+    <section class="phone">
+      <div class="content">
+        <div class="top"><h1>用户管理</h1><span class="link">‹ 我的</span></div>
+        <div class="tabs"><div class="tab active">用户列表</div><div class="tab">邀请码</div></div>
+        <div class="field">搜索工号 / 名称</div>
+        <div class="btnrow">
+          <div class="btn primary">新增用户</div>
+          <div class="btn secondary">生成邀请码</div>
+        </div>
+        <div class="card">
+          <div class="row"><strong>王晓明</strong><span class="pill ok">管理员</span></div>
+          <div class="mini">工号：10086 · 注册：2026-05-08</div>
+          <div class="mini">邀请人：Owner 00001</div>
+          <div class="row" style="margin-top:10px"><span class="action">编辑</span><span class="action">删除</span></div>
+        </div>
+        <div class="card">
+          <div class="row"><strong>李雷</strong><span class="pill">普通用户</span></div>
+          <div class="mini">工号：10248 · 注册：2026-05-09</div>
+          <div class="mini">邀请人：王晓明 10086</div>
+          <div class="row" style="margin-top:10px"><span class="action">编辑</span><span class="action">删除</span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

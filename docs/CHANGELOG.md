@@ -223,3 +223,11 @@
 - 影响范围：`android-app/app/build.gradle.kts`、`android-app/app/src/main/res/xml/network_security_config.xml`、`scripts/build-lan-debug-apk.sh`、`docs/releases/v0.6/android-acceptance-package.md`、`docs/project-management.md`。
 - 验证：Android `:app:assembleDebug :app:testDebugUnitTest :app:lintDebug` 通过；后端 `./gradlew test` 通过；LAN APK `releases/v0.6/YJYH-phone-loan-v0.6.0-lan-debug.apk` 生成成功并指向 `http://192.168.0.110:8080`；本地后端启动后，`localhost:8080/api/devices` 和 `192.168.0.110:8080/api/devices` 均返回 `200`。
 - 是否进入开发：是。该修正属于 V0.6 人工验收阻塞问题修复，不改变业务流程和界面原型。
+
+### V0.7 首页 / 设备 / Owner 管理需求调整
+
+- 类型：需求 / 原型草案。
+- 内容：首页「查看列表」必须可跳转；删除首页「待处理」和「申请邀请码」卡片；首页最新动态改为所有设备当前状态流并按录入/转手时间倒序；设备列表去掉独立「借入待还」Tab，合并到「在我手上」并作为列表项状态；非 owner 且非管理员进入设备详情不展示编辑名称和转让 owner；Owner 管理页顶部 Tab 必须可切换，删除「查看邀请码」按钮，管理员拥有用户增删改查和无限邀请码生成能力。
+- 影响范围：`docs/PRD-手机借机管理.md`、`docs/system-design-system.md`、`docs/v0.7-home-device-owner-adjustment.md`、`prototype/v0.7-review.html`。
+- 验证：已完成 PRD 和设计规范更新，并生成 V0.7 本地原型审查页；Pencil 当前会话只能读取和截图，未暴露写入接口，`.pen` 源文件待同步。
+- 是否进入开发：否。需先确认 V0.7 原型结构，再进入 Android 开发。
