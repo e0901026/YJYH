@@ -2,6 +2,17 @@
 
 本文件记录项目所有需求、原型、设计规范、架构、代码、测试和流程类变更。任何改动缺少 changelog 都不能视为完整交付。
 
+## 2026-06-02
+
+### V0.7 原型同步：首页、设备列表、设备详情、Owner 管理
+
+- 类型：原型 / 测试。
+- 内容：Pencil 原型已同步 V0.7 范围：首页删除「待处理」和「申请邀请码」，最新动态改为按设备最新状态时间排序；设备列表删除「借入待还」Tab 并合并到「在我手上」；设备详情补充借入待还且非 owner/非管理员无编辑和转让 owner 权限；Owner 用户页补充管理员用户管理能力说明，并保持用户列表/邀请码 Tab 作为上方切换入口。
+- 影响范围：`prototype/手机借机管理.pen`、`prototype/exports/ZdqEE.png`、`prototype/exports/ffvfS.png`、`prototype/exports/VWchs.png`、`prototype/exports/kIEPr.png`、`prototype/exports/U4SUwg.png`。
+- 验证：Pencil 对 03 首页、07 设备列表、08 设备详情、10 Owner-用户列表、11 Owner-邀请码执行布局检查，均无裁切或重叠问题；相关 PNG 已重新导出。
+- 用户确认：待确认。
+- 是否进入开发：否。需用户确认原型后，再进入 Android V0.7 开发。
+
 ## 2026-05-11
 
 ### 流程纠偏：代码改动前必须先确认原型

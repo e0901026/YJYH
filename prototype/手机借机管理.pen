@@ -1,5 +1,5 @@
 {
-  "version": "2.11",
+  "version": "2.13",
   "children": [
     {
       "type": "frame",
@@ -122,10 +122,9 @@
                   "height": 48,
                   "fill": "$surface",
                   "cornerRadius": 8,
-                  "stroke": {
-                    "thickness": 1,
-                    "fill": "$line"
-                  },
+                  "stroke": "$line",
+                  "strokeWidth": 1,
+                  "strokeAlignment": "inner",
                   "padding": [
                     0,
                     14
@@ -172,10 +171,9 @@
                   "height": 48,
                   "fill": "$surface",
                   "cornerRadius": 8,
-                  "stroke": {
-                    "thickness": 1,
-                    "fill": "$line"
-                  },
+                  "stroke": "$line",
+                  "strokeWidth": 1,
+                  "strokeAlignment": "inner",
                   "padding": [
                     0,
                     14
@@ -358,10 +356,9 @@
                   "height": 46,
                   "fill": "$surface",
                   "cornerRadius": 8,
-                  "stroke": {
-                    "thickness": 1,
-                    "fill": "$line"
-                  },
+                  "stroke": "$line",
+                  "strokeWidth": 1,
+                  "strokeAlignment": "inner",
                   "padding": [
                     0,
                     14
@@ -408,10 +405,9 @@
                   "height": 46,
                   "fill": "$surface",
                   "cornerRadius": 8,
-                  "stroke": {
-                    "thickness": 1,
-                    "fill": "$line"
-                  },
+                  "stroke": "$line",
+                  "strokeWidth": 1,
+                  "strokeAlignment": "inner",
                   "padding": [
                     0,
                     14
@@ -458,10 +454,9 @@
                   "height": 46,
                   "fill": "$surface",
                   "cornerRadius": 8,
-                  "stroke": {
-                    "thickness": 1,
-                    "fill": "$line"
-                  },
+                  "stroke": "$line",
+                  "strokeWidth": 1,
+                  "strokeAlignment": "inner",
                   "padding": [
                     0,
                     14
@@ -508,10 +503,9 @@
                   "height": 46,
                   "fill": "$surface",
                   "cornerRadius": 8,
-                  "stroke": {
-                    "thickness": 1,
-                    "fill": "$line"
-                  },
+                  "stroke": "$line",
+                  "strokeWidth": 1,
+                  "strokeAlignment": "inner",
                   "padding": [
                     0,
                     14
@@ -558,10 +552,9 @@
                   "height": 46,
                   "fill": "$surface",
                   "cornerRadius": 8,
-                  "stroke": {
-                    "thickness": 1,
-                    "fill": "$line"
-                  },
+                  "stroke": "$line",
+                  "strokeWidth": 1,
+                  "strokeAlignment": "inner",
                   "padding": [
                     0,
                     14
@@ -614,10 +607,9 @@
           "width": "fill_container",
           "fill": "#FFF5F3",
           "cornerRadius": 8,
-          "stroke": {
-            "thickness": 1,
-            "fill": "#FECACA"
-          },
+          "stroke": "#FECACA",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
           "layout": "vertical",
           "gap": 6,
           "padding": 12,
@@ -647,7 +639,7 @@
       "name": "03 首页",
       "clip": true,
       "width": 390,
-      "height": 844,
+      "height": 1000,
       "fill": "$bg",
       "layout": "vertical",
       "gap": 14,
@@ -730,7 +722,10 @@
             {
               "type": "frame",
               "id": "D6f6s",
+              "x": 269,
+              "y": 16,
               "name": "hBadge",
+              "enabled": false,
               "height": 30,
               "fill": "$primary-soft",
               "cornerRadius": 8,
@@ -761,10 +756,9 @@
           "width": "fill_container",
           "fill": "$surface",
           "cornerRadius": 8,
-          "stroke": {
-            "thickness": 1,
-            "fill": "$line"
-          },
+          "stroke": "$line",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
           "layout": "vertical",
           "gap": 12,
           "padding": 18,
@@ -866,13 +860,13 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "pMb2X",
                   "name": "hScanIcon",
                   "width": 22,
                   "height": 22,
-                  "iconFontName": "scan-line",
-                  "iconFontFamily": "lucide",
+                  "icon": "scan-line",
+                  "library": "lucide",
                   "fill": "#FFFFFF"
                 },
                 {
@@ -895,23 +889,22 @@
               "height": "fill_container",
               "fill": "$surface",
               "cornerRadius": 8,
-              "stroke": {
-                "thickness": 1,
-                "fill": "$primary"
-              },
+              "stroke": "$primary",
+              "strokeWidth": 1,
+              "strokeAlignment": "inner",
               "layout": "vertical",
               "gap": 6,
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "j0gNul",
                   "name": "hReturnIcon",
                   "width": 22,
                   "height": 22,
-                  "iconFontName": "rotate-ccw",
-                  "iconFontFamily": "lucide",
+                  "icon": "rotate-ccw",
+                  "library": "lucide",
                   "fill": "$primary"
                 },
                 {
@@ -930,118 +923,17 @@
         },
         {
           "type": "frame",
-          "id": "CzEeK",
-          "name": "hTodo",
-          "width": "fill_container",
-          "fill": "$surface",
-          "cornerRadius": 8,
-          "stroke": {
-            "thickness": 1,
-            "fill": "$line"
-          },
-          "layout": "vertical",
-          "gap": 10,
-          "padding": 14,
-          "children": [
-            {
-              "type": "frame",
-              "id": "G2Rbv",
-              "name": "hTodoTop",
-              "width": "fill_container",
-              "justifyContent": "space_between",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "E5VXN",
-                  "name": "hTodoTitle",
-                  "fill": "$ink",
-                  "content": "待处理",
-                  "fontFamily": "Inter",
-                  "fontSize": 16,
-                  "fontWeight": "700"
-                },
-                {
-                  "type": "text",
-                  "id": "oxpTM",
-                  "name": "hTodoCount",
-                  "fill": "$primary",
-                  "content": "7 条",
-                  "fontFamily": "Inter",
-                  "fontSize": 13,
-                  "fontWeight": "600"
-                }
-              ]
-            },
-            {
-              "type": "text",
-              "id": "UgMrq",
-              "name": "hTodoText",
-              "fill": "$muted",
-              "textGrowth": "fixed-width",
-              "width": "fill_container",
-              "content": "我借入 3 台待还 · 我借出 4 台未归还",
-              "lineHeight": 1.35,
-              "fontFamily": "Inter",
-              "fontSize": 13,
-              "fontWeight": "normal"
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "XqFJ9",
-          "name": "hInvite",
-          "width": "fill_container",
-          "height": 48,
-          "fill": "$surface",
-          "cornerRadius": 8,
-          "stroke": {
-            "thickness": 1,
-            "fill": "$line"
-          },
-          "padding": [
-            0,
-            14
-          ],
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "lwbco",
-              "name": "hInviteLeft",
-              "fill": "$ink",
-              "content": "申请邀请码",
-              "fontFamily": "Inter",
-              "fontSize": 15,
-              "fontWeight": "700"
-            },
-            {
-              "type": "text",
-              "id": "QQflt",
-              "name": "hInviteRight",
-              "fill": "$primary",
-              "content": "已用 3 / 10",
-              "fontFamily": "Inter",
-              "fontSize": 13,
-              "fontWeight": "600"
-            }
-          ]
-        },
-        {
-          "type": "frame",
           "id": "BRpKV",
           "name": "hRecent",
           "width": "fill_container",
+          "height": 380,
           "fill": "$surface",
           "cornerRadius": 8,
-          "stroke": {
-            "thickness": 1,
-            "fill": "$line"
-          },
+          "stroke": "$line",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
           "layout": "vertical",
-          "gap": 10,
+          "gap": 12,
           "padding": 14,
           "children": [
             {
@@ -1049,7 +941,7 @@
               "id": "g1ngTt",
               "name": "hRecentTitle",
               "fill": "$ink",
-              "content": "最近动态",
+              "content": "最新动态",
               "fontFamily": "Inter",
               "fontSize": 16,
               "fontWeight": "700"
@@ -1061,21 +953,256 @@
               "fill": "$muted",
               "textGrowth": "fixed-width",
               "width": "fill_container",
-              "content": "小米14 白刚被你借走，已通知上一位持有人和绑定 owner。",
+              "content": "所有设备按最新录入或转手时间倒序展示。",
               "lineHeight": 1.35,
               "fontFamily": "Inter",
-              "fontSize": 13,
+              "fontSize": 12,
               "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "Fudtj",
+              "name": "动态-小米14 白",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 5,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "o02nuk",
+                  "name": "动态标题行",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "x6dQ9L",
+                      "name": "设备名",
+                      "fill": "#17212B",
+                      "content": "小米14 白",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "jFaHm",
+                      "name": "状态",
+                      "fill": "#FFF4DF",
+                      "cornerRadius": 8,
+                      "padding": [
+                        4,
+                        8
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "I4vaJh",
+                          "name": "状态文案",
+                          "fill": "#B7791F",
+                          "content": "已借出",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "XaVMF",
+                  "name": "当前持有人",
+                  "fill": "#697586",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "当前持有人：李雷 · 10248",
+                  "lineHeight": 1.35,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "aXKTe",
+                  "name": "最新时间",
+                  "fill": "#697586",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "最新转手：今天 14:20",
+                  "lineHeight": 1.35,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Mw2zE",
+              "name": "动态-iPhone 15 Pro",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 5,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "rJMGX",
+                  "name": "动态标题行",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "EfdQc",
+                      "name": "设备名",
+                      "fill": "#17212B",
+                      "content": "iPhone 15 Pro",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "tZiat",
+                      "name": "状态",
+                      "fill": "#EAF3FF",
+                      "cornerRadius": 8,
+                      "padding": [
+                        4,
+                        8
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "cKgi8",
+                          "name": "状态文案",
+                          "fill": "#1677FF",
+                          "content": "借入待还",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "BdrqD",
+                  "name": "当前持有人",
+                  "fill": "#697586",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "当前持有人：王晓明 · 10086",
+                  "lineHeight": 1.35,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "dZMEJ",
+                  "name": "最新时间",
+                  "fill": "#697586",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "最新转手：昨天 18:05",
+                  "lineHeight": 1.35,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "JqdjF",
+              "name": "动态-OPPO Find X7",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 5,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "ASFKz",
+                  "name": "动态标题行",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "QCTS6",
+                      "name": "设备名",
+                      "fill": "#17212B",
+                      "content": "OPPO Find X7",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "kYYhH",
+                      "name": "状态",
+                      "fill": "#E9F8F2",
+                      "cornerRadius": 8,
+                      "padding": [
+                        4,
+                        8
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "D63rT5",
+                          "name": "状态文案",
+                          "fill": "#0E9F6E",
+                          "content": "在我手上",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "k6NKEb",
+                  "name": "当前持有人",
+                  "fill": "#697586",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "当前持有人：王晓明 · 10086",
+                  "lineHeight": 1.35,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "PTIow",
+                  "name": "最新时间",
+                  "fill": "#697586",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "录入时间：05-30 10:12",
+                  "lineHeight": 1.35,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
             }
           ]
-        },
-        {
-          "type": "frame",
-          "id": "S1xZ6I",
-          "name": "hSpacer",
-          "width": "fill_container",
-          "height": "fill_container",
-          "layout": "vertical"
         },
         {
           "type": "frame",
@@ -1085,12 +1212,11 @@
           "height": 58,
           "fill": "$surface",
           "cornerRadius": 8,
-          "stroke": {
-            "thickness": {
-              "top": 1
-            },
-            "fill": "$line"
+          "stroke": "$line",
+          "strokeWidth": {
+            "top": 1
           },
+          "strokeAlignment": "inner",
           "gap": 8,
           "padding": [
             6,
@@ -1108,13 +1234,13 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "VrF67",
                   "name": "hTab1Icon",
                   "width": 20,
                   "height": 20,
-                  "iconFontName": "house",
-                  "iconFontFamily": "lucide",
+                  "icon": "house",
+                  "library": "lucide",
                   "fill": "$primary"
                 },
                 {
@@ -1140,13 +1266,13 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "Nwzkq",
                   "name": "hTab2Icon",
                   "width": 20,
                   "height": 20,
-                  "iconFontName": "smartphone",
-                  "iconFontFamily": "lucide",
+                  "icon": "smartphone",
+                  "library": "lucide",
                   "fill": "$muted"
                 },
                 {
@@ -1172,13 +1298,13 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "i24ONL",
                   "name": "hTab3Icon",
                   "width": 20,
                   "height": 20,
-                  "iconFontName": "user",
-                  "iconFontFamily": "lucide",
+                  "icon": "user",
+                  "library": "lucide",
                   "fill": "$muted"
                 },
                 {
@@ -1275,22 +1401,21 @@
               "width": "fill_container",
               "height": 120,
               "cornerRadius": 8,
-              "stroke": {
-                "thickness": 1,
-                "fill": "#667085"
-              },
+              "stroke": "#667085",
+              "strokeWidth": 1,
+              "strokeAlignment": "inner",
               "layout": "vertical",
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "hUdFV",
                   "name": "sFinderIcon",
                   "width": 34,
                   "height": 34,
-                  "iconFontName": "scan-line",
-                  "iconFontFamily": "lucide",
+                  "icon": "scan-line",
+                  "library": "lucide",
                   "fill": "#FFFFFF"
                 }
               ]
@@ -1317,10 +1442,9 @@
           "width": "fill_container",
           "fill": "$surface",
           "cornerRadius": 8,
-          "stroke": {
-            "thickness": 1,
-            "fill": "$line"
-          },
+          "stroke": "$line",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
           "layout": "vertical",
           "gap": 12,
           "padding": 14,
@@ -1374,10 +1498,9 @@
           "width": "fill_container",
           "fill": "$surface",
           "cornerRadius": 8,
-          "stroke": {
-            "thickness": 1,
-            "fill": "$line"
-          },
+          "stroke": "$line",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
           "layout": "vertical",
           "gap": 10,
           "padding": 14,
@@ -1457,10 +1580,9 @@
           "width": "fill_container",
           "fill": "#ECFDF3",
           "cornerRadius": 8,
-          "stroke": {
-            "thickness": 1,
-            "fill": "#ABEFC6"
-          },
+          "stroke": "#ABEFC6",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
           "layout": "vertical",
           "gap": 6,
           "padding": 12,
@@ -1562,10 +1684,9 @@
           "width": "fill_container",
           "fill": "$surface",
           "cornerRadius": 8,
-          "stroke": {
-            "thickness": 1,
-            "fill": "$line"
-          },
+          "stroke": "$line",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
           "layout": "vertical",
           "gap": 12,
           "padding": 14,
@@ -1628,10 +1749,9 @@
               "height": 48,
               "fill": "$surface",
               "cornerRadius": 8,
-              "stroke": {
-                "thickness": 1,
-                "fill": "$line"
-              },
+              "stroke": "$line",
+              "strokeWidth": 1,
+              "strokeAlignment": "inner",
               "padding": [
                 0,
                 14
@@ -1659,10 +1779,9 @@
           "width": "fill_container",
           "fill": "$surface",
           "cornerRadius": 8,
-          "stroke": {
-            "thickness": 1,
-            "fill": "$line"
-          },
+          "stroke": "$line",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
           "layout": "vertical",
           "gap": 8,
           "padding": 12,
@@ -1712,10 +1831,9 @@
           "width": "fill_container",
           "fill": "#ECFDF3",
           "cornerRadius": 8,
-          "stroke": {
-            "thickness": 1,
-            "fill": "#ABEFC6"
-          },
+          "stroke": "#ABEFC6",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
           "layout": "vertical",
           "gap": 6,
           "padding": 12,
@@ -1805,10 +1923,9 @@
           "height": 44,
           "fill": "$surface",
           "cornerRadius": 8,
-          "stroke": {
-            "thickness": 1,
-            "fill": "$line"
-          },
+          "stroke": "$line",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
           "gap": 4,
           "padding": 4,
           "children": [
@@ -1876,10 +1993,9 @@
               "height": 126,
               "fill": "$surface",
               "cornerRadius": 8,
-              "stroke": {
-                "thickness": 1,
-                "fill": "$line"
-              },
+              "stroke": "$line",
+              "strokeWidth": 1,
+              "strokeAlignment": "inner",
               "gap": 10,
               "padding": 12,
               "alignItems": "center",
@@ -1968,10 +2084,9 @@
               "height": 126,
               "fill": "$surface",
               "cornerRadius": 8,
-              "stroke": {
-                "thickness": 1,
-                "fill": "$line"
-              },
+              "stroke": "$line",
+              "strokeWidth": 1,
+              "strokeAlignment": "inner",
               "gap": 10,
               "padding": 12,
               "alignItems": "center",
@@ -2061,10 +2176,9 @@
           "width": "fill_container",
           "fill": "#F8FAFC",
           "cornerRadius": 8,
-          "stroke": {
-            "thickness": 1,
-            "fill": "#D9E1E8"
-          },
+          "stroke": "#D9E1E8",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
           "layout": "vertical",
           "gap": 8,
           "padding": 14,
@@ -2104,7 +2218,7 @@
       "name": "07 设备列表",
       "clip": true,
       "width": 390,
-      "height": 844,
+      "height": 1050,
       "fill": "$bg",
       "layout": "vertical",
       "gap": 14,
@@ -2164,10 +2278,9 @@
           "height": 44,
           "fill": "$surface",
           "cornerRadius": 8,
-          "stroke": {
-            "thickness": 1,
-            "fill": "$line"
-          },
+          "stroke": "$line",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
           "gap": 4,
           "padding": 4,
           "children": [
@@ -2177,12 +2290,10 @@
               "name": "dF1",
               "width": "fill_container",
               "height": "fill_container",
-              "fill": "$primary-soft",
+              "fill": "#FFFFFF",
               "cornerRadius": 6,
-              "stroke": {
-                "thickness": 0,
-                "fill": "$primary-soft"
-              },
+              "stroke": "#FFFFFF",
+              "strokeAlignment": "inner",
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
@@ -2190,11 +2301,11 @@
                   "type": "text",
                   "id": "YDpCC",
                   "name": "dF1T",
-                  "fill": "$primary",
+                  "fill": "#697586",
                   "content": "全部",
                   "fontFamily": "Inter",
                   "fontSize": 12,
-                  "fontWeight": "700"
+                  "fontWeight": "600"
                 }
               ]
             },
@@ -2204,12 +2315,10 @@
               "name": "dF2",
               "width": "fill_container",
               "height": "fill_container",
-              "fill": "$surface",
+              "fill": "#EAF3FF",
               "cornerRadius": 6,
-              "stroke": {
-                "thickness": 0,
-                "fill": "$surface"
-              },
+              "stroke": "#EAF3FF",
+              "strokeAlignment": "inner",
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
@@ -2217,11 +2326,11 @@
                   "type": "text",
                   "id": "aCJaO",
                   "name": "dF2T",
-                  "fill": "$muted",
+                  "fill": "#1677FF",
                   "content": "在我手上",
                   "fontFamily": "Inter",
                   "fontSize": 12,
-                  "fontWeight": "600"
+                  "fontWeight": "700"
                 }
               ]
             },
@@ -2233,10 +2342,8 @@
               "height": "fill_container",
               "fill": "$surface",
               "cornerRadius": 6,
-              "stroke": {
-                "thickness": 0,
-                "fill": "$surface"
-              },
+              "stroke": "$surface",
+              "strokeAlignment": "inner",
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
@@ -2246,29 +2353,6 @@
                   "name": "dF3T",
                   "fill": "$muted",
                   "content": "已借出",
-                  "fontFamily": "Inter",
-                  "fontSize": 12,
-                  "fontWeight": "600"
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "NAzTe",
-              "name": "dF4",
-              "width": "fill_container",
-              "height": "fill_container",
-              "fill": "$surface",
-              "cornerRadius": 6,
-              "justifyContent": "center",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "ZPwFI",
-                  "name": "dF4T",
-                  "fill": "$muted",
-                  "content": "借入待还",
                   "fontFamily": "Inter",
                   "fontSize": 12,
                   "fontWeight": "600"
@@ -2285,10 +2369,9 @@
           "height": 42,
           "fill": "$surface",
           "cornerRadius": 8,
-          "stroke": {
-            "thickness": 1,
-            "fill": "$line"
-          },
+          "stroke": "$line",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
           "gap": 8,
           "padding": [
             0,
@@ -2297,13 +2380,13 @@
           "alignItems": "center",
           "children": [
             {
-              "type": "icon_font",
+              "type": "icon",
               "id": "Diuve",
               "name": "dSearchIcon",
               "width": 18,
               "height": 18,
-              "iconFontName": "search",
-              "iconFontFamily": "lucide",
+              "icon": "search",
+              "library": "lucide",
               "fill": "$muted"
             },
             {
@@ -2323,6 +2406,7 @@
           "id": "NqubD",
           "name": "dList",
           "width": "fill_container",
+          "height": 430,
           "layout": "vertical",
           "gap": 10,
           "children": [
@@ -2333,10 +2417,9 @@
               "width": "fill_container",
               "fill": "$surface",
               "cornerRadius": 8,
-              "stroke": {
-                "thickness": 1,
-                "fill": "$line"
-              },
+              "stroke": "$line",
+              "strokeWidth": 1,
+              "strokeAlignment": "inner",
               "layout": "vertical",
               "gap": 6,
               "padding": 12,
@@ -2376,7 +2459,9 @@
                   "id": "AEg8y",
                   "name": "dItem1Sub",
                   "fill": "$muted",
-                  "content": "IMEI 869301065812347 · 借给李雷",
+                  "textGrowth": "fixed-width",
+                  "width": 330,
+                  "content": "IMEI 869301065812347 · 当前持有人：李雷 · 10248",
                   "fontFamily": "Inter",
                   "fontSize": 12,
                   "fontWeight": "normal"
@@ -2388,12 +2473,12 @@
               "id": "O36tS",
               "name": "dItem2",
               "width": "fill_container",
+              "height": 96,
               "fill": "$surface",
               "cornerRadius": 8,
-              "stroke": {
-                "thickness": 1,
-                "fill": "$line"
-              },
+              "stroke": "$line",
+              "strokeWidth": 1,
+              "strokeAlignment": "inner",
               "layout": "vertical",
               "gap": 6,
               "padding": 12,
@@ -2433,7 +2518,97 @@
                   "id": "qGAsK",
                   "name": "dItem2Sub",
                   "fill": "$muted",
-                  "content": "IMEI 866001123456789 · 自有设备",
+                  "textGrowth": "fixed-width",
+                  "width": 330,
+                  "content": "IMEI 866001123456789 · owner：王晓明 · 当前持有人：王晓明",
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Q9IhRQ",
+              "name": "dItem3-借入待还",
+              "width": "fill_container",
+              "height": 190,
+              "fill": "#FFFFFF",
+              "cornerRadius": 8,
+              "stroke": "#D9E1E8",
+              "strokeWidth": 1,
+              "strokeAlignment": "inner",
+              "layout": "vertical",
+              "gap": 6,
+              "padding": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "SEH5M",
+                  "name": "dItem3Top",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "WcIbo",
+                      "name": "dItem3Name",
+                      "fill": "#17212B",
+                      "content": "iPhone 15 Pro",
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "PKcMX",
+                      "name": "dItem3Status",
+                      "fill": "#EAF3FF",
+                      "cornerRadius": 8,
+                      "padding": [
+                        4,
+                        8
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "x3gFp8",
+                          "name": "dItem3StatusText",
+                          "fill": "#1677FF",
+                          "content": "借入待还",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "MWHZ6",
+                  "name": "dItem3Sub",
+                  "fill": "#697586",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "IMEI 867450991234568 · owner：韩梅梅 · 当前持有人：王晓明",
+                  "lineHeight": 1.35,
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "gmgKj",
+                  "name": "dItem3Auth",
+                  "fill": "#697586",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "点击进入详情；非 owner 不展示编辑名称 / 转让 owner。",
+                  "lineHeight": 1.35,
                   "fontFamily": "Inter",
                   "fontSize": 12,
                   "fontWeight": "normal"
@@ -2455,13 +2630,13 @@
           "alignItems": "center",
           "children": [
             {
-              "type": "icon_font",
+              "type": "icon",
               "id": "hcfJD",
               "name": "dFabIcon",
               "width": 20,
               "height": 20,
-              "iconFontName": "smartphone",
-              "iconFontFamily": "lucide",
+              "icon": "smartphone",
+              "library": "lucide",
               "fill": "#FFFFFF"
             },
             {
@@ -2492,12 +2667,11 @@
           "height": 58,
           "fill": "$surface",
           "cornerRadius": 8,
-          "stroke": {
-            "thickness": {
-              "top": 1
-            },
-            "fill": "$line"
+          "stroke": "$line",
+          "strokeWidth": {
+            "top": 1
           },
+          "strokeAlignment": "inner",
           "gap": 8,
           "padding": [
             6,
@@ -2515,13 +2689,13 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "gdTW0",
                   "name": "devTab1Icon",
                   "width": 20,
                   "height": 20,
-                  "iconFontName": "house",
-                  "iconFontFamily": "lucide",
+                  "icon": "house",
+                  "library": "lucide",
                   "fill": "$muted"
                 },
                 {
@@ -2547,13 +2721,13 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "E9vRo",
                   "name": "devTab2Icon",
                   "width": 22,
                   "height": 22,
-                  "iconFontName": "smartphone",
-                  "iconFontFamily": "lucide",
+                  "icon": "smartphone",
+                  "library": "lucide",
                   "fill": "$primary"
                 },
                 {
@@ -2579,13 +2753,13 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "tAO6J",
                   "name": "devTab3Icon",
                   "width": 20,
                   "height": 20,
-                  "iconFontName": "user",
-                  "iconFontFamily": "lucide",
+                  "icon": "user",
+                  "library": "lucide",
                   "fill": "$muted"
                 },
                 {
@@ -2646,8 +2820,8 @@
               "type": "text",
               "id": "QgHqy",
               "name": "detStatus",
-              "fill": "$success",
-              "content": "在我手上",
+              "fill": "#1677FF",
+              "content": "借入待还",
               "fontFamily": "Inter",
               "fontSize": 13,
               "fontWeight": "normal"
@@ -2671,10 +2845,9 @@
           "width": "fill_container",
           "fill": "$surface",
           "cornerRadius": 8,
-          "stroke": {
-            "thickness": 1,
-            "fill": "$line"
-          },
+          "stroke": "$line",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
           "layout": "vertical",
           "gap": 10,
           "padding": 16,
@@ -2699,13 +2872,13 @@
                   "alignItems": "center",
                   "children": [
                     {
-                      "type": "icon_font",
+                      "type": "icon",
                       "id": "C6UPf8",
                       "name": "detIcon",
                       "width": 30,
                       "height": 30,
-                      "iconFontName": "smartphone",
-                      "iconFontFamily": "lucide",
+                      "icon": "smartphone",
+                      "library": "lucide",
                       "fill": "$primary"
                     }
                   ]
@@ -2748,8 +2921,10 @@
               "name": "detEdit",
               "width": "fill_container",
               "height": 42,
-              "fill": "$primary-soft",
+              "fill": "#F6F8FA",
               "cornerRadius": 8,
+              "stroke": "#D9E1E8",
+              "strokeWidth": 1,
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
@@ -2758,7 +2933,7 @@
                   "id": "vVijK",
                   "name": "detEditText",
                   "fill": "$primary",
-                  "content": "编辑设备名称（仅 owner）",
+                  "content": "无编辑权限：非 owner / 非管理员",
                   "fontFamily": "Inter",
                   "fontSize": 13,
                   "fontWeight": "600"
@@ -2774,10 +2949,9 @@
           "width": "fill_container",
           "fill": "$surface",
           "cornerRadius": 8,
-          "stroke": {
-            "thickness": 1,
-            "fill": "$line"
-          },
+          "stroke": "$line",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
           "layout": "vertical",
           "gap": 11,
           "padding": 14,
@@ -2834,10 +3008,9 @@
           "width": "fill_container",
           "fill": "$surface",
           "cornerRadius": 8,
-          "stroke": {
-            "thickness": 1,
-            "fill": "$line"
-          },
+          "stroke": "$line",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
           "layout": "vertical",
           "gap": 10,
           "padding": 14,
@@ -2859,7 +3032,7 @@
               "fill": "$muted",
               "textGrowth": "fixed-width",
               "width": "fill_container",
-              "content": "当前持有人：王晓明 · 自有且在本人处 · 手上持有台数会自动计入",
+              "content": "当前持有人：王晓明 · owner：韩梅梅 · 借入待还，归还前计入手上持有台数。",
               "lineHeight": 1.35,
               "fontFamily": "Inter",
               "fontSize": 13,
@@ -2881,12 +3054,11 @@
               "name": "detTransfer",
               "width": "fill_container",
               "height": 46,
-              "fill": "$surface",
+              "fill": "#F6F8FA",
               "cornerRadius": 8,
-              "stroke": {
-                "thickness": 1,
-                "fill": "$primary"
-              },
+              "stroke": "#D9E1E8",
+              "strokeWidth": 1,
+              "strokeAlignment": "inner",
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
@@ -2894,8 +3066,8 @@
                   "type": "text",
                   "id": "zQU98",
                   "name": "detTransferT",
-                  "fill": "$primary",
-                  "content": "转让 owner",
+                  "fill": "#697586",
+                  "content": "转让 owner（无权限）",
                   "fontFamily": "Inter",
                   "fontSize": 15,
                   "fontWeight": "700"
@@ -2910,10 +3082,9 @@
               "height": 46,
               "fill": "$surface",
               "cornerRadius": 8,
-              "stroke": {
-                "thickness": 1,
-                "fill": "$line"
-              },
+              "stroke": "$line",
+              "strokeWidth": 1,
+              "strokeAlignment": "inner",
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
@@ -2938,10 +3109,9 @@
           "width": "fill_container",
           "fill": "#FFF5F3",
           "cornerRadius": 8,
-          "stroke": {
-            "thickness": 1,
-            "fill": "#FECACA"
-          },
+          "stroke": "#FECACA",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
           "layout": "vertical",
           "gap": 6,
           "padding": 12,
@@ -2953,7 +3123,7 @@
               "fill": "$danger",
               "textGrowth": "fixed-width",
               "width": "fill_container",
-              "content": "边界示例：非 owner 隐藏编辑入口，或提示无权限。",
+              "content": "权限规则：借入待还设备不是当前用户 owner 时，只能查看详情，不展示名称编辑和 owner 转让能力。",
               "lineHeight": 1.35,
               "fontFamily": "Inter",
               "fontSize": 12,
@@ -3020,10 +3190,9 @@
           "width": "fill_container",
           "fill": "$surface",
           "cornerRadius": 8,
-          "stroke": {
-            "thickness": 1,
-            "fill": "$line"
-          },
+          "stroke": "$line",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
           "gap": 12,
           "padding": 16,
           "alignItems": "center",
@@ -3090,10 +3259,9 @@
           "width": "fill_container",
           "fill": "$surface",
           "cornerRadius": 8,
-          "stroke": {
-            "thickness": 1,
-            "fill": "$line"
-          },
+          "stroke": "$line",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
           "layout": "vertical",
           "gap": 10,
           "padding": 14,
@@ -3186,10 +3354,9 @@
           "width": "fill_container",
           "fill": "$surface",
           "cornerRadius": 8,
-          "stroke": {
-            "thickness": 1,
-            "fill": "$line"
-          },
+          "stroke": "$line",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
           "layout": "vertical",
           "children": [
             {
@@ -3315,12 +3482,11 @@
           "height": 58,
           "fill": "$surface",
           "cornerRadius": 8,
-          "stroke": {
-            "thickness": {
-              "top": 1
-            },
-            "fill": "$line"
+          "stroke": "$line",
+          "strokeWidth": {
+            "top": 1
           },
+          "strokeAlignment": "inner",
           "gap": 8,
           "padding": [
             6,
@@ -3338,13 +3504,13 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "bTxtg",
                   "name": "meTab1Icon",
                   "width": 20,
                   "height": 20,
-                  "iconFontName": "house",
-                  "iconFontFamily": "lucide",
+                  "icon": "house",
+                  "library": "lucide",
                   "fill": "$muted"
                 },
                 {
@@ -3370,13 +3536,13 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "H19hk",
                   "name": "meTab2Icon",
                   "width": 20,
                   "height": 20,
-                  "iconFontName": "smartphone",
-                  "iconFontFamily": "lucide",
+                  "icon": "smartphone",
+                  "library": "lucide",
                   "fill": "$muted"
                 },
                 {
@@ -3402,13 +3568,13 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "h1TEj",
                   "name": "meTab3Icon",
                   "width": 20,
                   "height": 20,
-                  "iconFontName": "user",
-                  "iconFontFamily": "lucide",
+                  "icon": "user",
+                  "library": "lucide",
                   "fill": "$primary"
                 },
                 {
@@ -3495,10 +3661,9 @@
           "height": 44,
           "fill": "$surface",
           "cornerRadius": 8,
-          "stroke": {
-            "thickness": 1,
-            "fill": "$line"
-          },
+          "stroke": "$line",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
           "gap": 4,
           "padding": 4,
           "children": [
@@ -3558,10 +3723,9 @@
           "height": 42,
           "fill": "$surface",
           "cornerRadius": 8,
-          "stroke": {
-            "thickness": 1,
-            "fill": "$line"
-          },
+          "stroke": "$line",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
           "gap": 8,
           "padding": [
             0,
@@ -3570,13 +3734,13 @@
           "alignItems": "center",
           "children": [
             {
-              "type": "icon_font",
+              "type": "icon",
               "id": "yooUo",
               "name": "uSearchIcon",
               "width": 18,
               "height": 18,
-              "iconFontName": "search",
-              "iconFontFamily": "lucide",
+              "icon": "search",
+              "library": "lucide",
               "fill": "$muted"
             },
             {
@@ -3599,10 +3763,9 @@
           "width": "fill_container",
           "fill": "$surface",
           "cornerRadius": 8,
-          "stroke": {
-            "thickness": 1,
-            "fill": "$line"
-          },
+          "stroke": "$line",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
           "layout": "vertical",
           "children": [
             {
@@ -3677,7 +3840,7 @@
                   "fill": "$ink",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
-                  "content": "10086\n王晓明",
+                  "content": "10086\n王晓明\n编辑 · 删除",
                   "lineHeight": 1.35,
                   "fontFamily": "Inter",
                   "fontSize": 12,
@@ -3730,7 +3893,7 @@
                   "fill": "$ink",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
-                  "content": "10248\n李雷",
+                  "content": "10248\n李雷\n编辑 · 删除",
                   "lineHeight": 1.35,
                   "fontFamily": "Inter",
                   "fontSize": 12,
@@ -3768,14 +3931,13 @@
         {
           "type": "frame",
           "id": "hpTMw",
-          "name": "uNote",
+          "name": "管理员能力说明",
           "width": "fill_container",
           "fill": "$surface",
           "cornerRadius": 8,
-          "stroke": {
-            "thickness": 1,
-            "fill": "$line"
-          },
+          "stroke": "$line",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
           "layout": "vertical",
           "gap": 6,
           "padding": 12,
@@ -3784,10 +3946,10 @@
               "type": "text",
               "id": "O9Lo5L",
               "name": "uNoteT",
-              "fill": "$muted",
+              "fill": "#667085",
               "textGrowth": "fixed-width",
-              "width": "fill_container",
-              "content": "Owner 可查看全员列表及邀请关系；普通用户无此入口。",
+              "width": 330,
+              "content": "管理员能力：用户列表支持新增、编辑、停用/删除；邀请码页支持无限生成邀请码。",
               "lineHeight": 1.35,
               "fontFamily": "Inter",
               "fontSize": 12,
@@ -3865,10 +4027,9 @@
           "height": 44,
           "fill": "$surface",
           "cornerRadius": 8,
-          "stroke": {
-            "thickness": 1,
-            "fill": "$line"
-          },
+          "stroke": "$line",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
           "gap": 4,
           "padding": 4,
           "children": [
@@ -3927,10 +4088,9 @@
           "width": "fill_container",
           "fill": "$surface",
           "cornerRadius": 8,
-          "stroke": {
-            "thickness": 1,
-            "fill": "$line"
-          },
+          "stroke": "$line",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
           "layout": "vertical",
           "gap": 10,
           "padding": 14,
@@ -3971,13 +4131,13 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "aMO5K",
                   "name": "cCreateIcon",
                   "width": 18,
                   "height": 18,
-                  "iconFontName": "plus",
-                  "iconFontFamily": "lucide",
+                  "icon": "plus",
+                  "library": "lucide",
                   "fill": "#FFFFFF"
                 },
                 {
@@ -4010,10 +4170,9 @@
               "height": 72,
               "fill": "$surface",
               "cornerRadius": 8,
-              "stroke": {
-                "thickness": 1,
-                "fill": "$line"
-              },
+              "stroke": "$line",
+              "strokeWidth": 1,
+              "strokeAlignment": "inner",
               "gap": 10,
               "padding": 12,
               "children": [
@@ -4081,10 +4240,9 @@
               "height": 72,
               "fill": "$surface",
               "cornerRadius": 8,
-              "stroke": {
-                "thickness": 1,
-                "fill": "$line"
-              },
+              "stroke": "$line",
+              "strokeWidth": 1,
+              "strokeAlignment": "inner",
               "gap": 10,
               "padding": 12,
               "children": [
@@ -4152,10 +4310,9 @@
               "height": 72,
               "fill": "$surface",
               "cornerRadius": 8,
-              "stroke": {
-                "thickness": 1,
-                "fill": "$line"
-              },
+              "stroke": "$line",
+              "strokeWidth": 1,
+              "strokeAlignment": "inner",
               "gap": 10,
               "padding": 12,
               "children": [
@@ -4251,13 +4408,13 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "IHEvt",
                   "name": "permBackIcon",
                   "width": 22,
                   "height": 22,
-                  "iconFontName": "arrow-left",
-                  "iconFontFamily": "lucide",
+                  "icon": "arrow-left",
+                  "library": "lucide",
                   "fill": "$ink"
                 }
               ]
@@ -4288,13 +4445,13 @@
           "alignItems": "center",
           "children": [
             {
-              "type": "icon_font",
+              "type": "icon",
               "id": "E1qQfn",
               "name": "permCamera",
               "width": 42,
               "height": 42,
-              "iconFontName": "camera",
-              "iconFontFamily": "lucide",
+              "icon": "camera",
+              "library": "lucide",
               "fill": "#FFFFFF"
             },
             {
@@ -4326,10 +4483,9 @@
           "width": "fill_container",
           "fill": "$surface",
           "cornerRadius": 8,
-          "stroke": {
-            "thickness": 1,
-            "fill": "$line"
-          },
+          "stroke": "$line",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
           "layout": "vertical",
           "gap": 8,
           "padding": 14,
@@ -4403,10 +4559,9 @@
           "height": 44,
           "fill": "$surface",
           "cornerRadius": 8,
-          "stroke": {
-            "thickness": 1,
-            "fill": "$primary"
-          },
+          "stroke": "$primary",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
           "justifyContent": "center",
           "alignItems": "center",
           "children": [
@@ -4456,13 +4611,13 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "wL3JE",
                   "name": "deniedBackIcon",
                   "width": 22,
                   "height": 22,
-                  "iconFontName": "arrow-left",
-                  "iconFontFamily": "lucide",
+                  "icon": "arrow-left",
+                  "library": "lucide",
                   "fill": "$ink"
                 }
               ]
@@ -4486,10 +4641,9 @@
           "width": "fill_container",
           "fill": "$surface",
           "cornerRadius": 8,
-          "stroke": {
-            "thickness": 1,
-            "fill": "$line"
-          },
+          "stroke": "$line",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
           "layout": "vertical",
           "gap": 10,
           "padding": 16,
@@ -4506,13 +4660,13 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "gPqv4",
                   "name": "deniedIcon",
                   "width": 24,
                   "height": 24,
-                  "iconFontName": "triangle-alert",
-                  "iconFontFamily": "lucide",
+                  "icon": "triangle-alert",
+                  "library": "lucide",
                   "fill": "$warning"
                 }
               ]
@@ -4573,10 +4727,9 @@
           "height": 44,
           "fill": "$surface",
           "cornerRadius": 8,
-          "stroke": {
-            "thickness": 1,
-            "fill": "$primary"
-          },
+          "stroke": "$primary",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
           "justifyContent": "center",
           "alignItems": "center",
           "children": [
@@ -4662,13 +4815,13 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "frXSE",
                   "name": "failBackIcon",
                   "width": 22,
                   "height": 22,
-                  "iconFontName": "arrow-left",
-                  "iconFontFamily": "lucide",
+                  "icon": "arrow-left",
+                  "library": "lucide",
                   "fill": "$ink"
                 }
               ]
@@ -4699,13 +4852,13 @@
           "alignItems": "center",
           "children": [
             {
-              "type": "icon_font",
+              "type": "icon",
               "id": "P92D0",
               "name": "failScan",
               "width": 46,
               "height": 46,
-              "iconFontName": "scan-line",
-              "iconFontFamily": "lucide",
+              "icon": "scan-line",
+              "library": "lucide",
               "fill": "#FFFFFF"
             },
             {
@@ -4737,10 +4890,9 @@
           "width": "fill_container",
           "fill": "$surface",
           "cornerRadius": 8,
-          "stroke": {
-            "thickness": 1,
-            "fill": "$line"
-          },
+          "stroke": "$line",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
           "layout": "vertical",
           "gap": 8,
           "padding": 14,
@@ -4801,10 +4953,9 @@
           "height": 44,
           "fill": "$surface",
           "cornerRadius": 8,
-          "stroke": {
-            "thickness": 1,
-            "fill": "$primary"
-          },
+          "stroke": "$primary",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
           "justifyContent": "center",
           "alignItems": "center",
           "children": [
@@ -4854,13 +5005,13 @@
               "alignItems": "center",
               "children": [
                 {
-                  "type": "icon_font",
+                  "type": "icon",
                   "id": "DFohR",
                   "name": "manualBackIcon",
                   "width": 22,
                   "height": 22,
-                  "iconFontName": "arrow-left",
-                  "iconFontFamily": "lucide",
+                  "icon": "arrow-left",
+                  "library": "lucide",
                   "fill": "$ink"
                 }
               ]
@@ -4884,10 +5035,9 @@
           "width": "fill_container",
           "fill": "$surface",
           "cornerRadius": 8,
-          "stroke": {
-            "thickness": 1,
-            "fill": "$line"
-          },
+          "stroke": "$line",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
           "layout": "vertical",
           "gap": 10,
           "padding": 14,
@@ -4910,10 +5060,9 @@
               "height": 46,
               "fill": "$bg",
               "cornerRadius": 8,
-              "stroke": {
-                "thickness": 1,
-                "fill": "$line"
-              },
+              "stroke": "$line",
+              "strokeWidth": 1,
+              "strokeAlignment": "inner",
               "padding": [
                 0,
                 12
@@ -5027,10 +5176,9 @@
           "height": 44,
           "fill": "$surface",
           "cornerRadius": 8,
-          "stroke": {
-            "thickness": 1,
-            "fill": "$primary"
-          },
+          "stroke": "$primary",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
           "justifyContent": "center",
           "alignItems": "center",
           "children": [
