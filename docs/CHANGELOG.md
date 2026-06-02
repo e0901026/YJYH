@@ -4,6 +4,15 @@
 
 ## 2026-06-02
 
+### V0.8 Owner 用户管理真实 CRUD 与邀请码生成
+
+- 类型：需求 / 代码 / 后端契约 / 测试。
+- 内容：Owner 用户管理从占位入口升级为真实可用闭环：后端新增 Owner 创建用户、编辑用户、停用用户接口；用户停用后禁止登录；Android Owner 用户页新增/编辑共用表单，支持角色切换、保存、清空、停用/删除；Owner 邀请码页「生成邀请码」接入真实后端接口。
+- 影响范围：`backend/src/main/java/com/yjyh/phoneloan/backend/user/**`、`backend/src/main/resources/db/migration/V2__user_enabled.sql`、`android-app/app/src/main/java/com/yjyh/phoneloan/core/data/**`、`android-app/app/src/main/java/com/yjyh/phoneloan/feature/owner/OwnerScreens.kt`、`docs/project-management.md`、`docs/v0.8-owner-user-crud-test-checklist.md`、`docs/test-artifacts/v0.8/*.png`。
+- 验证：后端 `test` 通过；Android `assembleDebug`、`testDebugUnitTest`、`lintDebug` 通过；本地后端 curl 验证 Owner 新增、编辑、停用用户和生成邀请码成功；模拟器截图确认 Owner 用户管理表单与列表状态可见。
+- 用户确认：开发后待人工验收。
+- 是否进入开发：是。
+
 ### V0.7 原型同步：首页、设备列表、设备详情、Owner 管理
 
 - 类型：原型 / 测试。

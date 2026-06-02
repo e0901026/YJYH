@@ -61,6 +61,9 @@ public class AuthService {
     public AuthResponse login(LoginRequest request) {
         User user = userRepository.findByEmployeeNo(request.employeeNo())
             .orElseThrow(() -> new ApiException(HttpStatus.UNAUTHORIZED, "AUTH_FAILED", "工号或密码错误"));
+        if (!user.isEnabled()) {
+            throw new ApiException(HttpStatus.FORBIDDEN, "USER_DISABLED", "账号已停用");
+        }
         if (!passwordEncoder.matches(request.password(), user.getPasswordHash())) {
             throw new ApiException(HttpStatus.UNAUTHORIZED, "AUTH_FAILED", "工号或密码错误");
         }

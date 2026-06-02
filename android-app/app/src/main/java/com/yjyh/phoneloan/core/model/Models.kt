@@ -47,8 +47,11 @@ data class InviteCode(
 )
 
 data class OwnerUserRow(
+    val id: String,
     val employeeNo: String,
     val name: String,
     val registeredAt: String,
-    val inviter: String
+    val inviter: String,
+    val role: UserRole = UserRole.USER,
+    val enabled: Boolean = true
 )

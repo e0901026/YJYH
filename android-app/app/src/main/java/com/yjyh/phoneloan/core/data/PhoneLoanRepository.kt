@@ -6,6 +6,7 @@ import com.yjyh.phoneloan.core.model.InviteCode
 import com.yjyh.phoneloan.core.model.LoanRecord
 import com.yjyh.phoneloan.core.model.OwnerUserRow
 import com.yjyh.phoneloan.core.model.User
+import com.yjyh.phoneloan.core.model.UserRole
 import com.yjyh.phoneloan.core.model.UserSummary
 
 interface PhoneLoanRepository {
@@ -17,6 +18,18 @@ interface PhoneLoanRepository {
     fun ownerUsers(): List<OwnerUserRow>
     fun inviteCodes(): List<InviteCode>
     fun latestActivity(): String
+
+    fun ownerCreateUser(employeeNo: String, name: String, password: String, role: UserRole): Result<OwnerUserRow> =
+        Result.failure(UnsupportedOperationException("当前数据源暂不支持新增用户"))
+
+    fun ownerUpdateUser(userId: String, name: String, password: String, role: UserRole): Result<OwnerUserRow> =
+        Result.failure(UnsupportedOperationException("当前数据源暂不支持编辑用户"))
+
+    fun ownerDisableUser(userId: String): Result<OwnerUserRow> =
+        Result.failure(UnsupportedOperationException("当前数据源暂不支持停用用户"))
+
+    fun ownerCreateInviteCode(): Result<InviteCode> =
+        Result.failure(UnsupportedOperationException("当前数据源暂不支持生成邀请码"))
 
     /** 根据 IMEI1 查找设备，找不到返回 null */
     fun findDeviceByImei(imei: String): Device?

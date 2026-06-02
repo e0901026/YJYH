@@ -20,6 +20,7 @@ public class User {
     private UserRole role;
     private UUID invitedByUserId;
     private int inviteQuotaUsed;
+    private boolean enabled;
     private Instant createdAt;
     private Instant updatedAt;
 
@@ -34,6 +35,7 @@ public class User {
         this.role = role;
         this.invitedByUserId = invitedByUserId;
         this.inviteQuotaUsed = 0;
+        this.enabled = true;
         this.createdAt = now;
         this.updatedAt = now;
     }
@@ -45,8 +47,25 @@ public class User {
     public UserRole getRole() { return role; }
     public UUID getInvitedByUserId() { return invitedByUserId; }
     public int getInviteQuotaUsed() { return inviteQuotaUsed; }
+    public boolean isEnabled() { return enabled; }
     public Instant getCreatedAt() { return createdAt; }
     public Instant getUpdatedAt() { return updatedAt; }
+
+    public void updateProfile(String name, UserRole role, Instant now) {
+        this.name = name;
+        this.role = role;
+        this.updatedAt = now;
+    }
+
+    public void updatePasswordHash(String passwordHash, Instant now) {
+        this.passwordHash = passwordHash;
+        this.updatedAt = now;
+    }
+
+    public void disable(Instant now) {
+        this.enabled = false;
+        this.updatedAt = now;
+    }
 
     public void increaseInviteQuota(Instant now) {
         this.inviteQuotaUsed += 1;

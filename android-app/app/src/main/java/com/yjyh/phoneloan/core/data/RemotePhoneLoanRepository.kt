@@ -76,6 +76,58 @@ class RemotePhoneLoanRepository(
 
     override fun latestActivity(): String = activity.ifBlank { fallback.latestActivity() }
 
+    override fun ownerCreateUser(employeeNo: String, name: String, password: String, role: UserRole): Result<OwnerUserRow> {
+        return runCatching {
+            ensureLogin()
+            val row = api.ownerCreateUser(requireToken(), employeeNo, name, password, role).toOwnerUserRow()
+            remoteOwnerUsers.add(row)
+            refreshFromBackend(reason = "owner_user_created")
+            AnalyticsLogger.trackAction("owner_user_create_success", screen = "owner_users", payload = mapOf("employeeNo" to employeeNo))
+            row
+        }.onFailure {
+            handleFailure("owner_user_create_failed", "owner_users", it)
+        }
+    }
+
+    override fun ownerUpdateUser(userId: String, name: String, password: String, role: UserRole): Result<OwnerUserRow> {
+        return runCatching {
+            ensureLogin()
+            val row = api.ownerUpdateUser(requireToken(), userId, name, password, role).toOwnerUserRow()
+            remoteOwnerUsers.replaceRow(row)
+            refreshFromBackend(reason = "owner_user_updated")
+            AnalyticsLogger.trackAction("owner_user_update_success", screen = "owner_users", payload = mapOf("userId" to userId))
+            row
+        }.onFailure {
+            handleFailure("owner_user_update_failed", "owner_users", it)
+        }
+    }
+
+    override fun ownerDisableUser(userId: String): Result<OwnerUserRow> {
+        return runCatching {
+            ensureLogin()
+            val row = api.ownerDisableUser(requireToken(), userId).toOwnerUserRow()
+            remoteOwnerUsers.replaceRow(row)
+            refreshFromBackend(reason = "owner_user_disabled")
+            AnalyticsLogger.trackAction("owner_user_disable_success", screen = "owner_users", payload = mapOf("userId" to userId))
+            row
+        }.onFailure {
+            handleFailure("owner_user_disable_failed", "owner_users", it)
+        }
+    }
+
+    override fun ownerCreateInviteCode(): Result<InviteCode> {
+        return runCatching {
+            ensureLogin()
+            val code = api.ownerCreateInviteCode(requireToken()).toInviteCode()
+            remoteInvites.add(0, code)
+            refreshFromBackend(reason = "owner_invite_created")
+            AnalyticsLogger.trackAction("owner_invite_generate_success", screen = "owner_invites", payload = mapOf("inviteId" to code.id))
+            code
+        }.onFailure {
+            handleFailure("owner_invite_generate_failed", "owner_invites", it)
+        }
+    }
+
     override fun findDeviceByImei(imei: String): Device? {
         refreshFromBackend(reason = "find_device")
         return devices().find { it.imei1 == imei || it.imei2 == imei }
@@ -236,13 +288,7 @@ class RemotePhoneLoanRepository(
                 val devices = api.getArray(token, "/api/devices").mapJson { it.toDevice(me) }
                 val loans = api.getArray(token, "/api/loans/active").mapJson { it.toLoan(me) }
                 val users = api.getArray(token, "/api/owner/users").mapJson {
-                    val inviterId = it.optNullableString("invitedByUserId")
-                    OwnerUserRow(
-                        employeeNo = it.getString("employeeNo"),
-                        name = it.getString("name"),
-                        registeredAt = "后端用户",
-                        inviter = if (inviterId.isNullOrBlank()) "系统" else "后端记录"
-                    )
+                    it.toOwnerUserRow()
                 }
                 val invites = api.getArray(token, "/api/owner/invite-codes").mapJson { it.toInviteCode() }
                 BackendSnapshot(devices, loans, users, invites)
@@ -322,6 +368,38 @@ private class PhoneLoanApi(baseUrl: String) {
         )
     }
 
+    fun ownerCreateUser(token: String, employeeNo: String, name: String, password: String, role: UserRole): JSONObject {
+        return post(
+            token = token,
+            path = "/api/owner/users",
+            body = JSONObject()
+                .put("employeeNo", employeeNo)
+                .put("name", name)
+                .put("password", password)
+                .put("role", role.name)
+        )
+    }
+
+    fun ownerUpdateUser(token: String, userId: String, name: String, password: String, role: UserRole): JSONObject {
+        return put(
+            token = token,
+            path = "/api/owner/users/$userId",
+            body = JSONObject()
+                .put("name", name)
+                .put("password", password)
+                .put("role", role.name)
+        )
+    }
+
+    fun ownerDisableUser(token: String, userId: String): JSONObject {
+        val text = request("DELETE", token, "/api/owner/users/$userId", null)
+        return JSONObject(text)
+    }
+
+    fun ownerCreateInviteCode(token: String): JSONObject {
+        return post(token = token, path = "/api/owner/invite-codes", body = null)
+    }
+
     fun borrowByImei(token: String, imei: String): JSONObject {
         return post(
             token = token,
@@ -337,6 +415,11 @@ private class PhoneLoanApi(baseUrl: String) {
 
     fun post(token: String?, path: String, body: JSONObject?): JSONObject {
         val text = request("POST", token, path, body)
+        return JSONObject(text)
+    }
+
+    fun put(token: String?, path: String, body: JSONObject?): JSONObject {
+        val text = request("PUT", token, path, body)
         return JSONObject(text)
     }
 
@@ -385,6 +468,15 @@ private fun <T> MutableList<T>.replaceWith(values: List<T>) {
     addAll(values)
 }
 
+private fun MutableList<OwnerUserRow>.replaceRow(row: OwnerUserRow) {
+    val index = indexOfFirst { it.id == row.id }
+    if (index >= 0) {
+        this[index] = row
+    } else {
+        add(row)
+    }
+}
+
 private fun JSONObject.toUser(): User {
     return User(
         id = getString("id"),
@@ -400,6 +492,19 @@ private fun JSONObject.toSummary(): UserSummary {
         id = getString("id"),
         employeeNo = getString("employeeNo"),
         name = getString("name")
+    )
+}
+
+private fun JSONObject.toOwnerUserRow(): OwnerUserRow {
+    val inviterId = optNullableString("invitedByUserId")
+    return OwnerUserRow(
+        id = getString("id"),
+        employeeNo = getString("employeeNo"),
+        name = getString("name"),
+        registeredAt = compactInstantText(optString("createdAt")).ifBlank { "后端用户" },
+        inviter = if (inviterId.isNullOrBlank()) "系统" else "后端记录",
+        role = if (optString("role") == "OWNER") UserRole.OWNER else UserRole.USER,
+        enabled = optBoolean("enabled", true)
     )
 }
 

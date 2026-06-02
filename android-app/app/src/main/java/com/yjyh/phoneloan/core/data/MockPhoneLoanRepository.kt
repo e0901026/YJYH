@@ -71,18 +71,57 @@ object MockPhoneLoanRepository : PhoneLoanRepository {
         }
     }
 
-    override fun ownerUsers() = listOf(
-        OwnerUserRow("10086", "王晓明", "2026-05-08", "Owner 00001"),
-        OwnerUserRow("10248", "李雷", "2026-05-09", "王晓明 10086")
+    private val _ownerUsers = mutableStateListOf(
+        OwnerUserRow("u1", "10086", "王晓明", "2026-05-08", "Owner 00001", UserRole.OWNER, true),
+        OwnerUserRow("u2", "10248", "李雷", "2026-05-09", "王晓明 10086", UserRole.USER, true)
     )
 
-    override fun inviteCodes() = listOf(
+    private val _inviteCodes = mutableStateListOf(
         InviteCode("i1", "YJYH-8K2P", InviteStatus.UNUSED, "创建：王晓明 · 2026-05-10"),
         InviteCode("i2", "YJYH-4N7Q", InviteStatus.USED, "使用者：李雷 · 10248"),
         InviteCode("i3", "YJYH-OP6M", InviteStatus.EXPIRED, "过期：2026-06-10")
     )
 
+    override fun ownerUsers() = _ownerUsers.toList()
+
+    override fun inviteCodes() = _inviteCodes.toList()
+
     override fun latestActivity() = latestActivity
+
+    override fun ownerCreateUser(employeeNo: String, name: String, password: String, role: UserRole): Result<OwnerUserRow> {
+        if (employeeNo.isBlank() || name.isBlank() || password.isBlank()) {
+            return Result.failure(IllegalArgumentException("请填写工号、名称和初始密码"))
+        }
+        if (_ownerUsers.any { it.employeeNo == employeeNo }) {
+            return Result.failure(IllegalArgumentException("工号已存在"))
+        }
+        val row = OwnerUserRow("u${_ownerUsers.size + 1}", employeeNo, name, "刚刚", "${me.name} ${me.employeeNo}", role, true)
+        _ownerUsers.add(row)
+        return Result.success(row)
+    }
+
+    override fun ownerUpdateUser(userId: String, name: String, password: String, role: UserRole): Result<OwnerUserRow> {
+        val index = _ownerUsers.indexOfFirst { it.id == userId }
+        if (index < 0) return Result.failure(IllegalArgumentException("用户不存在"))
+        if (name.isBlank()) return Result.failure(IllegalArgumentException("请填写名称"))
+        val row = _ownerUsers[index].copy(name = name, role = role)
+        _ownerUsers[index] = row
+        return Result.success(row)
+    }
+
+    override fun ownerDisableUser(userId: String): Result<OwnerUserRow> {
+        val index = _ownerUsers.indexOfFirst { it.id == userId }
+        if (index < 0) return Result.failure(IllegalArgumentException("用户不存在"))
+        val row = _ownerUsers[index].copy(enabled = false)
+        _ownerUsers[index] = row
+        return Result.success(row)
+    }
+
+    override fun ownerCreateInviteCode(): Result<InviteCode> {
+        val code = InviteCode("i${_inviteCodes.size + 1}", "OWNER-${(100000..999999).random()}", InviteStatus.UNUSED, "创建：${me.name} · 刚刚")
+        _inviteCodes.add(0, code)
+        return Result.success(code)
+    }
 
     override fun findDeviceByImei(imei: String): Device? {
         return _devices.find { it.imei1 == imei || it.imei2 == imei }

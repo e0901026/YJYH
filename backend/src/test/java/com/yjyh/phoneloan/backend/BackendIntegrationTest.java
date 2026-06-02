@@ -2,7 +2,9 @@ package com.yjyh.phoneloan.backend;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -104,6 +106,45 @@ class BackendIntegrationTest {
         mvc.perform(get("/api/devices/by-imei/123"))
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("$.code").value("IMEI_INVALID"));
+    }
+
+    @Test
+    void ownerCanCreateUpdateAndDisableUsers() throws Exception {
+        String ownerToken = login("10086", "password123").accessToken();
+        MvcResult createResult = mvc.perform(post("/api/owner/users")
+                .header("Authorization", bearer(ownerToken))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                    {"employeeNo":"30001","name":"新用户","password":"password123","role":"USER"}
+                    """))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.employeeNo").value("30001"))
+            .andExpect(jsonPath("$.enabled").value(true))
+            .andReturn();
+        String userId = objectMapper.readTree(createResult.getResponse().getContentAsString()).get("id").asText();
+
+        mvc.perform(put("/api/owner/users/" + userId)
+                .header("Authorization", bearer(ownerToken))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                    {"name":"新用户改名","password":"","role":"OWNER"}
+                    """))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.name").value("新用户改名"))
+            .andExpect(jsonPath("$.role").value("OWNER"));
+
+        mvc.perform(delete("/api/owner/users/" + userId)
+                .header("Authorization", bearer(ownerToken)))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.enabled").value(false));
+
+        mvc.perform(post("/api/auth/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                    {"employeeNo":"30001","password":"password123"}
+                    """))
+            .andExpect(status().isForbidden())
+            .andExpect(jsonPath("$.code").value("USER_DISABLED"));
     }
 
     private Auth login(String employeeNo, String password) throws Exception {
