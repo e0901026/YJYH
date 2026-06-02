@@ -10,12 +10,13 @@
 2. `docs/system-design-system.md`：视觉和交互一致性规范。
 3. `docs/delivery-loop.md`：需求、原型、开发、测试闭环。
 4. `docs/project-management.md`：当前版本范围、页面状态、开发准入和验收管理。
-5. `docs/android-technical-architecture.md`：Android 技术选型、工程结构和开发边界。
-6. `docs/backend-database-architecture.md`：后端框架、数据库模型和 API 边界。
-7. `docs/cicd-rules.md`：CI/CD 质量门禁、测试包交付和分阶段流水线规则。
-8. `docs/github-version-control.md`：GitHub 版本管理、提交范围、分支和回滚规则。
-9. `docs/android-test-plan.md`：Android 测试方式、测试清单和版本通过标准。
-10. `prototype/pencil-prototype.html` 与 `prototype/exports/*.png`：原型评审入口和后续开发的界面实现基准。
+5. `docs/codex-handoff.md`：跨电脑接手、Codex 重新加载项目、当前状态、启动方式和下一步。
+6. `docs/android-technical-architecture.md`：Android 技术选型、工程结构和开发边界。
+7. `docs/backend-database-architecture.md`：后端框架、数据库模型和 API 边界。
+8. `docs/cicd-rules.md`：CI/CD 质量门禁、测试包交付和分阶段流水线规则。
+9. `docs/github-version-control.md`：GitHub 版本管理、提交范围、分支和回滚规则。
+10. `docs/android-test-plan.md`：Android 测试方式、测试清单和版本通过标准。
+11. `prototype/pencil-prototype.html` 与 `prototype/exports/*.png`：原型评审入口和后续开发的界面实现基准。
 
 如果用户口头提出新规则，先更新对应文档，再改原型或代码。
 

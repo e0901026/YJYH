@@ -9,6 +9,7 @@
 - GitHub 仓库：`https://github.com/e0901026/YJYH`（Public）
 - 当前阶段：V0.8 Owner 用户管理真实 CRUD 与邀请码生成联调已完成本地验证；下一步整理最新 APK 验收包并继续补齐剩余真实业务闭环。
 - 工作方式：单 Agent 负责维护 PRD、原型、开发与测试闭环。
+- 跨电脑接手：通过 GitHub clone 仓库后，在 Codex 中添加项目文件夹，并先阅读 `Agent.md` 与 `docs/codex-handoff.md`。
 - 最高约束：需求先行，原型确认后再开发，开发必须还原原型。
 - 最终交付：提供可安装 Android APK 给用户人工使用，且具备行为埋点、错误日志和问题诊断能力。
 
