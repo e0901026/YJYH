@@ -15,6 +15,8 @@ public final class DeviceDtos {
         String imei2,
         UserSummary owner,
         UserSummary currentHolder,
-        String status
+        String status,
+        String createdAt,
+        String updatedAt
     ) {}
 }

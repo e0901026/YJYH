@@ -40,7 +40,7 @@ fun AppNavGraph(navController: NavHostController, contentPadding: PaddingValues)
                 contentPadding = contentPadding,
                 onScanBorrow = { navController.navigate(AppRoute.ScanBorrow.value) },
                 onReturnLoan = { navController.navigate(AppRoute.ReturnLoan.value) },
-                onDevices = { navController.navigate(AppRoute.Devices.value) }
+                onDevices = { navController.navigate(AppRoute.DevicesOnHand.value) }
             )
         }
         composable(AppRoute.ScanBorrow.value) {
@@ -68,6 +68,15 @@ fun AppNavGraph(navController: NavHostController, contentPadding: PaddingValues)
         composable(AppRoute.Devices.value) {
             DevicesScreen(
                 contentPadding = contentPadding,
+                initialTab = 0,
+                onAddDevice = { navController.navigate(AppRoute.ScanBorrow.value) },
+                onOpenDevice = { navController.navigate(AppRoute.DeviceDetail.create(it)) }
+            )
+        }
+        composable(AppRoute.DevicesOnHand.value) {
+            DevicesScreen(
+                contentPadding = contentPadding,
+                initialTab = 1,
                 onAddDevice = { navController.navigate(AppRoute.ScanBorrow.value) },
                 onOpenDevice = { navController.navigate(AppRoute.DeviceDetail.create(it)) }
             )

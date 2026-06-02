@@ -76,7 +76,9 @@ public class DeviceService {
             device.getImei2(),
             toSummary(owner),
             holder == null ? null : toSummary(holder),
-            device.getStatus().name()
+            device.getStatus().name(),
+            device.getCreatedAt().toString(),
+            device.getUpdatedAt().toString()
         );
     }
 

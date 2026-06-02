@@ -22,9 +22,9 @@ object MockPhoneLoanRepository : PhoneLoanRepository {
     private val han = UserSummary("u3", "10881", "韩梅梅")
 
     private val _devices = mutableStateListOf(
-        Device("d1", "小米14 白", "869301065812347", null, meSummary, li, DeviceStatus.BORROWED_OUT),
-        Device("d2", "OPPO Find X7", "866001123456789", "866001123456797", meSummary, meSummary, DeviceStatus.HELD_BY_ME),
-        Device("d3", "iPhone 15 Pro", "867450991234568", null, han, meSummary, DeviceStatus.PENDING_RETURN)
+        Device("d1", "小米14 白", "869301065812347", null, meSummary, li, DeviceStatus.BORROWED_OUT, "最新转手：今天 14:20", 300),
+        Device("d2", "OPPO Find X7", "866001123456789", "866001123456797", meSummary, meSummary, DeviceStatus.HELD_BY_ME, "录入时间：05-30 10:12", 100),
+        Device("d3", "iPhone 15 Pro", "867450991234568", null, han, meSummary, DeviceStatus.PENDING_RETURN, "最新转手：昨天 18:05", 200)
     )
 
     private var _nextDeviceId = 4
@@ -96,7 +96,9 @@ object MockPhoneLoanRepository : PhoneLoanRepository {
             imei2 = null,
             owner = meSummary,
             currentHolder = meSummary,
-            status = DeviceStatus.HELD_BY_ME
+            status = DeviceStatus.HELD_BY_ME,
+            latestEventLabel = "录入时间：刚刚",
+            latestEventOrder = nextEventOrder()
         )
         _devices.add(device)
         latestActivity = "${device.name} 已建档，并记录你为当前持有人。"
@@ -115,7 +117,9 @@ object MockPhoneLoanRepository : PhoneLoanRepository {
             val oldHolder = oldDevice.currentHolder
             _devices[index] = _devices[index].copy(
                 currentHolder = newHolder,
-                status = newStatus
+                status = newStatus,
+                latestEventLabel = "最新转手：刚刚",
+                latestEventOrder = nextEventOrder()
             )
             latestActivity = buildString {
                 append("${oldDevice.name} 已被${newHolder.name}借走")
@@ -150,7 +154,9 @@ object MockPhoneLoanRepository : PhoneLoanRepository {
         }
         _devices[index] = device.copy(
             currentHolder = nextHolder,
-            status = nextStatus
+            status = nextStatus,
+            latestEventLabel = "最新归还：刚刚",
+            latestEventOrder = nextEventOrder()
         )
         latestActivity = "${device.name} 已归还，当前持有人更新为 ${nextHolder.name}。"
         AnalyticsLogger.trackAction(
@@ -180,5 +186,9 @@ object MockPhoneLoanRepository : PhoneLoanRepository {
 
     override fun borrowedInCount(): Int {
         return _devices.count { it.owner.id != me.id && it.currentHolder?.id == me.id }
+    }
+
+    private fun nextEventOrder(): Long {
+        return (_devices.maxOfOrNull { it.latestEventOrder } ?: 0L) + 1
     }
 }

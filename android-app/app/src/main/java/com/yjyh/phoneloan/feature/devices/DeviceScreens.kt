@@ -27,17 +27,21 @@ import com.yjyh.phoneloan.core.design.StatusPill
 import com.yjyh.phoneloan.core.model.DeviceStatus
 
 @Composable
-fun DevicesScreen(contentPadding: PaddingValues, onAddDevice: () -> Unit, onOpenDevice: (String) -> Unit) {
-    var selectedTab by remember { mutableIntStateOf(0) }
+fun DevicesScreen(
+    contentPadding: PaddingValues,
+    initialTab: Int = 0,
+    onAddDevice: () -> Unit,
+    onOpenDevice: (String) -> Unit
+) {
+    var selectedTab by remember(initialTab) { mutableIntStateOf(initialTab) }
     val devices = PhoneLoanData.repository.devices()
     val visibleDevices = devices.filter { device ->
         when (selectedTab) {
-            1 -> device.status == DeviceStatus.HELD_BY_ME
+            1 -> device.status == DeviceStatus.HELD_BY_ME || device.status == DeviceStatus.PENDING_RETURN
             2 -> device.status == DeviceStatus.BORROWED_OUT
-            3 -> device.status == DeviceStatus.PENDING_RETURN
             else -> true
         }
-    }
+    }.sortedByDescending { it.latestEventOrder }
 
     Page(
         title = "设备列表",
@@ -49,7 +53,7 @@ fun DevicesScreen(contentPadding: PaddingValues, onAddDevice: () -> Unit, onOpen
         }
     ) {
         SegmentedTabs(
-            items = listOf("全部", "在我手上", "已借出", "借入待还"),
+            items = listOf("全部", "在我手上", "已借出"),
             selected = selectedTab,
             onSelected = {
                 selectedTab = it
@@ -88,6 +92,9 @@ fun DevicesScreen(contentPadding: PaddingValues, onAddDevice: () -> Unit, onOpen
                     )
                 }
                 MutedText("IMEI ${device.imei1} · ${device.currentHolder?.name ?: "暂无持有人"}")
+                if (device.status == DeviceStatus.PENDING_RETURN) {
+                    MutedText("借入待还设备点击进入详情；非管理员且非 owner 不可编辑名称或转让 owner。")
+                }
             }
         }
         if (visibleDevices.isEmpty()) {
@@ -101,7 +108,9 @@ fun DevicesScreen(contentPadding: PaddingValues, onAddDevice: () -> Unit, onOpen
 
 @Composable
 fun DeviceDetailScreen(contentPadding: PaddingValues, deviceId: String, onBack: () -> Unit) {
-    val device = PhoneLoanData.repository.devices().find { it.id == deviceId }
+    val repository = PhoneLoanData.repository
+    val user = repository.currentUser()
+    val device = repository.devices().find { it.id == deviceId }
     Page(title = "设备详情", contentPadding = contentPadding, topLink = "‹ 设备", onTopLink = onBack) {
         if (device == null) {
             AppCard {
@@ -110,10 +119,31 @@ fun DeviceDetailScreen(contentPadding: PaddingValues, deviceId: String, onBack: 
             }
             return@Page
         }
+        val isOwner = device.owner.id == user.id
         AppCard {
-            Text(device.name, fontWeight = FontWeight.Bold)
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                Text(device.name, fontWeight = FontWeight.Bold)
+                StatusPill(
+                    text = when (device.status) {
+                        DeviceStatus.HELD_BY_ME -> "在我手上"
+                        DeviceStatus.BORROWED_OUT -> "已借出"
+                        DeviceStatus.PENDING_RETURN -> "借入待还"
+                        DeviceStatus.AVAILABLE -> "可借"
+                    },
+                    color = when (device.status) {
+                        DeviceStatus.HELD_BY_ME -> AppColors.Success
+                        DeviceStatus.BORROWED_OUT -> AppColors.Warning
+                        DeviceStatus.PENDING_RETURN -> AppColors.Primary
+                        DeviceStatus.AVAILABLE -> AppColors.Muted
+                    }
+                )
+            }
             MutedText("绑定 owner：${device.owner.name} · ${device.owner.employeeNo}")
-            SecondaryButton("编辑设备名称（仅 owner）", onBack)
+            if (isOwner) {
+                SecondaryButton("编辑设备名称", onBack)
+            } else {
+                MutedText("无编辑权限：当前账号不是设备 owner。")
+            }
         }
         AppCard {
             Text("硬件标识", fontWeight = FontWeight.Bold)
@@ -123,13 +153,25 @@ fun DeviceDetailScreen(contentPadding: PaddingValues, deviceId: String, onBack: 
         }
         AppCard {
             Text("当前状态", fontWeight = FontWeight.Bold)
-            MutedText("当前持有人：${device.currentHolder?.name ?: "暂无"}")
-            MutedText("自有且在本人手上，手上持有台数会自动计入。")
+            MutedText("当前持有人：${device.currentHolder?.name ?: "暂无"} · ${device.currentHolder?.employeeNo ?: "--"}")
+            MutedText(
+                when (device.status) {
+                    DeviceStatus.PENDING_RETURN -> "借入待还，归还前计入手上持有台数。"
+                    DeviceStatus.HELD_BY_ME -> "自有且在本人手上，手上持有台数会自动计入。"
+                    DeviceStatus.BORROWED_OUT -> "设备已借出，当前持有人负责归还。"
+                    DeviceStatus.AVAILABLE -> "当前可借或待 owner 重新确认持有人。"
+                }
+            )
+            MutedText(device.latestEventLabel.ifBlank { "最新状态：后端记录" })
         }
-        SecondaryButton("转让 owner", onBack)
+        if (isOwner) {
+            SecondaryButton("转让 owner", onBack)
+        } else {
+            AppCard {
+                Text("转让 owner（无权限）", color = AppColors.Muted, fontWeight = FontWeight.Bold)
+                MutedText("只有设备 owner 或后续管理员角色可以操作。")
+            }
+        }
         SecondaryButton("查看借用流水", onBack)
-        AppCard {
-            Text("边界示例：非 owner 隐藏编辑入口，或提示无权限。", color = AppColors.Error)
-        }
     }
 }

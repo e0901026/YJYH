@@ -20,7 +20,8 @@ fun PhoneLoanApp() {
     LaunchedEffect(route) {
         route?.let { AnalyticsLogger.trackScreen(it) }
     }
-    val showBottomBar = route in setOf(
+    val normalizedRoute = if (route == AppRoute.DevicesOnHand.value) AppRoute.Devices.value else route
+    val showBottomBar = normalizedRoute in setOf(
         AppRoute.Home.value,
         AppRoute.Devices.value,
         AppRoute.Profile.value
@@ -33,7 +34,7 @@ fun PhoneLoanApp() {
             bottomBar = {
                 if (showBottomBar) {
                     PhoneLoanBottomBar(
-                        currentRoute = route,
+                        currentRoute = normalizedRoute,
                         onNavigate = { target ->
                             navController.navigate(target.value) {
                                 popUpTo(AppRoute.Home.value) { saveState = true }

@@ -10,6 +10,7 @@ sealed class AppRoute(val value: String) {
     }
     data object ReturnLoan : AppRoute("returnLoan")
     data object Devices : AppRoute("devices")
+    data object DevicesOnHand : AppRoute("devices/onHand")
     data object DeviceDetail : AppRoute("deviceDetail/{id}") {
         fun create(id: String) = "deviceDetail/$id"
     }

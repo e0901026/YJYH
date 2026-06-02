@@ -10,8 +10,17 @@
 - 内容：Pencil 原型已同步 V0.7 范围：首页删除「待处理」和「申请邀请码」，最新动态改为按设备最新状态时间排序；设备列表删除「借入待还」Tab 并合并到「在我手上」；设备详情补充借入待还且非 owner/非管理员无编辑和转让 owner 权限；Owner 用户页补充管理员用户管理能力说明，并保持用户列表/邀请码 Tab 作为上方切换入口。
 - 影响范围：`prototype/手机借机管理.pen`、`prototype/exports/ZdqEE.png`、`prototype/exports/ffvfS.png`、`prototype/exports/VWchs.png`、`prototype/exports/kIEPr.png`、`prototype/exports/U4SUwg.png`。
 - 验证：Pencil 对 03 首页、07 设备列表、08 设备详情、10 Owner-用户列表、11 Owner-邀请码执行布局检查，均无裁切或重叠问题；相关 PNG 已重新导出。
-- 用户确认：待确认。
-- 是否进入开发：否。需用户确认原型后，再进入 Android V0.7 开发。
+- 用户确认：已确认。
+- 是否进入开发：是。已进入 Android V0.7 开发。
+
+### V0.7 Android 实现：首页、设备、Owner 管理闭环
+
+- 类型：代码 / 后端契约 / 测试。
+- 内容：首页「查看列表」可进入设备列表并默认筛选「在我手上」，首页删除「待处理」和「申请邀请码」，最新动态按设备 `updatedAt` 展示当前状态；设备列表删除「借入待还」Tab 并合并到「在我手上」；借入待还设备详情隐藏编辑名称和转让 owner 操作；Owner 用户列表/邀请码 Tab 可点击切换，删除「查看邀请码」按钮，补充管理员用户维护和无限生成邀请码入口。
+- 影响范围：`android-app/app/src/main/java/com/yjyh/phoneloan/**`、`backend/src/main/java/com/yjyh/phoneloan/backend/device/**`、`docs/v0.7-android-test-checklist.md`、`docs/test-artifacts/v0.7/*.png`。
+- 验证：Android `assembleDebug`、`testDebugUnitTest`、`lintDebug` 通过；后端 `test` 通过；模拟器安装后验证首页、设备列表、借入待还详情、Owner 用户列表、Owner 邀请码页面。
+- 用户确认：开发后待人工验收。
+- 是否进入开发：是。
 
 ## 2026-05-11
 

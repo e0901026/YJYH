@@ -26,7 +26,9 @@ data class Device(
     val imei2: String?,
     val owner: UserSummary,
     val currentHolder: UserSummary?,
-    val status: DeviceStatus
+    val status: DeviceStatus,
+    val latestEventLabel: String = "",
+    val latestEventOrder: Long = 0
 )
 
 data class LoanRecord(

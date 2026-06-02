@@ -236,11 +236,12 @@ class RemotePhoneLoanRepository(
                 val devices = api.getArray(token, "/api/devices").mapJson { it.toDevice(me) }
                 val loans = api.getArray(token, "/api/loans/active").mapJson { it.toLoan(me) }
                 val users = api.getArray(token, "/api/owner/users").mapJson {
+                    val inviterId = it.optNullableString("invitedByUserId")
                     OwnerUserRow(
                         employeeNo = it.getString("employeeNo"),
                         name = it.getString("name"),
                         registeredAt = "后端用户",
-                        inviter = it.optString("invitedByUserId", "系统")
+                        inviter = if (inviterId.isNullOrBlank()) "系统" else "后端记录"
                     )
                 }
                 val invites = api.getArray(token, "/api/owner/invite-codes").mapJson { it.toInviteCode() }
@@ -405,15 +406,23 @@ private fun JSONObject.toSummary(): UserSummary {
 private fun JSONObject.toDevice(me: User): Device {
     val owner = getJSONObject("owner").toSummary()
     val holder = optJSONObject("currentHolder")?.toSummary()
+    val createdAt = optString("createdAt")
+    val updatedAt = optString("updatedAt")
     return Device(
         id = getString("id"),
         name = getString("name"),
         imei1 = getString("imei1"),
-        imei2 = optString("imei2").ifBlank { null },
+        imei2 = optNullableString("imei2"),
         owner = owner,
         currentHolder = holder,
-        status = toDeviceStatus(owner, holder, me, optString("status"))
+        status = toDeviceStatus(owner, holder, me, optString("status")),
+        latestEventLabel = latestDeviceEventLabel(createdAt, updatedAt),
+        latestEventOrder = instantOrder(updatedAt.ifBlank { createdAt })
     )
+}
+
+private fun JSONObject.optNullableString(name: String): String? {
+    return if (isNull(name)) null else optString(name).ifBlank { null }
 }
 
 private fun JSONObject.toLoan(me: User): LoanRecord {
@@ -460,4 +469,27 @@ private fun holdDaysText(startedAt: String): String {
         val days = Duration.between(Instant.parse(startedAt), Instant.now()).toDays().coerceAtLeast(0)
         if (days == 0L) "今天" else "$days 天"
     }.getOrDefault("后端记录")
+}
+
+private fun latestDeviceEventLabel(createdAt: String, updatedAt: String): String {
+    val label = if (createdAt.isNotBlank() && createdAt == updatedAt) "录入时间" else "最新转手"
+    val time = compactInstantText(updatedAt.ifBlank { createdAt })
+    return if (time.isBlank()) "最新状态：后端记录" else "$label：$time"
+}
+
+private fun instantOrder(value: String): Long {
+    return runCatching { Instant.parse(value).toEpochMilli() }.getOrDefault(0L)
+}
+
+private fun compactInstantText(value: String): String {
+    return runCatching {
+        val instant = Instant.parse(value)
+        val minutes = Duration.between(instant, Instant.now()).toMinutes()
+        when {
+            minutes < 1 -> "刚刚"
+            minutes < 60 -> "${minutes}分钟前"
+            minutes < 60 * 24 -> "${minutes / 60}小时前"
+            else -> "${minutes / (60 * 24)}天前"
+        }
+    }.getOrDefault("")
 }
